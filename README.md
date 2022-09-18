@@ -31,6 +31,7 @@ Các bài tập liên quan đến ReactJS
 3. DropZone
 Mọi người sẽ phải tạo 1 component có thể upload file lên 1 hệ thống có sẵn. Qua đó sẽ giúp mọi người làm quen với những task liên quan đến file một cách dễ dàng hơn khi vào dự án thực tế.
 <img width="967" alt="dropzone" src="https://user-images.githubusercontent.com/47785607/190893845-c365c9ee-7e8a-405d-bb75-24b4e82f0481.png">
+
   - Link Design: https://www.figma.com/file/CTbv7TfE5YiDYgJXSPrelQ/Untitled?node-id=1%3A501
   - Thực hiện:
     +  Khởi tạo UI/UX giống với link figma.
