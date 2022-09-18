@@ -24,3 +24,7 @@ Các bài tập liên quan đến ReactJS
 
   - Link Design: https://www.figma.com/file/kzDfkvmAMDCXG1U3SW7KoG/AutoComplete?node-id=0%3A1
   - Thực hiện:
+    + Khởi tạo UI/UX giống với link figma.
+    + Tạo ra được Dropdown có thể chọn từng option.
+    + Dùng API https://provinces.open-api.vn/ để có thể lấy về list thành phố.
+    + Thêm chức năng search (Gọi API khi nhập text) để có thể lọc list thành phố.
