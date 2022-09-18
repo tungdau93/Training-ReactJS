@@ -44,6 +44,7 @@ Trong bài này các bạn sẽ nắm bắt được cách kết hợp các comp
 ![Step1](https://user-images.githubusercontent.com/47785607/190894629-0238488c-bbb5-41e2-b660-6dbaceafd28a.png)
 ![Step2](https://user-images.githubusercontent.com/47785607/190894644-3035d41e-7844-4499-aa5c-aa0292674e0b.png)
 ![Step3](https://user-images.githubusercontent.com/47785607/190894658-f76ce242-d593-4c45-9d7a-568afd9aae68.png)
+
   - Link Design: https://www.figma.com/file/6N23vLtmdvL19jHlyyMwXl/MultiForm?node-id=0%3A1
   - Thực hiện:
     + Khởi tạo UI/UX giống với link figma.
@@ -68,6 +69,7 @@ Trong bài này các bạn sẽ nắm bắt được cách kết hợp các comp
 5. Recursive component
 Bài tập giúp các bạn làm quen với đệ quy, thực hiện đệ quy component, single file component.
 ![recursiveComponent](https://user-images.githubusercontent.com/47785607/190895017-f133941e-fd93-4189-856e-2bcbfd85cac1.png)
+
   - Link Design: https://www.figma.com/file/50HH6rGamqunPOLniC37PK/DragAndDrop?node-id=0%3A1
   - Thực hiện:
     + Khởi tạo UI/UX giống với link figma.
