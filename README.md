@@ -28,3 +28,50 @@ Các bài tập liên quan đến ReactJS
     + Tạo ra được Dropdown có thể chọn từng option.
     + Dùng API https://provinces.open-api.vn/ để có thể lấy về list thành phố.
     + Thêm chức năng search (Gọi API khi nhập text) để có thể lọc list thành phố.
+3. DropZone
+Mọi người sẽ phải tạo 1 component có thể upload file lên 1 hệ thống có sẵn. Qua đó sẽ giúp mọi người làm quen với những task liên quan đến file một cách dễ dàng hơn khi vào dự án thực tế.
+<img width="967" alt="dropzone" src="https://user-images.githubusercontent.com/47785607/190893845-c365c9ee-7e8a-405d-bb75-24b4e82f0481.png">
+  - Link Design: https://www.figma.com/file/CTbv7TfE5YiDYgJXSPrelQ/Untitled?node-id=1%3A501
+  - Thực hiện:
+    +  Khởi tạo UI/UX giống với link figma.
+    +  Tìm hiểu service Storage của Firebase (Hoặc 1 Service tương đương).
+    +  Ứng dụng vào Component để có thể upload file lên Storage.
+    +  Cải tiến để có thể Validate với MAX_SIZE = 10MB, chỉ cho upload file các loại file chỉ định ( Khi lỗi cần show message lỗi).
+    +  Cải tiến để có thể upload tối đa hoặc tối thiểu n file.
+4. MultiForm
+Trong bài này các bạn sẽ nắm bắt được cách kết hợp các component với nhau để có thể xây dựng thành một app hoàn chỉnh. Ngoài ra sẽ nắm được 1 vài concept cơ bản như Dynamic Component, Step Component.
+![Step1](https://user-images.githubusercontent.com/47785607/190894629-0238488c-bbb5-41e2-b660-6dbaceafd28a.png)
+![Step2](https://user-images.githubusercontent.com/47785607/190894644-3035d41e-7844-4499-aa5c-aa0292674e0b.png)
+![Step3](https://user-images.githubusercontent.com/47785607/190894658-f76ce242-d593-4c45-9d7a-568afd9aae68.png)
+  - Link Design: https://www.figma.com/file/6N23vLtmdvL19jHlyyMwXl/MultiForm?node-id=0%3A1
+  - Thực hiện:
+    + Khởi tạo UI/UX giống với link figma.
+    + Có bắt validate theo từng step (Ưu cầu validate bằng tay - Không dùng thư viện).
+    + Validate:
+      Step 1:
+        Họ tên: Required, maxLength =< 100.
+        Ngày sinh: Không cho chọn quá thời gian hiện tại.
+        Mô tả bản thân: maxLength =< 1000.
+      Step 2:
+        Tối thiểu 1 công ty. Trong 1 công ty:
+        Vị trí từng làm: Required, maxLength =< 100.
+        Thời gian làm việc : startDate =< endDate , Thời gian KHÔNG ĐƯỢC TRÙNG với thời gian làm ở công ty khác.
+        Mô tả công việc: maxLength =< 5000.
+      Step 3:
+        Lý do muốn ứng tuyển vào công ty : maxLength =< 1000, required.
+        Mức lương mong muốn : Phải là số, tối đa được 10 chữ số.
+    + Datepicker có thể dùng thư viện hoặc sẽ tự tạo 1 component (Có thể dùng thư viện cho nhanh).
+    + Có thể render form theo state hoặc JSON cho trước.
+    + Build component dynamic input (Option).
+    + Khi nhấn hoàn thành thì log ra đoạn body request để có thể gửi lên api.
+5. Recursive component
+Bài tập giúp các bạn làm quen với đệ quy, thực hiện đệ quy component, single file component.
+![recursiveComponent](https://user-images.githubusercontent.com/47785607/190895017-f133941e-fd93-4189-856e-2bcbfd85cac1.png)
+  - Link Design: https://www.figma.com/file/50HH6rGamqunPOLniC37PK/DragAndDrop?node-id=0%3A1
+  - Thực hiện:
+    + Khởi tạo UI/UX giống với link figma.
+    + Thực hiện đệ quy theo sơ đồ cây.
+    + Thực hiện thêm checkbox, collapse/expand.
+    + Thực hiện thêm/sửa/xóa component bằng cách nhấn chuột phải, vị trí dropdown tại vị trí click chuột.
+6. Redux
+Bài tập này sẽ áp dụng redux cho việc quản lý global state cùng với bài tập Recursive component. 
