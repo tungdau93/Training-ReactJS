@@ -18,6 +18,9 @@ Các bài tập liên quan đến ReactJS
     + Code Spell Checker: đây là một extension khá hay giúp mình soát chính tả những từ tiếng Anh đã viết. Lúc chưa sử dụng extension này mình có dính 1 case là đặt tên biến chỗ là question, chỗ khác là qyestion (do tay nhanh hơn não=)))) rồi 1 thời gian sau phát sinh ra bug , rồi kiểm tra đi kiểm tra lại thì k thấy bussiness logic sai ở đâu cả. Ngồi cả buổi toét mắt ra thì mới thấy hoá ra mình viết sai chính tả.
     + Css Peek: cũng tương tự Vue Peek thì extension này giúp mình có thể di chuyển đến file chứa class đấy 1 cách nhanh chóng hơn.
     + GitLens: đối với mình gitLens là 1 extension k thể thiếu khi sử dụng git, ngoài ra các bạn có thể sử dụng các phần mềm ở ngoài như kiểu Smart Git.
-2. Component Auto
-  - 12121
-  - 212121
+2. AutoComplete
+Đây là bài tập này sẽ giúp các bạn có thể nắm bắt được cách tạo Component thế nào để có tính "reuse" cao và 1 vài kĩ thuật trong ReactJS.
+<img width="1109" alt="auto complete" src="https://user-images.githubusercontent.com/47785607/190891847-5a0a198d-f86e-4d8d-9384-ef0f3b3b8c8c.png">
+
+  - Link Design: https://www.figma.com/file/kzDfkvmAMDCXG1U3SW7KoG/AutoComplete?node-id=0%3A1
+  - Thực hiện:
