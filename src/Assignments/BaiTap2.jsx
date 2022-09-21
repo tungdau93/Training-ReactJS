@@ -2,122 +2,44 @@
 import React from "react";
 import "../style/_bai-tap-2.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-const showListItem = (e)=>{
-    const clickInput = document.querySelector(".app__container--input-wrapper--input")
-    const showList = document.querySelector(".app__container--input-wrapper--dropdown-list")
-    
-    if (clickInput.contains(e.target)) {
-      showList.style.display = 'block';
-    }
-}
-
-const hideListItem = (e)=>{
-    const showList = document.querySelector(".app__container--input-wrapper--dropdown-list")
-    if(!showList.is(e.target)){
-      showList.style.display = 'none';
-  }
-}
+import {  useEffect } from "react";
 
 
+// const clickInput = document.querySelector(
+//   ".app__container--input-wrapper--input"
+// );
+// const showList = document.querySelector(
+//   ".app__container--input-wrapper--dropdown-list"
+// );
+
+// const showListItem = (e) => {
+//   if (!clickInput.contains(e.target)) {
+//     showList.style.display = "block";
+//   }
+// };
+
+// // const hideListItem = (e) => {
+// //   if (!showList.contains(e.target)) {
+// //     showList.style.display = "none";
+// //   }
+// // };
 
 const BaiTap2 = () => {
-  const onHoverItemIn = (e)=>{
-    e.target.style.backgroundColor = "#617D98"
-  }
 
-  const onHoverItemOut =(e)=>{
-    e.target.style.backgroundColor = "rgba(230, 249, 255, 0.2)"
-  }
-  // const styleApp = {
-  //   backgroundColor: "#1E1E1E",
-  // };
+  useEffect(()=>{
+    fetch("https://provinces.open-api.vn/api/")
+    .then(response => response.json())
+    .then(data =>console.log(data))
+      
+    },[])
 
-  // const styleTitle = {
-  //   top: "-976px",
-  //   left: "-1124px",
-  //   color: "#a0a0a0",
-  //   width: "2227px",
-  //   height: "1933px",
-  // };
+  const onHoverItemIn = (e) => {
+    e.target.style.backgroundColor = "#617D98";
+  };
 
-  // const styleAppContainer = {
-  //   width: "2227px",
-  //   height: "1933px",
-  //   backgroundColor: "#F8F8F8",
-  //   position: "relative",
-  // };
-
-  // const appContainerHeading = {
-  //   display: "flex",
-  //   flexDirection: "row",
-  //   alignItems: "center",
-  //   padding: "50px 99px 50px 56px",
-  //   gap: "10px",
-
-  //   position: "absolute",
-  //   width: "2227px",
-  //   height: "140px",
-  //   left: "0px",
-  //   top: "0px",
-  //   backgroundColor: "#333333",
-  // };
-
-  // const appContainerHeadingName = {
-  //   display: "flex",
-  //   flexDirection: "row",
-  //   alignItems: "center",
-  //   padding: "0px",
-  //   gap: "30px",
-
-  //   width: "323px",
-  //   height: "56px",
-
-  //   /* Inside auto layout */
-
-  //   flex: "none",
-  //   order: "0",
-  //   flexGrow: "0",
-  // };
-
-  // const appContainerHeadingNameJapanese = {
-  //   display: "flex",
-  //   fontStyle: "normal",
-  //   fontWeight: "700",
-  //   fontSize: "48px",
-  //   lineHeight: "56px",
-
-  //   /* White */
-
-  //   color: "#FFFFFF",
-
-  //   width: "144px",
-  //   height: "56px",
-  //   fontFamily: "Roboto",
-
-  //   /* Inside auto layout */
-
-  //   flex: "none",
-  //   order: "0",
-  //   flexGrow: "0",
-  // };
-
-  // const appContainerHeadingNameEnglish = {
-  //   width: "149px",
-  //   height: "38px",
-
-  //   fontFamily: "Roboto",
-  //   fontStyle: "normal",
-  //   fontWeight: "400",
-  //   fontSize: "32px",
-  //   lineHeight: "38px",
-
-  //   color: "#FFFFFF",
-
-  //   flex: "none",
-  //   order: "1",
-  //   flexGrow: "0",
-  // };
+  const onHoverItemOut = (e) => {
+    e.target.style.backgroundColor = "rgba(230, 249, 255, 0.2)";
+  };
 
   return (
     <div>
@@ -138,24 +60,28 @@ const BaiTap2 = () => {
               <FontAwesomeIcon icon="fa-thin fa-magnifying-glass" />
             </span>
             <input
-              onClick ={showListItem}
               type="text"
               placeholder="Nhập tên thành phố để tìm kiếm..."
               className="app__container--input-wrapper--input"
             ></input>
-            <div onMouseDown ={hideListItem} onClick ={hideListItem} className="app__container--input-wrapper--dropdown-list">
-                <div className="app__container--input-wrapper--dropdown-list--item1" onMouseOver={onHoverItemIn} onMouseOut={onHoverItemOut}>
-                
-                </div>
-                <div className="app__container--input-wrapper--dropdown-list--item2" onMouseOver={onHoverItemIn} onMouseOut={onHoverItemOut}>
-                  
-                </div>
-                <div className="app__container--input-wrapper--dropdown-list--item3" onMouseOver={onHoverItemIn} onMouseOut={onHoverItemOut}>
-
-                </div>
+            <div className="app__container--input-wrapper--dropdown-list">
+              <div
+                className="app__container--input-wrapper--dropdown-list--item1"
+                onMouseOver={onHoverItemIn}
+                onMouseOut={onHoverItemOut}
+              ></div>
+              <div
+                className="app__container--input-wrapper--dropdown-list--item2"
+                onMouseOver={onHoverItemIn}
+                onMouseOut={onHoverItemOut}
+              ></div>
+              <div
+                className="app__container--input-wrapper--dropdown-list--item3"
+                onMouseOver={onHoverItemIn}
+                onMouseOut={onHoverItemOut}
+              ></div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
