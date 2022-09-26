@@ -1,115 +1,140 @@
-import React from "react";
+import React, { useRef } from "react";
 import "../style/_bai-tap-2.scss";
 import { useEffect, useState } from "react";
+import useClickOutside from "../hooks/useClickOutside";
 
 const BaiTap2 = () => {
+  const searchRef = useRef();
   const [cities, setCities] = useState([]);
   const [citySearch, setCitySearch] = useState([]);
   const [citiesTag, setCitiesTag] = useState([]);
+  const [isShowCitiesSearch, setIsShowCitiesSearch] = useState(false);
 
+  useClickOutside(searchRef, () => setIsShowCitiesSearch(false));
 
   const handleSwitch = (code) => {
     // step 1: get value of item
     const citySelected = citySearch.find((city) => city.code === code);
     const newCityMatch = citySearch.filter((city) => city.code !== code);
-    // console.log(newCityMatch)
     setCitySearch([...newCityMatch]);
 
     const newCitiesTag = [...citiesTag];
-    // console.log(newCitiesTag)
-    newCitiesTag.push(citySelected);
-    setCitiesTag([...newCitiesTag]);
-    console.log(newCitiesTag);
+    if (citiesTag.length < 2) {
+      newCitiesTag.push(citySelected);
+      setCitiesTag([...newCitiesTag]);
+    } else alert("No more than 2 cities selected");
   };
 
-  // step 2: delete item from cities list
+  const closeTag = (code) => {
+    const citySelectedTag = citiesTag.filter((city) => city.code === code);
+    const newCitiesTag = [...citiesTag];
+    newCitiesTag.pop(citySelectedTag);
+    setCitiesTag([...newCitiesTag]);
+  };
 
-  // step 3: add item into suggestion list
+  const handleShowCitiesSearch = () => {
+    setIsShowCitiesSearch(true);
+  };
+
+  const searchCities = (text) => {
+    if (!isShowCitiesSearch) {
+      handleShowCitiesSearch();
+    }
+
+    const resultSearch = filterCity(text);
+    setCitySearch(resultSearch);
+  };
+
+  const filterCity = (text) => {
+    const regex = new RegExp(`${text}`, "gi");
+    return cities.filter((city) => city.name.match(regex));
+  };
+
+  const handleFocusInputSearch = () => {
+    handleShowCitiesSearch();
+    setCitySearch([...cities]);
+  };
 
   useEffect(() => {
     const url = "https://provinces.open-api.vn/api/";
     fetch(url)
       .then((response) => response.json())
-      .then((data) => setCities(data));
+      .then((data) => {
+        setCities(data);
+      });
   }, []);
 
-  const searchCities = (text) => {
-    let matches = cities.filter((city) => {
-      const regex = new RegExp(`${text}`, "gi");
-      return city.name.match(regex);
-    });
-    setCitySearch(matches);
-    // console.log(citySearch)
-  };
-
   return (
-    <div>
-      <div className="app">
-        <span id="title">入力欄 </span>
-        <div className="app__container">
-          <div className="app__container--heading">
-            <div className="app__container--heading-name">
-              <p className="app__container--heading-name--japanese">入力欄</p>
+    <div className="app">
+      <span id="title">入力欄</span>
+      <div className="app__container">
+        <div className="app__container--heading">
+          <div className="app__container--heading-name">
+            <p className="app__container--heading-name--japanese">入力欄</p>
 
-              <p className="app__container--heading-name--english">
-                Input Field
-              </p>
-            </div>
+            <p className="app__container--heading-name--english">Input Field</p>
           </div>
-          <div className="app__container--input-wrapper">
+        </div>
+        <div className="app__container--input-wrapper" ref={searchRef}>
+          <div className="app__container--input-wrapper--show--cities">
             {citiesTag &&
               citiesTag.map((cityTag) => {
                 return (
-                  <>
-                    <div
-                      key={cityTag.code}
-                      className="app__container--input-wrapper--show--cities"
-                    >
-                      <img src={require("../asserts/images/X.png")} 
-                        alt=""
-                        className="close-button"
-                        onClick={}
-                        >
-                      </img>
-                      {cityTag.name}
-                    </div>
-                  </>
+                  <div
+                    key={cityTag.code}
+                    className="app__container--input-wrapper--show--cities-item"
+                  >
+                    <span>{cityTag.name}</span>
+                    <img
+                      src={require("../assets/images/X.png")}
+                      alt=""
+                      className="close-button"
+                      onClick={() => closeTag(cityTag.code)}
+                      width={14}
+                      height={14}
+                    ></img>
+                  </div>
                 );
               })}
-            <img
-              className="finding-icon"
-              src={require("../asserts/images/search.png")}
-              alt=""
-            />
-            <input
-              // value=""
+          </div>
 
-              onChange={(e) => searchCities(e.target.value)}
-              type="text"
-              placeholder="Nhập tên thành phố để tìm kiếm..."
-              className="app__container--input-wrapper--input"
-            ></input>
+          <img
+            className="finding-icon"
+            src={require("../assets/images/search.png")}
+            alt=""
+          />
+
+          <input
+            onChange={(e) => searchCities(e.target.value)}
+            type="text"
+            placeholder="Nhập ..."
+            className="app__container--input-wrapper--input"
+            onFocus={handleFocusInputSearch}
+            disabled={citiesTag.length > 0}
+          />
+
+          {isShowCitiesSearch && (
             <div
               style={{ overflow: "auto" }}
-              className="app__container--input-wrapper--dropdown-list--item1"
+              className="app__container--input-wrapper--dropdown-list--item-search"
             >
-              
-              {citySearch &&
+              {citySearch.length > 0 ? (
                 citySearch.map((city) => {
                   return (
-                    <>
-                      <div
-                        onClick={() => handleSwitch(city.code)}
-                        className="suggestion"
-                        key={city.code}
-                      >
-                        {city.name}
-                      </div>
-                    </>
+                    <div
+                      onClick={() => handleSwitch(city.code)}
+                      className="suggestion"
+                      key={city.code}
+                    >
+                      {city.name}
+                    </div>
                   );
-                })}
+                })
+              ) : (
+                <div>Data empty</div>
+              )}
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

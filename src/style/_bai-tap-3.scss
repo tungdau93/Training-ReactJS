@@ -1,0 +1,61 @@
+.app {
+  background-color: #fff;
+  .drag-and-drop {
+    width: 842px;
+    height: 232px;
+    position: absolute;
+    left: 30.08%;
+    right: 79.24%;
+    top: 20.78%;
+    background: #f8f8f8;
+    border: 1px solid #dcdcdc;
+    border-radius: 7px;
+    &:hover{
+        border: 1px solid #00FFFF;
+    }
+    .drag-and-drop--upload-icon {
+      position: absolute;
+      height: 18.67px;
+      width: 26.67px;
+      top: 64px;
+      left: 397.67px;
+      right: 417.67px;
+    }
+    .drag-and-drop--name {
+      position: absolute;
+      font-family: "Noto Sans";
+      font-style: normal;
+      font-size: 18px;
+      line-height: 22px;
+      /* or 122% */
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      top: 105px;
+
+      /* Text/Black */
+
+      color: #333333;
+      width: 364px;
+      height: 88px;
+      background: yellow;
+      left: 229px;
+      right: 249px;
+      .drag-and-drop--heading {
+        font-weight: 700;
+        .drag-and-drop--sub-heading{
+        font-weight: 0;
+        text-decoration: underline;
+
+        }
+
+      }.drag-and-drop--heading *{ 
+        font-weight: initial; 
+        // stop propagation from parent to children
+        
+      }
+    }
+  }
+}
