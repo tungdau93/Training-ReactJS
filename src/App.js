@@ -1,3 +1,4 @@
+import { StrictMode } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import BaiTap2 from "./Assignments/BaiTap2";
@@ -7,6 +8,7 @@ import Menu from "./Assignments/Menu";
 
 function App() {
   return (
+    <StrictMode>
     <BrowserRouter>
       <Menu />
       <Routes>
@@ -15,6 +17,7 @@ function App() {
         <Route path="/bai-tap-3" element={<BaiTap3 />} />
       </Routes>
     </BrowserRouter>
+    </StrictMode>
   );
 }
 

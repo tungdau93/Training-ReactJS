@@ -1,17 +1,53 @@
 .app {
+  position: relative;
   background-color: #fff;
   .drag-and-drop {
     width: 842px;
     height: 232px;
     position: absolute;
-    left: 30.08%;
-    right: 79.24%;
-    top: 20.78%;
+    left: 580px;
+    // right: 79.24%;
+    top: 300px;
     background: #f8f8f8;
     border: 1px solid #dcdcdc;
     border-radius: 7px;
-    &:hover{
-        border: 1px solid #00FFFF;
+    z-index: 1;
+    &:hover {
+      border: 1px solid #107ce0;
+    }
+    .input {
+      width: 839px;
+      height: 230px;
+      position: absolute;
+      // right: 79.24%;
+      background: #f8f8f8;
+      // border: 1px solid #dcdcdc;
+      border-radius: 7px;
+      z-index: -1;
+      color: transparent;
+
+      &::-webkit-file-upload-button {
+        display: none;
+      }
+    }
+    .submit {
+      position: absolute;
+      top: 305px;
+      left: 825px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      z-index: -1;
+      border: none;
+    }
+    .submit-img {
+      position: absolute;
+      top: 261px;
+      left: 825px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      z-index: 1;
     }
     .drag-and-drop--upload-icon {
       position: absolute;
@@ -20,6 +56,7 @@
       top: 64px;
       left: 397.67px;
       right: 417.67px;
+      // z-index: -1;
     }
     .drag-and-drop--name {
       position: absolute;
@@ -40,21 +77,86 @@
       color: #333333;
       width: 364px;
       height: 88px;
-      background: yellow;
+      background: #f8f8f8;
       left: 229px;
       right: 249px;
       .drag-and-drop--heading {
         font-weight: 700;
-        .drag-and-drop--sub-heading{
-        font-weight: 0;
-        text-decoration: underline;
-
+        .drag-and-drop--sub-heading {
+          font-weight: 0;
+          text-decoration: underline;
         }
-
-      }.drag-and-drop--heading *{ 
-        font-weight: initial; 
+      }
+      .drag-and-drop--heading * {
+        font-weight: initial;
         // stop propagation from parent to children
-        
+      }
+    }
+  }
+
+  .show-data{
+    left: 579px;
+    top: 559px;
+    position:absolute;
+    width: 800px;
+    height:80px;
+    display: inline-flex;
+    // justify-content: space-around;
+    align-items: center;
+    // background-color: yellow;
+    .show-data__sample {
+      // position: absolute;
+      top: 554px;
+      left: 580px;
+      border: 1px solid #dcdcdc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 244px;
+      height: 48px;
+      border-radius: 3px;
+      margin:12px;
+      
+      &:hover {
+        border: 1px solid #107ce0;
+        border-radius: 3px;
+      }
+      .show-data__sample--icon {
+        width: 30px;
+        height: 32px;
+        margin: 8px 12px;
+      }
+      .show-data__sample--name {
+        position: relative;
+        margin-top: 8px;
+        margin-bottom: 33px;
+        margin-left: -50px;
+        font-family: "Noto Sans";
+        font-style: normal;
+        .show-data__sample--name--heading {
+          width: 125px;
+          height: 16px;
+          font-weight: 700;
+          font-size: 15px;
+          line-height: 16px;
+          margin-top: 23px;
+          .show-data__sample--name--subheading {
+            width: 85px;
+            height: 16px;
+            color: #666666;
+            font-weight: 400;
+            font-size: 10px;
+            line-height: 14px;
+            margin-bottom: 12px;
+          }
+        }
+      }
+      .show-data__sample--close-button {
+        height: 18.67px;
+        width: 16.67px;
+        margin-top: 18px;
+        margin-right: 9.33px;
+        margin-bottom: 17.33px;
       }
     }
   }
