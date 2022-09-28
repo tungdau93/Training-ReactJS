@@ -1,6 +1,18 @@
 .app {
   position: relative;
   background-color: #fff;
+  .slide-icon {
+    position: absolute;
+    top: 575px;
+    left: 1400px;
+    width: 40px;
+    height: 38px;
+    border-radius: 50%;
+    border: solid #fff;
+    &:hover {
+      border: #107ce0 solid 3px;
+    }
+  }
   .drag-and-drop {
     width: 842px;
     height: 232px;
@@ -12,12 +24,52 @@
     border: 1px solid #dcdcdc;
     border-radius: 7px;
     z-index: 1;
+    .drag-and-drop-img {
+      top: 45px;
+      left: 381px;
+      display: flex;
+      position: absolute;
+      min-width: 70px;
+      min-height: 70px;
+
+      justify-content: center;
+      align-items: center;
+    }
+    .drag-and-drop-heading {
+      top: 113px;
+      left: 342px;
+      display: flex;
+      position: absolute;
+      min-width: 100px;
+      align-items: center;
+      justify-content: center;
+      font-family: "Noto Sans";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 22px;
+      color: #333333;
+    }
+    .drag-and-drop-heading--sub-heading {
+      top: 137px;
+      left: 373px;
+      position: absolute;
+      min-width: 50px;
+      align-items: center;
+      justify-content: center;
+      font-family: "Noto Sans";
+      font-style: normal;
+      font-size: 18px;
+      line-height: 22px;
+      color: #333333;
+      text-decoration: underline;
+    }
     &:hover {
       border: 1px solid #107ce0;
     }
     .input {
-      width: 839px;
-      height: 230px;
+      width: 842px;
+      height: 232px;
       position: absolute;
       // right: 79.24%;
       background: #f8f8f8;
@@ -32,13 +84,16 @@
     }
     .submit {
       position: absolute;
-      top: 305px;
-      left: 825px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
+      top: 360px;
+      left: 359px;
+      width: 113px;
+      height: 43px;
+      border-radius: 3px;
       z-index: -1;
       border: none;
+      &:hover {
+        border: 1px solid #107ce0;
+      }
     }
     .submit-img {
       position: absolute;
@@ -56,56 +111,24 @@
       top: 64px;
       left: 397.67px;
       right: 417.67px;
-      // z-index: -1;
+      z-index: 1;
     }
-    .drag-and-drop--name {
-      position: absolute;
-      font-family: "Noto Sans";
-      font-style: normal;
-      font-size: 18px;
-      line-height: 22px;
-      /* or 122% */
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      top: 105px;
-
-      /* Text/Black */
-
-      color: #333333;
-      width: 364px;
-      height: 88px;
-      background: #f8f8f8;
-      left: 229px;
-      right: 249px;
-      .drag-and-drop--heading {
-        font-weight: 700;
-        .drag-and-drop--sub-heading {
-          font-weight: 0;
-          text-decoration: underline;
-        }
-      }
-      .drag-and-drop--heading * {
-        font-weight: initial;
-        // stop propagation from parent to children
-      }
-    }
+    
   }
 
-  .show-data{
+  .show-data {
+    overflow: hidden;
+    // overflow-x:scroll;
     left: 579px;
     top: 559px;
-    position:absolute;
-    width: 800px;
-    height:80px;
-    display: inline-flex;
-    // justify-content: space-around;
+    position: absolute;
+    width: 811px;
+    height: 80px;
+    display: flex;
     align-items: center;
-    // background-color: yellow;
+    white-space: nowrap;
     .show-data__sample {
-      // position: absolute;
+
       top: 554px;
       left: 580px;
       border: 1px solid #dcdcdc;
@@ -115,8 +138,8 @@
       width: 244px;
       height: 48px;
       border-radius: 3px;
-      margin:12px;
-      
+      margin: 12px;
+
       &:hover {
         border: 1px solid #107ce0;
         border-radius: 3px;
@@ -125,6 +148,14 @@
         width: 30px;
         height: 32px;
         margin: 8px 12px;
+      }
+      .show-data__sample--icon--invalid {
+        width: 30px;
+        height: 32px;
+        margin: 8px 12px;
+        border: #107ce0 solid 1px;
+        border-radius: 3px;
+        background-color: red;
       }
       .show-data__sample--name {
         position: relative;
@@ -159,5 +190,15 @@
         margin-bottom: 17.33px;
       }
     }
+  }
+  .invalid {
+    position: absolute;
+    top: 93px;
+    left: 32px;
+    width: 24px;
+    height: 32px;
+    background-color: rgba(255, 0, 0, 0.5);
+    border: solid 0.5px rgb(153, 167, 181);
+    border-radius: 3px;
   }
 }

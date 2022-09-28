@@ -3,47 +3,61 @@ import "../style/_bai-tap-3.scss";
 import { ref, uploadBytesResumable } from "@firebase/storage";
 import { storage } from "../firebase";
 import { useState } from "react";
-import { configConsumerProps } from "antd/lib/config-provider";
 
 const BaiTap3 = () => {
   const [files, setFiles] = useState([]);
   const [progress, setProgress] = useState(0);
-  
-  const RemoveAddFile =[]
+  const [isFullItem, setIsFullItem] = useState({
+    
+  });
 
-  const stopProp = (e) => {
-    e.stopPropagation();
-  };
+  const [isSizeValid, setIsSizeValid] = useState('false')
+
+  const RemoveAddFile = [];
 
   const handleUpload = (event) => {
+    var file = event.target.files[0];
     event.preventDefault();
-    uploadFiles();
+    uploadFiles(file);
     setFiles(RemoveAddFile);
-    // console.log(files);
-  };
-  
-  const handleAddFiles = (event) => {
-    const file = event.target.files[0];
-
     // console.log(file);
-    const newFiles = [...files];
-    newFiles.push(file);
-    setFiles(newFiles);
+  };
+
+  // handleValidateFile = () => {
     
-   
+  // };
+  
+
+  const handleAddFiles = (event) => {
+    event.preventDefault();
+    var file = event.target.files[0];
+
+    // console.log(file.name);
+    const newFiles = [...files];
+    if(files.length <4){
+
+      newFiles.push(file);
+      setFiles(newFiles);
+      console.log(files.length);
+    }else{
+
+      setIsFullItem({
+        overflow:"hidden"
+      })
+    }
   };
   const handleClose = (event) => {
-    const file = event.target.files;
+    const closeFile = event.target.files;
     const newFiles = [...files];
-    newFiles.pop(file);
+    newFiles.pop(closeFile);
     setFiles(newFiles);
   };
 
-
-  const uploadFiles = (files) => {
-    if (!files) return;
-    const storageRef = ref(storage, "document/" + `${files.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, files);
+  const uploadFiles = (file) => {
+    // console.log(file.name);
+    if (!file) return;
+    const storageRef = ref(storage, "document/" + `${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -58,62 +72,144 @@ const BaiTap3 = () => {
 
   return (
     <div className="app">
-      <h1>Progress {progress}</h1>
+      <img
+        src={require("../assets/images/submit-icon.png")}
+        alt=""
+        className="slide-icon"
+      />
+      {/* <h1>Progress {progress}</h1> */}
       <div className="drag-and-drop">
-        <img
-          alt=""
-          src={require("../assets/images/upload-file.png")}
-          className="drag-and-drop--upload-icon"
-        ></img>
-        <div className="drag-and-drop--name">
-          <div className="drag-and-drop--heading">
-            Drag and drop files<br></br>
-            <span className="drag-and-drop--sub-heading">
-              Browse Files
-            </span>{" "}
-          </div>
-        </div>
         <form onSubmit={handleUpload}>
-          <input type="file" className="input" onChange={handleAddFiles} />
+          <label htmlFor="name" className="drag-and-drop-img">
+            <img alt="" src={require("../assets/images/upload-icon.png")} />
+          </label>
+          <label htmlFor="name" className="drag-and-drop-heading">
+            Drag and drop files
+          </label>
+          <label htmlFor="name" className="drag-and-drop-heading--sub-heading">
+            Browse Files
+          </label>
+          <input
+            id="name"
+            type="file"
+            className="input"
+            onChange={handleAddFiles}
+          />
           <button type="submit" className="submit">
-            upload
+            Upload
           </button>
         </form>
-        <img
-          onMouseOver={stopProp}
-          src={require("../assets/images/submit-icon.png")}
-          alt=""
-          className="submit-img"
-        />
       </div>
-      <div className="show-data">
+      <div  className="show-data">
         {files &&
           files.map((file, index) => {
-            // console.log(index)
-            return (
-              <div disabled={files.length>3} key={index} className="show-data__sample">
-                <img
-                  className="show-data__sample--icon"
-                  src={require("../assets/images/excel.png")}
-                  alt="../assets/images/invalid-file-icon.png"
-                />
-                <div className="show-data__sample--name">
-                  <div className="show-data__sample--name--heading">
-                    {file.name}
-                  </div>
+            // console.log(files);
+            if (file.name.includes(".doc")) {
+              // console.log(index)
+              return (
+                <div key={index} className="show-data__sample">
+                  <img
+                    className="show-data__sample--icon "
+                    src={require("../assets/images/word.png")}
+                    alt="../assets/images/invalid-file-icon.png"
+                  />
+                  <div className="show-data__sample--name">
+                    <div className="show-data__sample--name--heading">
+                      {}
+                    </div>
 
-                  <div className="show-data__sample--name--subheading">
-                    {file.size} bytes
+                    <div className="show-data__sample--name--subheading">
+                      <div>
+
+                      </div>
+                    </div>
                   </div>
+                  <img
+                    onClick={handleClose}
+                    className="show-data__sample--close-button"
+                    alt=""
+                    src={require("../assets/images/close-button.png")}
+                  />
                 </div>
-                <img
-                  onClick={handleClose}
-                  className="show-data__sample--close-button"
-                  alt=""
-                  src={require("../assets/images/close-button.png")}
-                />
-              </div>
-            );
+              );
+            } else if (file.name.includes(".xls")) {
+              // console.log(index)
+              return (
+                <div key={index} className="show-data__sample">
+                  <img
+                    className="show-data__sample--icon "
+                    src={require("../assets/images/excel.png")}
+                    alt="../assets/images/invalid-file-icon.png"
+                  />
+                  <div className="show-data__sample--name">
+                    <div className="show-data__sample--name--heading">
+                      {file.name}
+                    </div>
+
+                    <div className="show-data__sample--name--subheading">
+                      {file.size} bytes
+                    </div>
+                  </div>
+                  <img
+                    onClick={handleClose}
+                    className="show-data__sample--close-button"
+                    alt=""
+                    src={require("../assets/images/close-button.png")}
+                  />
+                </div>
+              );
+            } else if (file.name.includes(".pdf")) {
+              // console.log(index)
+              return (
+                <div key={index} className="show-data__sample">
+                  <img
+                    className="show-data__sample--icon "
+                    src={require("../assets/images/pdf.png")}
+                    alt="../assets/images/invalid-file-icon.png"
+                  />
+                  <div className="show-data__sample--name">
+                    <div className="show-data__sample--name--heading">
+                      {file.name}
+                    </div>
+
+                    <div className="show-data__sample--name--subheading">
+                      {file.size} bytes
+                    </div>
+                  </div>
+                  <img
+                    onClick={handleClose}
+                    className="show-data__sample--close-button"
+                    alt=""
+                    src={require("../assets/images/close-button.png")}
+                  />
+                </div>
+              );
+            } else {
+              return (
+                <div key={index} className="show-data__sample">
+                  <img
+                    className="show-data__sample--icon--invalid "
+                    src={require("../assets/images/invalid-file.png")}
+                    alt="../assets/images/invalid-file.png"
+                  />
+                  <div className="show-data__sample--name">
+                    <div className="show-data__sample--name--heading">
+                      {file.name}
+                    </div>
+
+                    <div className="show-data__sample--name--subheading">
+                      {file.size} bytes
+                    </div>
+                  </div>
+                  <img
+                    onClick={handleClose}
+                    className="show-data__sample--close-button"
+                    alt=""
+                    src={require("../assets/images/close-button.png")}
+                  />
+                </div>
+              );
+            }
           })}
       </div>
     </div>
