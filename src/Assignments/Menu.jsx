@@ -37,6 +37,9 @@ const Menu = () => {
         <li style={{listStyleType:'none'}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => redirectPage("/bai-tap-3")}>
           <div >Bài tập 3</div>
         </li>
+        <li style={{listStyleType:'none'}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => redirectPage("/bai-tap-4")}>
+          <div >Bài tập 4</div>
+        </li>
       </ul>
     </div>
   );
