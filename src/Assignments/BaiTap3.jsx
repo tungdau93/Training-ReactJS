@@ -2,48 +2,63 @@ import React from "react";
 import "../style/_bai-tap-3.scss";
 import { ref, uploadBytesResumable } from "@firebase/storage";
 import { storage } from "../firebase";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import IconFile from "../Components/IconFile";
+import FileUpload from "../Components/FileUpload";
 
-const BaiTap3 = () => {
+const FILE_DOCS = ".docs";
+
+const BaiTap3 = ({fileType }) => {
+  const listUploadedRef = useRef();
+  const fileUploadedRef = useRef();
+
   const [files, setFiles] = useState([]);
   const [progress, setProgress] = useState(0);
   const [isSizeValid, setIsSizeValid] = useState(true);
   const [isActive, setIsActive] = useState(true);
-  const [isValidNumberOfFiles, setValidNumberOfFiles] = useState(true);
+  const [isValidNumberOfFiles, setValidNumberOfFiles] = useState(false);
 
   const RemoveAddFile = [];
-  // console.log(files)
+
+  const handleSlide = () => {
+    const listUploadedWidth = listUploadedRef.current?.offsetWidth;
+    const fileUploadedWidth = fileUploadedRef.current?.offsetWidth;
+
+    console.log(listUploadedRef.current?.clientWidth);
+
+    if (listUploadedRef.current && fileUploadedRef.current) {
+      listUploadedRef.current.scrollTo({
+        left: fileUploadedWidth,
+        behavior: "smooth",
+      });
+    }
+  };
 
   const handleAddFiles = (event) => {
-    // const reader =new FileReader();
+    setValidNumberOfFiles(false);
+    const file = event.target.files[0];
+    // console.log(file.type);
+
     event.preventDefault();
-    var file = event.target.files[0];
-    // console.log(file);
-    if (file.size > 10485760) {
-      // window.alert("Please upload a file smaller than 10 MB");
-      setIsSizeValid(false);
-      setIsActive(false);
-      return;
+    const fileArray = event.target.files;
+    for (var j = 0; j < fileArray.length; j++) {
+      if (fileArray[j].size > 10485760) {
+        setIsSizeValid(false);
+        setIsActive(false);
+        return;
+      }
     }
     setIsActive(true);
     setIsSizeValid(true);
 
-    // console.log(file);
     const newFiles = [...files];
-
-    newFiles.push(file);
-    setFiles(newFiles);
-    // console.log(files);
-    // console.log(newFiles);
-    if (files.length > 3) {
-      setValidNumberOfFiles(false);
+    for (var k = 0; k < fileArray.length; k++) {
+      newFiles.push(fileArray[k]);
     }
+    setFiles(newFiles);
   };
 
   const uploadFiles = (file) => {
-    // console.log(newFilesUpload);
-
-    // console.log(file.name);
     if (!file) return;
     const storageRef = ref(storage, `/files/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
@@ -60,21 +75,22 @@ const BaiTap3 = () => {
   };
 
   const handleUpload = (event) => {
-    event.preventDefault()
-    
+    event.preventDefault();
 
     const newFilesUpload = [...files];
-    for(var i=0;i<newFilesUpload.length;i++){
-      uploadFiles(newFilesUpload[i])
-      console.log(newFilesUpload[i]);
+    if (files.length > 0 && files.length <= 4) {
+      for (var i = 0; i < newFilesUpload.length; i++) {
+        uploadFiles(newFilesUpload[i]);
+        console.log(newFilesUpload[i]);
+        setFiles(RemoveAddFile);
+      }
+    } else {
+      setValidNumberOfFiles(true);
+      setFiles(RemoveAddFile);
+      setIsActive(false);
     }
-    
   };
 
- 
-  // console.log(files)
-
-  
   const handleClose = (event) => {
     const closeFile = event.target.files;
     const newFiles = [...files];
@@ -86,11 +102,11 @@ const BaiTap3 = () => {
     <div className="app">
       <h1>Upload {progress}%</h1>
       <img
+        onClick={handleSlide}
         src={require("../assets/images/submit-icon.png")}
         alt=""
         className="slide-icon"
       />
-      {/* <h1>Progress {progress}</h1> */}
       <div className={isActive ? "drag-and-drop" : "drag-and-drop--alert"}>
         <form onSubmit={(event) => handleUpload(event)}>
           <label htmlFor="name" className="drag-and-drop-img">
@@ -107,135 +123,34 @@ const BaiTap3 = () => {
             type="file"
             className="input"
             onChange={handleAddFiles}
+            multiple
           />
           <button type="submit" className="submit">
             Upload
           </button>
         </form>
       </div>
-      <div className="show-data">
+      <div ref={listUploadedRef} className="show-data--hidden">
         {isSizeValid ? (
           <>
-            {isValidNumberOfFiles ? (
-              <>
-                {files &&
-                  files.map((file, index) => {
-                    // console.log(files);
-                    if (file.name.includes(".doc")) {
-                      // console.log(index)
-                      return (
-                        <div key={index} className="show-data__sample">
-                          <img
-                            className="show-data__sample--icon "
-                            src={require("../assets/images/word.png")}
-                            alt="../assets/images/invalid-file-icon.png"
-                          />
-                          <div className="show-data__sample--name">
-                            <div className="show-data__sample--name--heading">
-                              {}
-                            </div>
+            {files &&
+              files.map((file, index) => {
+                // console.log(file.type);
 
-                            <div className="show-data__sample--name--subheading">
-                              <div></div>
-                            </div>
-                          </div>
-                          <img
-                            onClick={handleClose}
-                            className="show-data__sample--close-button"
-                            alt=""
-                            src={require("../assets/images/close-button.png")}
-                          />
-                        </div>
-                      );
-                    } else if (file.name.includes(".xls")) {
-                      // console.log(index)
-                      return (
-                        <div key={index} className="show-data__sample">
-                          <img
-                            className="show-data__sample--icon "
-                            src={require("../assets/images/excel.png")}
-                            alt="../assets/images/invalid-file-icon.png"
-                          />
-                          <div className="show-data__sample--name">
-                            <div className="show-data__sample--name--heading">
-                              {file.name}
-                            </div>
-
-                            <div className="show-data__sample--name--subheading">
-                              {file.size} bytes
-                            </div>
-                          </div>
-                          <img
-                            onClick={handleClose}
-                            className="show-data__sample--close-button"
-                            alt=""
-                            src={require("../assets/images/close-button.png")}
-                          />
-                        </div>
-                      );
-                    } else if (file.name.includes(".pdf")) {
-                      // console.log(index)
-                      return (
-                        <div key={index} className="show-data__sample">
-                          <img
-                            className="show-data__sample--icon "
-                            src={require("../assets/images/pdf.png")}
-                            alt="../assets/images/invalid-file-icon.png"
-                          />
-                          <div className="show-data__sample--name">
-                            <div className="show-data__sample--name--heading">
-                              {file.name}
-                            </div>
-
-                            <div className="show-data__sample--name--subheading">
-                              {file.size} bytes
-                            </div>
-                          </div>
-                          <img
-                            onClick={handleClose}
-                            className="show-data__sample--close-button"
-                            alt=""
-                            src={require("../assets/images/close-button.png")}
-                          />
-                        </div>
-                      );
-                    } else {
-                      return (
-                        <div key={index} className="show-data__sample">
-                          <img
-                            className="show-data__sample--icon--invalid "
-                            src={require("../assets/images/invalid-file.png")}
-                            alt="../assets/images/invalid-file.png"
-                          />
-                          <div className="show-data__sample--name">
-                            <div className="show-data__sample--name--heading">
-                              {file.name}
-                            </div>
-
-                            <div className="show-data__sample--name--subheading">
-                              {file.size} bytes
-                            </div>
-                          </div>
-                          <img
-                            onClick={handleClose}
-                            className="show-data__sample--close-button"
-                            alt=""
-                            src={require("../assets/images/close-button.png")}
-                          />
-                        </div>
-                      );
-                    }
-                  })}
-              </>
-            ) : (
-              <span className="maximum-files-length">
-                Maximum length of files is 4
-              </span>
-            )}
+                return (
+                  <FileUpload key={index} ref={fileUploadedRef} fileType={file.type} fileName ={file.name} fileSize ={file.size} />
+                );
+              })}
           </>
         ) : (
-          <span className="alert">The maximum file is 10MB</span>
+          <span className="alert">The maximum file size is 10MB</span>
         )}
+
+        {isValidNumberOfFiles ? (
+          <span className="maximum-files-length">
+            Maximum length of files is 4
+          </span>
+        ) : null}
       </div>
     </div>
   );

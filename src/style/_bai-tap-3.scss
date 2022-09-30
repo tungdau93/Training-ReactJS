@@ -5,7 +5,7 @@
     // box-sizing: border-box;
     position: absolute;
     top: 575px;
-    left: 1400px;
+    left: 1410px;
     width: 40px;
     height: 38px;
     border-radius: 50%;
@@ -220,8 +220,93 @@
     
   }
 
+  .show-data--hidden {
+    overflow:auto;
+    left: 579px;
+    top: 559px;
+    position: absolute;
+    width: 823px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    white-space:  normal;
+    .maximum-files-length{
+      color: #ED5D5D;
+      top:17px;
+      position: absolute;
+    }
+    
+    .alert{
+      color: #ED5D5D;
+      top:17px;
+      position: absolute;
+    }
+    
+    .show-data__item {
+      top: 554px;
+      left: 580px;
+      border: 1px solid #dcdcdc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-width: 244px;
+      height: 48px;
+      border-radius: 3px;
+      margin: 12px;
+
+      &:hover {
+        border: 1px solid #107ce0;
+        border-radius: 3px;
+      }
+      .show-data__item--icon {
+        width: 30px;
+        height: 32px;
+        margin: 8px 12px;
+      }
+      .show-data__item--icon--invalid {
+        width: 30px;
+        height: 32px;
+        margin: 8px 12px;
+        border: #107ce0 solid 1px;
+        border-radius: 3px;
+        background-color: red;
+      }
+      .show-data__item--name {
+        position: relative;
+        margin-top: 8px;
+        margin-bottom: 33px;
+        margin-left: -50px;
+        font-family: "Noto Sans";
+        font-style: normal;
+        .show-data__item--name--heading {
+          width: 125px;
+          height: 16px;
+          font-weight: 700;
+          font-size: 15px;
+          line-height: 16px;
+          margin-top: 23px;
+          .show-data__item--name--subheading {
+            width: 85px;
+            height: 16px;
+            color: #666666;
+            font-weight: 400;
+            font-size: 10px;
+            line-height: 14px;
+            margin-bottom: 12px;
+          }
+        }
+      }
+      .show-data__item--close-button {
+        height: 18.67px;
+        width: 16.67px;
+        margin-top: 18px;
+        margin-right: 9.33px;
+        margin-bottom: 17.33px;
+      }
+    }
+  }
+
   .show-data {
-    overflow: hidden;
     // overflow-x:scroll;
     left: 579px;
     top: 559px;
@@ -242,7 +327,7 @@
       top:17px;
       position: absolute;
     }
-    .show-data__sample {
+    .show-data__item {
 
       top: 554px;
       left: 580px;
@@ -250,7 +335,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 244px;
+      min-width: 244px;
       height: 48px;
       border-radius: 3px;
       margin: 12px;
@@ -259,12 +344,12 @@
         border: 1px solid #107ce0;
         border-radius: 3px;
       }
-      .show-data__sample--icon {
+      .show-data__item--icon {
         width: 30px;
         height: 32px;
         margin: 8px 12px;
       }
-      .show-data__sample--icon--invalid {
+      .show-data__item--icon--invalid {
         width: 30px;
         height: 32px;
         margin: 8px 12px;
@@ -272,21 +357,21 @@
         border-radius: 3px;
         background-color: red;
       }
-      .show-data__sample--name {
+      .show-data__item--name {
         position: relative;
         margin-top: 8px;
         margin-bottom: 33px;
         margin-left: -50px;
         font-family: "Noto Sans";
         font-style: normal;
-        .show-data__sample--name--heading {
+        .show-data__item--name--heading {
           width: 125px;
           height: 16px;
           font-weight: 700;
           font-size: 15px;
           line-height: 16px;
           margin-top: 23px;
-          .show-data__sample--name--subheading {
+          .show-data__item--name--size {
             width: 85px;
             height: 16px;
             color: #666666;
@@ -297,7 +382,7 @@
           }
         }
       }
-      .show-data__sample--close-button {
+      .show-data__item--close-button {
         height: 18.67px;
         width: 16.67px;
         margin-top: 18px;
