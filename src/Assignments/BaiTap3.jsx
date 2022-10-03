@@ -4,11 +4,10 @@ import { ref, uploadBytesResumable } from "@firebase/storage";
 import { storage } from "../firebase";
 import { useState, useRef } from "react";
 import IconFile from "../Components/IconFile";
-import FileUpload from "../Components/FileUpload";
+import FileUpload from "../Components/FileUpload"
 
-const FILE_DOCS = ".docs";
 
-const BaiTap3 = ({fileType }) => {
+const BaiTap3 = () => {
   const listUploadedRef = useRef();
   const fileUploadedRef = useRef();
 
@@ -22,7 +21,7 @@ const BaiTap3 = ({fileType }) => {
 
   const handleSlide = () => {
     const listUploadedWidth = listUploadedRef.current?.offsetWidth;
-    const fileUploadedWidth = fileUploadedRef.current?.offsetWidth;
+    const fileUploadedWidth = Math.round(fileUploadedRef.current?.offsetWidth+36);
 
     console.log(listUploadedRef.current?.clientWidth);
 
@@ -33,11 +32,11 @@ const BaiTap3 = ({fileType }) => {
       });
     }
   };
-
   const handleAddFiles = (event) => {
     setValidNumberOfFiles(false);
     const file = event.target.files[0];
-    // console.log(file.type);
+    console.log(file);
+
 
     event.preventDefault();
     const fileArray = event.target.files;
@@ -52,7 +51,7 @@ const BaiTap3 = ({fileType }) => {
     setIsSizeValid(true);
 
     const newFiles = [...files];
-    for (var k = 0; k < fileArray.length; k++) {
+    for (let k = 0; k < fileArray.length; k++) {
       newFiles.push(fileArray[k]);
     }
     setFiles(newFiles);
@@ -79,7 +78,7 @@ const BaiTap3 = ({fileType }) => {
 
     const newFilesUpload = [...files];
     if (files.length > 0 && files.length <= 4) {
-      for (var i = 0; i < newFilesUpload.length; i++) {
+      for (let i = 0; i < newFilesUpload.length; i++) {
         uploadFiles(newFilesUpload[i]);
         console.log(newFilesUpload[i]);
         setFiles(RemoveAddFile);
@@ -91,15 +90,18 @@ const BaiTap3 = ({fileType }) => {
     }
   };
 
-  const handleClose = (event) => {
-    const closeFile = event.target.files;
+  const handleClose = (index) => {
+    const fileSelected = files.filter((file)=>file.index === index)
+    // console.log(newFiles);
     const newFiles = [...files];
-    newFiles.pop(closeFile);
-    setFiles(newFiles);
+    newFiles.pop(fileSelected)
+    setFiles([...newFiles]);
+
+   
   };
 
   return (
-    <div className="app">
+    <>
       <h1>Upload {progress}%</h1>
       <img
         onClick={handleSlide}
@@ -130,20 +132,20 @@ const BaiTap3 = ({fileType }) => {
           </button>
         </form>
       </div>
-      <div ref={listUploadedRef} className="show-data--hidden">
+      
         {isSizeValid ? (
-          <>
+          <div ref={listUploadedRef} className="show-data--hidden">
             {files &&
               files.map((file, index) => {
                 // console.log(file.type);
-
                 return (
-                  <FileUpload key={index} ref={fileUploadedRef} fileType={file.type} fileName ={file.name} fileSize ={file.size} />
+                  <FileUpload  handleClose ={()=>handleClose(index)}  key={index} ref={fileUploadedRef} fileType={file.type} fileName ={file.name} fileSize ={file.size}
+                   />
                 );
               })}
-          </>
+          </div>
         ) : (
-          <span className="alert">The maximum file size is 10MB</span>
+          <span className="maximum-files-size">The maximum file size is 10MB</span>
         )}
 
         {isValidNumberOfFiles ? (
@@ -151,8 +153,8 @@ const BaiTap3 = ({fileType }) => {
             Maximum length of files is 4
           </span>
         ) : null}
-      </div>
-    </div>
+      
+    </>
   );
 };
 

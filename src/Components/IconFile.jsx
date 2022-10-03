@@ -1,5 +1,6 @@
 const IconFile = ({ fileType }) => {
-  switch ({ fileType }) {
+  
+  switch (fileType) {
     case "application/msword":
       return (
         <img
@@ -8,7 +9,6 @@ const IconFile = ({ fileType }) => {
           className="show-data__item--icon "
         />
       );
-      break;
     case "application/pdf":
       return (
         <img
@@ -17,7 +17,6 @@ const IconFile = ({ fileType }) => {
           className="show-data__item--icon "
         />
       );
-      break;
     case "application/vnd.ms-excel":
       return (
         <img
@@ -26,8 +25,14 @@ const IconFile = ({ fileType }) => {
           className="show-data__item--icon "
         />
       );
-      break;
     default:
+      return (
+        <img
+          src={require("../assets/images/invalid-file-icon.png")}
+          alt=""
+          className="show-data__item--icon--invalid "
+        />
+      );
   }
 };
 
