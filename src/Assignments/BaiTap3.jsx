@@ -19,8 +19,9 @@ const BaiTap3 = () => {
 
   const handleSlide = () => {
     const listUploadedOffsetWidth = listUploadedRef.current?.offsetWidth;
-    const listUploadedClientWidth = listUploadedRef.current?.clientWidth;
+    // const listUploadedClientWidth = listUploadedRef.current?.clientWidth;
     const listUploadedScroll = listUploadedRef.current?.scrollLeft;
+    console.log(listUploadedScroll);
     var fileUploadedWidth = fileUploadedRef.current?.clientWidth;
 
     if (listUploadedRef.current && fileUploadedRef.current) {
@@ -37,7 +38,6 @@ const BaiTap3 = () => {
         scrollTo = (fileUploadedWidth + fileUploadedStyleCSs) * fileLength;
       }
 
-      console.log(scrollTo);
       listUploadedRef.current.scrollTo({
         left: scrollTo,
         behavior: "smooth",
@@ -51,7 +51,6 @@ const BaiTap3 = () => {
 
     event.preventDefault();
     const fileArray = event.target.files;
-    console.log(fileArray);
     for (var j = 0; j < fileArray.length; j++) {
       if (fileArray[j].size > 10485760) {
         setIsSizeValid(false);
@@ -92,7 +91,6 @@ const BaiTap3 = () => {
     if (files.length > 0 && files.length <= 4) {
       for (let i = 0; i < newFilesUpload.length; i++) {
         uploadFiles(newFilesUpload[i]);
-        console.log(newFilesUpload[i]);
         setFiles(RemoveAddFile);
       }
     } else {

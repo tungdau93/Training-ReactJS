@@ -68,14 +68,6 @@ const Menu = () => {
         >
           <div>Bai tap 5</div>
         </li>
-        <li
-          style={{ listStyleType: "none" }}
-          onMouseOver={handleMouseOver}
-          onMouseOut={handleMouseOut}
-          onClick={() => redirectPage("/bai-tap-6")}
-        >
-          <div>Bai tap 6</div>
-        </li>
       </ul>
     </div>
   );

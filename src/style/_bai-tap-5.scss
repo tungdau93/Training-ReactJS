@@ -110,9 +110,29 @@
     border: 1px solid #dcdcdc;
     border-radius: 4px;
     padding: 32px;
+    .form-company-container {
+      padding: 10px;
+      background: #f8f8f8;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .select-city-input {
+        width: 90%;
+        height: 20px;
+        padding: 20px;
+        background: #ffffff;
+        border: 1px solid #dcdcdc;
+        border-radius: 4px;
+      }
+    }
 
     .form-input {
       margin-bottom: 10px;
+      .work-period-input-container {
+        display: flex;
+        align-items: center;
+      }
       .label-input {
         display: flex;
         align-items: center;
@@ -148,8 +168,15 @@
         border: 1px solid #dcdcdc;
         border-radius: 4px;
       }
-      .date-of-birth-input {
+      .dash {
+        color: #bfbfbf;
+        font-size: 40px;
+        font-weight: 400;
+        margin: 0 10px;
+      }
+      .work-period-input {
         margin-top: 8px;
+
         width: 19.7%;
         height: 20px;
         padding: 10px;
@@ -162,15 +189,8 @@
           background: url(../assets/images/date-img.png);
         }
       }
-      .select-city-input {
-        margin-top: 8px;
-        width: 63%;
-        height: 20px;
-        padding: 20px;
-
-        background: #ffffff;
-        border: 1px solid #dcdcdc;
-        border-radius: 4px;
+      .trash {
+        margin-left: 50px;
       }
 
       .job-position-input {
@@ -202,42 +222,21 @@
       opacity: 0.5;
       margin-bottom: 10px;
     }
-    .form-personal-image {
-      background-color: #f8f8f8;
-      display: flex;
-      justify-content: center;
-      position: relative;
-      margin-top: 8px;
-      width: 95%;
-      height: 200px;
-      border: 1px solid #dcdcdc;
-      border-radius: 4px;
-      .drag-and-drop-label {
-        display: flex;
-        flex-direction: column;
-        min-width: 150px;
-        position: absolute;
-        bottom: calc(100px - 53px);
+  }
 
-        .image-drag-drop {
-          display: flex;
-          justify-content: center;
-
-          img {
-            margin-bottom: 16px;
-          }
-        }
-
-        span {
-          margin: auto;
-        }
-      }
-
-      .full-name-input {
-        opacity: 0;
-        height: 200px;
-        width: 100%;
-      }
+  .add-company {
+    margin: 24px 0;
+    width: 140px    ;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    // justify-content: space-around;
+    color: #48647f;
+    border: 1px solid #dcdcdc;
+    border-radius: 3px;
+    padding:8px;
+    .plus{
+        margin-right: 8px;
     }
   }
 
@@ -249,5 +248,21 @@
     width: 80px;
     height: 40px;
     margin-bottom: 50px;
+    background: #627d98;
+    color: #ffffff;
+    font-weight: 700;
+    margin-right: 34px;
+  }
+
+  .prev-button {
+    margin-top: 20px;
+    padding: 10px 8px;
+    border: none;
+    width: 80px;
+    height: 40px;
+    margin-bottom: 50px;
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 3px;
   }
 }
