@@ -37,13 +37,18 @@ const Menu = () => {
         <li style={{listStyleType:'none'}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => redirectPage("/bai-tap-3")}>
           <div >Bài tập 3</div>
         </li>
-        <li style={{listStyleType:'none'}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => redirectPage("/bai-tap-4")}>
-          <div >Bai tap 4
+        <li style={{listStyleType:'none'}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => redirectPage("/bai-tap-4-form1")}>
+          <div >Bai tap 4 Form 1
             
           </div>
         </li>
-        <li style={{listStyleType:'none'}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => redirectPage("/bai-tap-5")}>
-          <div >Bai tap 5
+        <li style={{listStyleType:'none'}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => redirectPage("/bai-tap-4-form2")}>
+          <div >Bai tap 4 Form 2
+            
+          </div>
+        </li>
+        <li style={{listStyleType:'none'}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} onClick={() => redirectPage("/bai-tap-4-form3")}>
+          <div >Bai tap 4 Form 3
             
           </div>
         </li>

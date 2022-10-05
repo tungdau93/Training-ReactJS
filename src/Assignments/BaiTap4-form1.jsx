@@ -1,7 +1,7 @@
-import "../style/_bai-tap-4.scss"
+import "../style/_bai-tap-4-form1.scss"
 import { useEffect, useState } from "react";
 
-const BaiTap4 = () => {
+const BaiTap4Form1 = () => {
   // const [cities, setICties] = useState([])
 
   // useEffect(() => {
@@ -125,4 +125,4 @@ const BaiTap4 = () => {
   );
 };
 
-export default BaiTap4;
+export default BaiTap4Form1;
