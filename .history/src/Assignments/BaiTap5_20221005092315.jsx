@@ -1,14 +1,14 @@
-import "../style/_bai-tap-4.scss";
+import "../style/_bai-tap-5.scss";
 import { useEffect, useState } from "react";
 
-const BaiTap4 = () => {
+const BaiTap5 = () => {
   // const [cities, setICties] = useState([])
 
   // useEffect(() => {
   //   const url = "https://provinces.open-api.vn/api/";
   //   fetch(url)
   //     .then((response) => response.json())
-  //     .then((data) => {
+  //     .then((data) => 
   //       setCities(data);
   //     });
   // }, []);
@@ -41,7 +41,7 @@ const BaiTap4 = () => {
               <img
                 className="step-2-img"
                 alt=""
-                src={require("../assets/images/step2-inactive.png")}
+                src={require("../assets/images/step2-active.png")}
               />
             </div>
             <div className="form__container--heading-steps-name-2">
@@ -65,64 +65,47 @@ const BaiTap4 = () => {
         </div>
       </div>
       <div className="form__container--body">
-        <div className="form-input form-full-name">
+        <div className="form-company-container">
+          <select className="select-city-input" type="text" />
+          <img
+            className="trash"
+            src={require("../assets/images/Trash.png")}
+            alt=""
+          />
+        </div>
+        <div className="form-input form-all-position">
           <div className="label-input">
             <span className="label-require">Must</span>
-            <span>Họ và tên</span>
+            <span>Vị trí từng làm</span>
           </div>
           <input className="full-name-input" type="text" />
         </div>
-        <div className="form-input form-date-of-birth">
+        <div className="form-input form-work-period">
           <div className="label-input">
             <span className="label-require">Must</span>
-            <span>Ngày sinh</span>
+            <span>Thời gian làm việc</span>
           </div>
-          <input type="date" className="date-of-birth-input" />
-        </div>
-        <div className="form-input form-city">
-          <div className="label-input">
-            <span>Thành phố</span>
+          <div className="work-period-input-container">
+            <input type="date" className="work-period-input" />
+            <span className="dash">-</span>
+            <input type="date" className="work-period-input" />
           </div>
-          <select className="select-city-input" type="text" />
-        </div>
-        <div className="form-input form-job-position">
-          <div className="label-input-job">
-            <span>Vị trí làm việc</span>
-            <span className="label-input-job-subheading">
-              Có thể chọn nhiều vị trí mà bạn muốn làm việc
-            </span>
-          </div>
-          <input className="job-position-input" type="text" />
         </div>
         <div className="form-input form-self-introduction">
           <div className="label-input">
-            <span>Mô tả về bản thân</span>
+            <span> Mô tả về công việc</span>
           </div>
           <input className="self-introduction" type="text" />
         </div>
-        <span className="text-per-type">0/1000</span>
-        <div className="form-personal-image-label">Ảnh cá nhân</div>
-        <div className=" form-personal-image">
-          <div className="drag-and-drop-label">
-          <span className="image-drag-drop">
-            <img
-              alt=""
-              src={require("../assets/images/upload-icon.png")}
-              width={32}
-              height={32}
-            />
-          </span>
-          <span>Drag and drop files</span>
-          <span>Browse Files</span>
-          </div>
-          <input className="full-name-input" type="file" />
-        </div>
-
       </div>
-
+        <div className="add-company">
+            <img className="plus" alt="" src={require("../assets/images/Plus.png")} />
+            <span>Thêm công ty</span>
+        </div>
       <button className="next-button">Tiếp</button>
+      <button className="prev-button">Quay lại</button>
     </div>
   );
 };
 
-export default BaiTap4;
+export default BaiTap5;

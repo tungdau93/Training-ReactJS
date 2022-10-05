@@ -56,6 +56,7 @@
         flex-direction: column;
         .step-2-img-container {
           width: 114px;
+          height: 40px;
           .step-2-img {
             margin-left: 37px;
             height: 20px;
@@ -158,7 +159,7 @@
         border-radius: 4px;
 
         &::-webkit-calendar-picker-indicator {
-          background: url(../assets/images/date-img.png);
+          background: url(..);
         }
       }
       .select-city-input {
@@ -182,7 +183,7 @@
         background: #ffffff;
         border: 1px solid #dcdcdc;
         border-radius: 4px;
-        background-image: url(../assets/images/search.png);
+        background-image: url(../assets/images/search-icon.png);
         background-repeat: no-repeat;
         background-position: 3px;
       }

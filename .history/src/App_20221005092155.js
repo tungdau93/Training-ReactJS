@@ -19,7 +19,7 @@ function App() {
         <Route path="/bai-tap-2" element={<BaiTap2 />} />
         <Route path="/bai-tap-3" element={<BaiTap3 />} />
         <Route path="/bai-tap-4" element={<BaiTap4 />} />
-        <Route path="/bai-tap-5" element={<BaiTap5 />} />
+        <Route path="/bai-tap-4" element={<BaiTap4 />} />
       </Routes>
     </BrowserRouter>
     </StrictMode>

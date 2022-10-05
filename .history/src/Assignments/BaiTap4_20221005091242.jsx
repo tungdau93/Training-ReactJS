@@ -54,7 +54,7 @@ const BaiTap4 = () => {
               <img
                 className="step-3-img"
                 alt=""
-                src={require("../assets/images/step3-inactive.png")}
+                src={require("../assets/images/step-3")}
               />
             </div>
             <div className="form__container--heading-steps-name-3">
