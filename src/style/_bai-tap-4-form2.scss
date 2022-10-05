@@ -1,10 +1,10 @@
-.form__container-4{
+.form__container-5 {
   width: 70%;
   margin: auto;
 
-  .form__container--heading-4{
+  .form__container--heading-5 {
     margin-top: 160px;
-    .line-progress-4{
+    .line-progress-5 {
       position: absolute;
       width: 221px;
       background-color: #dbdbdb;
@@ -12,7 +12,7 @@
       margin-top: 73px;
       height: 1px;
     }
-    .form__container--heading-name-4{
+    .form__container--heading-name-5 {
       width: 164px;
       height: 36px;
       font-family: "Noto Sans JP";
@@ -22,22 +22,24 @@
       line-height: 36px;
       color: #333333;
     }
-    .form__container--heading-steps-4{
+    .form__container--heading-steps-5 {
       display: flex;
       margin-top: 18px;
 
-      .step-1-4{
+      .step-1-5 {
         position: relative;
         display: flex;
         flex-direction: column;
-        .step-1-img-container-4{
+        .step-1-img-container-5 {
           width: 114px;
           height: 40px;
-          .step-1-img-4{
-            margin-left: 37px;
+          .step-1-img-5 {
+            margin-left: 47px;
+            margin-top: 5px;
+            height:30px;
           }
         }
-        .form__container--heading-steps-name-4{
+        .form__container--heading-steps-name-5 {
           display: flex;
           justify-content: center;
           margin-top: 14px;
@@ -49,20 +51,20 @@
           line-height: 24px;
         }
       }
-      .step-2-4{
+      .step-2-5 {
         z-index: 1;
         margin-left: 16.5px;
         display: flex;
         flex-direction: column;
-        .step-2-img-container-4{
+        .step-2-img-container-5 {
           width: 114px;
-          .step-2-img-4{
+          height: 40px;
+          .step-2-img-5 {
             margin-left: 37px;
-            height:30px;
-            margin-top: 5px;
+            height: 40px;
           }
         }
-        .form__container--heading-steps-name-2-4{
+        .form__container--heading-steps-name-2-5 {
           display: flex;
           justify-content: center;
           margin-top: 14px;
@@ -74,21 +76,21 @@
           line-height: 24px;
         }
       }
-      .step-3-4{
+      .step-3-5 {
         margin-left: 16.5px;
         display: flex;
         flex-direction: column;
         height: 101.98px;
-        .step-3-img-container-4{
+        .step-3-img-container-5 {
           width: 114px;
           height: 40px;
-          .step-3-img-4{
+          .step-3-img-5 {
             margin-left: 37px;
-            height:30px;
+            height: 30px;
             margin-top: 5px;
           }
         }
-        .form__container--heading-steps-name-3-4{
+        .form__container--heading-steps-name-3-5 {
           display: flex;
           flex-direction: column;
           margin-top: 14px;
@@ -99,25 +101,45 @@
           font-size: 14px;
           line-height: 24px;
 
-          span{
+          span {
             margin: auto;
           }
         }
       }
     }
   }
-  .form__container--body-4{
+  .form__container--body-5 {
     background: #ffffff;
     border: 1px solid #dcdcdc;
     border-radius: 4px;
     padding: 32px;
-
-    .form-input-4{
+    .form-company-container-5 {
+      padding: 10px;
+      background: #f8f8f8;
       margin-bottom: 10px;
-      .label-input {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .select-city-input-5 {
+        width: 90%;
+        height: 20px;
+        padding: 20px;
+        background: #ffffff;
+        border: 1px solid #dcdcdc;
+        border-radius: 4px;
+      }
+    }
+
+    .form-input-5 {
+      margin-bottom: 10px;
+      .work-period-input-container-5 {
         display: flex;
         align-items: center;
-        .label-require-4{
+      }
+      .label-input-5 {
+        display: flex;
+        align-items: center;
+        .label-require-5 {
           margin-right: 8px;
           background: #627d98;
           border-radius: 3px;
@@ -126,20 +148,20 @@
         }
       }
 
-      .label-input-job-4{
+      .label-input-job-5 {
         display: flex;
         flex-direction: column;
-        span-4{
+        span {
           padding: 4px;
         }
-        .label-input-job-subheading-4{
+        .label-input-job-subheading-5 {
           font-weight: 400;
           font-size: 12px;
           opacity: 0.5;
         }
       }
 
-      .full-name-input-4{
+      .full-name-input-5 {
         padding: 10px;
         margin-top: 8px;
         width: 63%;
@@ -149,8 +171,15 @@
         border: 1px solid #dcdcdc;
         border-radius: 4px;
       }
-      .date-of-birth-input-4{
+      .dash-5 {
+        color: #bfbfbf;
+        font-size: 40px;
+        font-weight: 400;
+        margin: 0 10px;
+      }
+      .work-period-input-5 {
         margin-top: 8px;
+
         width: 19.7%;
         height: 20px;
         padding: 10px;
@@ -159,22 +188,15 @@
         border: 1px solid #dcdcdc;
         border-radius: 4px;
 
-        &::-webkit-calendar-picker-indicator{
+        &::-webkit-calendar-picker-indicator {
           background: url(../assets/images/date-img.png);
         }
       }
-      .select-city-input-4{
-        margin-top: 8px;
-        width: 63%;
-        height: 20px;
-        padding: 20px;
-
-        background: #ffffff;
-        border: 1px solid #dcdcdc;
-        border-radius: 4px;
+      .trash-5 {
+        margin-left: 50px;
       }
 
-      .job-position-input-4{
+      .job-position-input-5 {
         display: flex;
         align-items: center;
         padding: 10px 10px 10px 30px;
@@ -188,7 +210,7 @@
         background-repeat: no-repeat;
         background-position: 3px;
       }
-      .self-introduction-4{
+      .self-introduction-5 {
         padding: 10px;
         padding-bottom: 100px;
         margin-top: 8px;
@@ -199,53 +221,29 @@
         border-radius: 4px;
       }
     }
-    .text-per-type-4{
+    .text-per-type-5 {
       opacity: 0.5;
       margin-bottom: 10px;
     }
-    .form-personal-image-label-4{
-      margin-top: 10px;
-    }
-    .form-personal-image-4{
-      background-color: #f8f8f8;
-      display: flex;
-      justify-content: center;
-      position: relative;
-      margin-top: 8px;
-      width: 95%;
-      height: 200px;
-      border: 1px solid #dcdcdc;
-      border-radius: 4px;
-      .drag-and-drop-label-4{
-        display: flex;
-        flex-direction: column;
-        min-width: 150px;
-        position: absolute;
-        bottom: calc(100px - 53px);
+  }
 
-        .image-drag-drop-4{
-          display: flex;
-          justify-content: center;
-
-          img{
-            margin-bottom: 16px;
-          }
-        }
-
-        span{
-          margin: auto;
-        }
-      }
-
-      .full-name-input-4{
-        opacity: 0;
-        height: 200px;
-        width: 100%;
-      }
+  .add-company-5 {
+    margin: 24px 0;
+    width: 140px    ;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    // justify-content: space-around;
+    color: #48647f;
+    border: 1px solid #dcdcdc;
+    border-radius: 3px;
+    padding:8px;
+    .plus-5{
+        margin-right: 8px;
     }
   }
 
-  .next-button-4{
+  .next-button-5 {
     margin-top: 20px;
     padding: 10px 8px;
     border: none;
@@ -253,5 +251,21 @@
     width: 80px;
     height: 40px;
     margin-bottom: 50px;
+    background: #627d98;
+    color: #ffffff;
+    font-weight: 700;
+    margin-right: 34px;
+  }
+
+  .prev-button-5 {
+    margin-top: 20px;
+    padding: 10px 8px;
+    border: none;
+    width: 80px;
+    height: 40px;
+    margin-bottom: 50px;
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 3px;
   }
 }
