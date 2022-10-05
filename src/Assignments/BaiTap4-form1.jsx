@@ -1,17 +1,46 @@
-import "../style/_bai-tap-4-form1.scss"
-import { useEffect, useState } from "react";
+import "../style/_bai-tap-4-form1.scss";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const BaiTap4Form1 = () => {
-  // const [cities, setICties] = useState([])
+  const [isNameValid, setIsNameValid] = useState(true);
+  const [isDateOfBirthValid, setIsDateOfBirthValid]= useState(true)
 
-  // useEffect(() => {
-  //   const url = "https://provinces.open-api.vn/api/";
-  //   fetch(url)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setCities(data);
-  //     });
-  // }, []);
+  const handleDateOfBirth = (value) => {
+    const today = new Date();
+    const dd = today.getDate()
+    const mm = today.getMonth() + 1
+    const yyyy = today.getFullYear()
+    const selectedYYYY = Number(value.slice(0,4))
+    const selectedMM = Number(value.slice(5,7))
+    const selectedDD = Number(value.slice(8,10))
+    if((selectedYYYY===yyyy && selectedMM===mm && selectedDD<dd)||(selectedYYYY===yyyy && selectedMM<mm ) || selectedYYYY<yyyy  ){
+
+      setIsDateOfBirthValid(true)
+    }
+     setIsDateOfBirthValid(false)
+     console.log((selectedYYYY===yyyy && selectedMM===mm && selectedDD<dd)||(selectedYYYY===yyyy && selectedMM<mm ) || selectedYYYY<yyyy  )
+    //  console.log(value.slice(5,7),mm)
+    //  console.log(typeof selectedYYYY,selectedYYYY)
+    }
+
+
+
+    // console.log(value);
+  
+  const navigate = useNavigate();
+
+  const redirectPage = (url) => {
+    navigate(url);
+  };
+
+  const handleFullName = (text) => {
+    if (text.length <= 5) {
+      setIsNameValid(true);
+    } else setIsNameValid(false);
+    // console.log(text.length);
+  };
+
 
   return (
     <div className="form__container-1">
@@ -70,15 +99,37 @@ const BaiTap4Form1 = () => {
             <span className="label-require-1">Must</span>
             <span>Họ và tên</span>
           </div>
-          <input className="full-name-input-1" type="text" />
+          <input
+            // onFocus={(e)=>handleFocus(e.target)}
+            onChange={(e) => handleFullName(e.target.value)}
+            className={
+              isNameValid ? "full-name-input-1" : "full-name-input-invalid-1"
+            }
+            type="text"
+          />
+          <span
+            className={isNameValid ? "hide-warning" : "invalidFullNameWarning"}
+          >
+            Số kí tối đa là 5
+          </span>
         </div>
         <div className="form-input-1 form-date-of-birth-1">
           <div className="label-input-1">
             <span className="label-require-1">Must</span>
             <span>Ngày sinh</span>
           </div>
-          <input type="date" className="date-of-birth-input-1" />
+          <input
+            onChange={(e) => handleDateOfBirth(e.target.value)}
+            type="date"
+            className={isDateOfBirthValid ? "date-of-birth-input-1":"date-of-birth-input-invalid-1"}
+            placeholder="0000/00/00"
+          />
         </div>
+        <span
+            className={isDateOfBirthValid ? "hide-warning" : "invalidWarning"}
+          >
+            Ngày sinh không hợp lệ
+          </span>
         <div className="form-input-1 form-city-1">
           <div className="label-input-1">
             <span>Thành phố</span>
@@ -104,23 +155,27 @@ const BaiTap4Form1 = () => {
         <div className="form-personal-image-label-1">Ảnh cá nhân</div>
         <div className=" form-personal-image-1">
           <div className="drag-and-drop-label-1">
-          <span className="image-drag-drop-1">
-            <img
-              alt=""
-              src={require("../assets/images/upload-icon.png")}
-              width={32}
-              height={32}
-            />
-          </span>
-          <span>Drag and drop files</span>
-          <span>Browse Files</span>
+            <span className="image-drag-drop-1">
+              <img
+                alt=""
+                src={require("../assets/images/upload-icon.png")}
+                width={32}
+                height={32}
+              />
+            </span>
+            <span>Drag and drop files</span>
+            <span>Browse Files</span>
           </div>
           <input className="full-name-input-1" type="file" />
         </div>
-
       </div>
 
-      <button className="next-button-1">Tiếp</button>
+      <button
+        className="next-button-1"
+        onClick={() => redirectPage("/bai-tap-4-form2")}
+      >
+        Tiếp
+      </button>
     </div>
   );
 };

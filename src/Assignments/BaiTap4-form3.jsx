@@ -1,17 +1,8 @@
 import "../style/_bai-tap-4-form3.scss";
+import { useEffect, useState } from "react";
 
 const BaiTap4Form3 = () => {
-  // const [cities, setICties] = useState([])
-
-  // useEffect(() => {
-  //   const url = "https://provinces.open-api.vn/api/";
-  //   fetch(url)
-  //     .then((response) => response.json())
-  //     .then((data) => 
-  //       setCities(data);
-  //     });
-  // }, []);
-
+  
   return (
     <div className="form__container-3">
       <div className="form__container--heading-3">
@@ -43,7 +34,7 @@ const BaiTap4Form3 = () => {
                 src={require("../assets/images/step2-active.png")}
               />
             </div>
-            <div className="form__container--heading-steps-name-2-3">
+            <div className="form__container--heading-steps-name-3-3">
               項目設定
             </div>
           </div>
@@ -53,7 +44,7 @@ const BaiTap4Form3 = () => {
               <img
                 className="step-3-img-3"
                 alt=""
-                src={require("../assets/images/step3-inactive.png")}
+                src={require("../assets/images/step3-active.png")}
               />
             </div>
             <div className="form__container--heading-steps-name-3-3">
@@ -64,45 +55,23 @@ const BaiTap4Form3 = () => {
         </div>
       </div>
       <div className="form__container--body-3">
-        <div className="form-company-container-3">
-          <select className="select-city-input-3" type="text" />
-          <img
-            className="trash-3"
-            src={require("../assets/images/Trash.png")}
-            alt=""
-          />
-        </div>
-        <div className="form-input-3 form-all-position-3">
+        <div className="form-input-3 form-reason-join">
           <div className="label-input-3">
             <span className="label-require-3">Must</span>
-            <span>Vị trí từng làm</span>
+            <span>Lý do muốn ứng tuyển vào công ty</span>
           </div>
-          <input className="full-name-input-3" type="text" />
+          <input className="full-name-input-3 reason-join-input-3" type="text" />
         </div>
-        <div className="form-input-3 form-work-period-3">
+        <span className="text-per-type-3">0/1000</span>
+        <div className="form-input-3 form-expected-salary">
           <div className="label-input-3">
             <span className="label-require-3">Must</span>
-            <span>Thời gian làm việc</span>
+            <span>Mức lương mong muốn </span>
           </div>
-          <div className="work-period-input-container-3">
-            <input type="date" className="work-period-input-3" />
-            <span className="dash">-</span>
-            <input type="date" className="work-period-input-3" />
-          </div>
+          <input className="full-name-input-3 expected-salary-input-3" type="text" />
         </div>
-        <div className="form-input-3 form-self-introduction-3">
-          <div className="label-input-3">
-            <span> Mô tả về công việc</span>
-          </div>
-          <input className="self-introduction-3" type="text" />
-        </div>
-      </div>
-        <div className="add-company-3">
-            <img className="plus-3" alt="" src={require("../assets/images/Plus.png")} />
-            <span>Thêm công ty</span>
-        </div>
-      <button className="next-button-3">Tiếp</button>
-      <button className="prev-button-3">Quay lại</button>
+      </div>    
+      <button className="finish-3">Hoàn thành</button>
     </div>
   );
 };

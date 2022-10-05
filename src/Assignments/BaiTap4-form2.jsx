@@ -1,17 +1,15 @@
 import "../style/_bai-tap-4-form2.scss";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 const BaiTap4Form2 = () => {
-  // const [cities, setICties] = useState([])
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const url = "https://provinces.open-api.vn/api/";
-  //   fetch(url)
-  //     .then((response) => response.json())
-  //     .then((data) => 
-  //       setCities(data);
-  //     });
-  // }, []);
+  const redirectPage = (url) => {
+    navigate(url);
+  };
+  
 
   return (
     <div className="form__container-2">
@@ -87,23 +85,26 @@ const BaiTap4Form2 = () => {
           </div>
           <div className="work-period-input-container-2">
             <input type="date" className="work-period-input-2" />
-            <span className="dash">-</span>
+            <span className="dash-2">-</span>
             <input type="date" className="work-period-input-2" />
           </div>
         </div>
-        <div className="form-input-2 form-self-introduction-2">
+        <div className="form-input-2 form-work-introduction-2">
+          
           <div className="label-input-2">
             <span> Mô tả về công việc</span>
           </div>
-          <input className="self-introduction-2" type="text" />
+          <textarea style={{overflow:"hidden"}}>
+            <input  className="work-introduction-2" type="text" />
+            </textarea>
         </div>
       </div>
         <div className="add-company-2">
             <img className="plus-2" alt="" src={require("../assets/images/Plus.png")} />
             <span>Thêm công ty</span>
         </div>
-      <button className="next-button-2">Tiếp</button>
-      <button className="prev-button-2">Quay lại</button>
+      <button className="next-button-2 " onClick={() => redirectPage("/bai-tap-4-form3")}>Tiếp</button>
+      <button className="prev-button-2" onClick={() => redirectPage("/bai-tap-4-form1")}>Quay lại</button>
     </div>
   );
 };

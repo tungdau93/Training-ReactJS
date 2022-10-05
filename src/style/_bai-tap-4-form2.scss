@@ -128,9 +128,13 @@
         border: 1px solid #dcdcdc;
         border-radius: 4px;
       }
+      .trash-2 {
+        margin-right:-5px;
+      }
     }
 
     .form-input-2 {
+      width: 100%;
       margin-bottom: 10px;
       .work-period-input-container-2 {
         display: flex;
@@ -164,7 +168,6 @@
       .full-name-input-2 {
         padding: 10px;
         margin-top: 8px;
-        width: 63%;
         height: 20px;
 
         background: #ffffff;
@@ -192,9 +195,7 @@
           background: url(../assets/images/date-img.png);
         }
       }
-      .trash-2 {
-        margin-left: 50px;
-      }
+      
 
       .job-position-input-2 {
         display: flex;
@@ -210,12 +211,12 @@
         background-repeat: no-repeat;
         background-position: 3px;
       }
-      .self-introduction-2 {
+      .work-introduction-2 {
         padding: 10px;
         padding-bottom: 100px;
         margin-top: 8px;
         width: 63%;
-
+        
         background: #ffffff;
         border: 1px solid #dcdcdc;
         border-radius: 4px;
@@ -233,18 +234,22 @@
     height: 24px;
     display: flex;
     align-items: center;
-    // justify-content: space-around;
     color: #48647f;
     border: 1px solid #dcdcdc;
     border-radius: 3px;
     padding:8px;
+    &:hover {
+      border: 1px solid #107ce0;
+      border-radius: 3px;
+      cursor: pointer;
+    }
     .plus-2{
         margin-right: 8px;
     }
   }
 
   .next-button-2 {
-    margin-top: 20px;
+    margin-top: 30px;
     padding: 10px 8px;
     border: none;
     border-radius: 3px;
@@ -255,17 +260,26 @@
     color: #ffffff;
     font-weight: 700;
     margin-right: 34px;
+    &:hover {
+      border: 1px solid #107ce0;
+      cursor: pointer;
+      border-radius: 3px;
+    }
   }
 
   .prev-button-2 {
-    margin-top: 20px;
+    margin-top: 30px;
     padding: 10px 8px;
-    border: none;
     width: 80px;
     height: 40px;
     margin-bottom: 50px;
     background: #ffffff;
     border: 1px solid #dcdcdc;
     border-radius: 3px;
+    margin-left: 10px;
+    &:hover {
+      border: 1px solid #107ce0;
+      border-radius: 3px;
+    }
   }
 }
