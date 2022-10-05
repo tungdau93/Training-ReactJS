@@ -17,8 +17,8 @@ function App() {
       <Menu />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/bai-tap-2" element={<BaiTap2 />} />
-        <Route path="/bai-tap-3" element={<BaiTap3 />} />
+        <Route path="/bai-tap-2" element={<BaiTap2/>} />
+        <Route path="/bai-tap-3" element={<BaiTap3/>} />
         <Route path="/bai-tap-4-form1" element={<BaiTap4Form1 />} />
         <Route path="/bai-tap-4-form2" element={<BaiTap4Form2 />} />
         <Route path="/bai-tap-4-form3" element={<BaiTap4Form3 />} />
