@@ -1,0 +1,15 @@
+@mixin step_name {
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
+  height: 24px;
+  font-family: "Noto Sans JP";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+}
+@mixin form_input{
+  width: 100%;
+  margin-bottom: 10px;
+}

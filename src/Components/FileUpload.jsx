@@ -16,6 +16,7 @@ const FileUpload = (props, ref) => {
       </div>
 
       <img
+        alt=""
         onClick={props.handleClose}
         className="item-label--close-button"
         src={require("../assets/images/close-button.png")}

@@ -1,0 +1,32 @@
+
+@mixin step_img{
+    margin-left: 37px;
+    height:30px;
+  }
+  
+  @mixin step_name {
+    display: flex;
+    justify-content: center;
+    margin-top: 14px;
+    height: 24px;
+    font-family: "Noto Sans JP";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+  }
+  
+  @mixin line_progress {
+    position: absolute;
+        width: 221px;
+        background-color: #dbdbdb;
+        margin-left: 77px;
+        margin-top: 73px;
+        height: 1px;
+  }
+
+  @mixin form-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
