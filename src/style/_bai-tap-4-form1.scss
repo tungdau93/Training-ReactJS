@@ -1,10 +1,10 @@
-.form__container-1{
+.form-personal-info{
   width: 70%;
   margin: auto;
 
-  .form__container--heading-1{
+  .heading{
     margin-top: 160px;
-    .line-progress-1{
+    .line-progress{
       position: absolute;
       width: 221px;
       background-color: #dbdbdb;
@@ -12,7 +12,7 @@
       margin-top: 73px;
       height: 1px;
     }
-    .form__container--heading-name-1{
+    .heading-name{
       width: 164px;
       height: 36px;
       font-family: "Noto Sans JP";
@@ -22,22 +22,22 @@
       line-height: 36px;
       color: #333333;
     }
-    .form__container--heading-steps-1{
+    .heading-step{
       display: flex;
       margin-top: 18px;
 
-      .step-1-1{
+      &__first-step{
         position: relative;
         display: flex;
         flex-direction: column;
-        .step-1-img-container-1{
+        .step-img-container{
           width: 114px;
-          height: 40px;
-          .step-1-img-1{
+          .step-img{
+            height:40px;
             margin-left: 37px;
           }
         }
-        .form__container--heading-steps-name-1{
+        .step-name{
           display: flex;
           justify-content: center;
           margin-top: 14px;
@@ -49,20 +49,20 @@
           line-height: 24px;
         }
       }
-      .step-2-1{
+      &__second-step{
         z-index: 1;
         margin-left: 16.5px;
         display: flex;
         flex-direction: column;
-        .step-2-img-container-1{
+        .step-img-container{
           width: 114px;
-          .step-2-img-1{
+          .step-img{
             margin-left: 37px;
-            height:30px;
+            height:60px;
             margin-top: 5px;
           }
         }
-        .form__container--heading-steps-name-2-1{
+        .step-name{
           display: flex;
           justify-content: center;
           margin-top: 14px;

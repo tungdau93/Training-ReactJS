@@ -20,8 +20,6 @@ const BaiTap4Form1 = () => {
     }
      setIsDateOfBirthValid(false)
      console.log((selectedYYYY===yyyy && selectedMM===mm && selectedDD<dd)||(selectedYYYY===yyyy && selectedMM<mm ) || selectedYYYY<yyyy  )
-    //  console.log(value.slice(5,7),mm)
-    //  console.log(typeof selectedYYYY,selectedYYYY)
     }
 
 
@@ -43,38 +41,37 @@ const BaiTap4Form1 = () => {
 
 
   return (
-    <div className="form__container-1">
-      <div className="form__container--heading-1">
+    <div className="form-personal-info">
+      <div className="heading">
         <img
-          className="line-progress-1"
+          className="line-progress"
           alt=""
           src={require("../assets/images/line-pr.png")}
         ></img>
-        <div className="form__container--heading-name-1">Đơn ứng tuyển</div>
-        <div className="form__container--heading-steps-1">
-          <div className="step-1-1">
-            <div className="step-1-img-container-1">
+        <div className="heading-name">Đơn ứng tuyển</div>
+        <div className="heading-step">
+          <div className="heading-step__first-step">
+            <div className="step-img-container">
               <img
-                className="step-1-img-1"
+                className="step-img"
                 alt=""
                 src={require("../assets/images/step1-active.png")}
               />
             </div>
-            <div className="form__container--heading-steps-name-1">
+            <div className="step-name">
               Thông tin cá nhân
             </div>
-            <div></div>
           </div>
-          <div className="step-2-1">
-            <div className="step-2-img-container-1">
+          <div className="heading-step__second-step">
+            <div className="step-img-container">
               <img
-                className="step-2-img-1"
+                className="step-img"
                 alt=""
                 src={require("../assets/images/step2-inactive.png")}
               />
             </div>
-            <div className="form__container--heading-steps-name-2-1">
-              項目設定
+            <div className="step-name">
+              Kinh nghiệm làm việc
             </div>
           </div>
 
