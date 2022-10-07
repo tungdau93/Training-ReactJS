@@ -1,15 +1,109 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../style/_bai-tap-4-personal-info.scss";
-
-
+import useClickOutside from "../hooks/useClickOutside";
+import React from "react";
 
 const PersonalInfoForm = (props) => {
+  const searchRef = useRef();
   const [form, setForm] = useState({});
   const [isSelfIntroValid, setSelfIntroValid] = useState(true);
   const [isNameValid, setIsNameValid] = useState(true);
   const [isDateOfBirthValid, setIsDateOfBirthValid] = useState(true);
+  const [cities, setCities] = useState([]);
+  const [isShowCitiesSearch, setIsShowCitiesSearch] = useState(false);
+  const [isAvatarChosen, setIsAvatarChosen] = useState(false);
+  const [file, setFile] = useState([]);
+  const [fileType, setFileType] = useState([]);
 
-  const {nextStep} =props
+  useClickOutside(searchRef, () => setIsShowCitiesSearch(false));
+
+  const handleClickOptionCities = (code) => {
+    console.log(code);
+    setForm({ ...form, code });
+  };
+
+  const findCity = (code) => {
+    if (code) {
+      return cities.find((item) => item && item?.code === code);
+    }
+    return {};
+  };
+
+  // const jobPosition=[
+  //   {
+  //     code:1,
+  //     job:"Java Developer" 
+  //   },
+  //   {
+  //     code:2,
+  //     job:"PHP Developer"
+  //   },
+  //   {
+  //     code:3,
+  //     job:"Javascript Developer"
+  //   },
+  //   {
+  //     code:4,
+  //     job:"C/C++ Developer"
+  //   },
+  //   {
+  //     code:5,
+  //     job:"Ruby Developer"
+  //   },
+  //   {
+  //     code:6,
+  //     job:"Vuejs Developer"
+  //   },
+  //   {
+  //     code:7,
+  //     job:"Reactjs Developer"
+  //   },
+
+  // ]
+
+  const handleAddAnotherAvatar = (e) => {
+    const file = e.target.files[0];
+  };
+
+  const handleAddAvatar = (event) => {
+    const file = URL.createObjectURL(event.target.files[0]);
+    const fileType = event.target.files[0].type;
+    // console.log(file);
+    // console.log(fileType);
+    setFile(file);
+    setFileType(fileType);
+    setIsAvatarChosen(true);
+    console.log(fileType);
+  };
+
+  const handleFocusInputSearch = () => {
+    setIsShowCitiesSearch(true);
+    setCities([...cities]);
+  };
+  const searchCities = (text) => {
+    if (!isShowCitiesSearch) {
+      setIsShowCitiesSearch(true);
+    }
+    const citySearch = filterCity(text);
+    console.log(citySearch);
+    setCities(citySearch);
+  };
+
+  const filterCity = (text) => {
+    const regex = new RegExp(`${text}`, "gi");
+    return cities.filter((city) => city.name.match(regex));
+  };
+
+  useEffect(() => {
+    const url = "https://provinces.open-api.vn/api/";
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setCities(data);
+      });
+  }, []);
+
+  const { nextStep } = props;
 
   const handleDateOfBirth = (value) => {
     const today = new Date();
@@ -19,42 +113,36 @@ const PersonalInfoForm = (props) => {
     const selectedYYYY = Number(value.slice(0, 4));
     const selectedMM = Number(value.slice(5, 7));
     const selectedDD = Number(value.slice(8, 10));
-    console.log(value)
     if (
       (selectedYYYY === yyyy && selectedMM === mm && selectedDD <= dd) ||
       (selectedYYYY === yyyy && selectedMM < mm) ||
-      selectedYYYY < yyyy 
+      selectedYYYY < yyyy
     ) {
       setIsDateOfBirthValid(true);
     } else setIsDateOfBirthValid(false);
     setForm({
       ...form,
-      DateOfBirth:value
-    })
-    console.log(form)
+      DateOfBirth: value,
+    });
   };
 
   const handleSelfIntro = (text) => {
-    if (text.length <= 5) {
+    if (text.length <= 10) {
       setSelfIntroValid(true);
     } else setSelfIntroValid(false);
   };
 
   const handleFullName = (value) => {
-    if (value.length <= 5) {
+    if (value.length <= 10) {
       setIsNameValid(true);
     } else setIsNameValid(false);
     setForm({
       ...form,
       fullName: value,
     });
-    // console.log(value)
-
   };
 
-
   return (
-
     <div className="form-personal-info">
       <div className="heading">
         <img
@@ -106,14 +194,14 @@ const PersonalInfoForm = (props) => {
             <span>Họ và tên</span>
           </div>
           <input
-            onChange={(e)=>handleFullName(e.target.value)}
+            onChange={(e) => handleFullName(e.target.value)}
             className={
               isNameValid ? "full-name-input" : "full-name-input-invalid"
             }
             type="text"
           />
           <span className={isNameValid ? "hide-warning" : "invalid-warning"}>
-            Số kí tối đa là 5
+            Số kí tối đa là 10
           </span>
         </div>
         <div className="form-input form-date-of-birth">
@@ -122,7 +210,7 @@ const PersonalInfoForm = (props) => {
             <span>Ngày sinh</span>
           </div>
           <input
-            onChange={(e)=>handleDateOfBirth(e.target.value)}
+            onChange={(e) => handleDateOfBirth(e.target.value)}
             type="date"
             className={
               isDateOfBirthValid
@@ -136,11 +224,36 @@ const PersonalInfoForm = (props) => {
             Ngày sinh không hợp lệ
           </span>
         </div>
-        <div className="form-input form-city">
+        <div ref={searchRef} className="form-input form-city">
           <div className="label-input">
             <span>Thành phố</span>
           </div>
-          <select className="select-city-input" type="text" />
+          <input
+            onChange={(e) => searchCities(e.target.value)}
+            className="select-city-input"
+            type="text"
+            onFocus={handleFocusInputSearch}
+          />
+          {isShowCitiesSearch && (
+            <div className="city-option-wrap">
+              {/* {console.log(cities)  }  */}
+              {cities.length > 0 ? (
+                cities.map((city) => {
+                  return (
+                    <div
+                      onClick={() => handleClickOptionCities(city.code)}
+                      className="city-option"
+                      key={city.code}
+                    >
+                      {city.name}
+                    </div>
+                  );
+                })
+              ) : (
+                <div>Data empty</div>
+              )}
+            </div>
+          )}
         </div>
         <div className="form-input form-job-position">
           <div className="label-input-job">
@@ -163,12 +276,17 @@ const PersonalInfoForm = (props) => {
           <span
             className={isSelfIntroValid ? "hide-warning" : "invalid-warning"}
           >
-            Số ký tự không vượt quá 5
+            Số ký tự không vượt quá 10
           </span>
         </div>
         <span className="text-per-type">0/1000</span>
         <div className="form-personal-image-label">Ảnh cá nhân</div>
-        <div className=" form-personal-image">
+
+        <div
+          className={
+            isAvatarChosen ? "form-personal-image-hide" : "form-personal-image"
+          }
+        >
           <div className="drag-and-drop-label">
             <span className="image-drag-drop">
               <img
@@ -181,8 +299,23 @@ const PersonalInfoForm = (props) => {
             <span>Drag and drop files</span>
             <span>Browse Files</span>
           </div>
-          <input className="full-name-input" type="file" />
+          <input
+            onChange={handleAddAvatar}
+            className="drag-and-drop-input  "
+            type="file"
+          />
         </div>
+        <div className="avatar-container"></div>
+        {isAvatarChosen && fileType === "image/jpeg" ? (
+          <div className="input-avatar-container">
+            <img className="avatar" alt="" src={file} />
+            <input
+              type="file"
+              className="another-img-input"
+              onChange={handleAddAnotherAvatar}
+            />
+          </div>
+        ) : null}
       </div>
 
       <button onClick={nextStep} className="next-button">

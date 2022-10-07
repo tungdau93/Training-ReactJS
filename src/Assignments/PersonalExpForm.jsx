@@ -1,14 +1,77 @@
 import "../style/_bai-tap-4-personal-exp.scss";
-import {useState} from "react";
+import { useState, useRef } from "react";
+import useClickOutside from "../hooks/useClickOutside";
+
 
 const PersonalExpForm = (props) => {
+  const searchRef = useRef();
   const [isJobpositionValid, setIsJobPositionValid] = useState(true);
+  const [isShowCompaniesSearch, setIsShowCompaiesSearch] = useState(false);
+  const [companiesTag, setCompaniesTag] = useState([])
+
   const { nextStep, prevStep } = props;
+
+  useClickOutside(searchRef, () => setIsShowCompaiesSearch(false));
+
+
+  const searchCompanies = (text) => {
+    if (text) {
+      setIsShowCompaiesSearch(true);
+      console.log(text);
+    } else setIsShowCompaiesSearch(false);
+  };
+
+  const handleClickOptionCompany =(code)=>{
+    const selectedCompany = companies.find((company)=>company.code ===code)
+    // console.log(selectedCompany)
+    const newCompaniesTag =[...companiesTag];
+    newCompaniesTag.push(selectedCompany);
+    console.log(newCompaniesTag)
+
+  }
+
+ 
+
+  const companies = [
+    {
+      name: "Walmart",
+      code: 1,
+    },
+    {
+      name: "Amazon",
+      code: 2,
+    },
+    {
+      name: "Apple",
+      code: 3,
+    },
+    {
+      name: "CVS Health",
+      code: 4,
+    },
+    {
+      name: "UnitedHealth Group",
+      code: 5,
+    },
+    {
+      name: "Alphabet",
+      code: 6,
+    },
+    {
+      name: "Berkershire",
+      code: 7,
+    },
+
+    {
+      name: "Mckesson",
+      code: 8,
+    },
+  ];
 
   const handleJobPosition = (e) => {
     if (e.target.value <= 5) {
       setIsJobPositionValid(true);
-    } else setIsJobPositionValid(false);  
+    } else setIsJobPositionValid(false);
   };
 
   return (
@@ -58,7 +121,28 @@ const PersonalExpForm = (props) => {
       </div>
       <div className="body">
         <div className="form-company-container">
-          <select className="select-city-input" type="text" />
+          <div className="company-input-wrap">
+            <input
+              onChange={(e)=>searchCompanies(e.target.value)}
+              className="company-input"
+              type="text"
+            />
+          {isShowCompaniesSearch && (           
+            <div ref={searchRef} className="company-option-wrap">
+              {companies.map((company) => {
+                return (
+                  <div
+                  onClick={(e)=>handleClickOptionCompany(company.code)}
+                    // onClick={() => }
+                    className="company-option"
+                    key={company.code}
+                  >
+                    {company.name}
+                  </div>
+                );
+              })}
+            </div>)}
+          </div>
           <img
             className="trash"
             src={require("../assets/images/Trash.png")}
@@ -87,7 +171,11 @@ const PersonalExpForm = (props) => {
           <div className="label-input">
             <span> Mô tả về công việc</span>
           </div>
-          <input onChange={handleJobPosition} className="work-introduction" type="text" />
+          <input
+            onChange={handleJobPosition}
+            className="work-introduction"
+            type="text"
+          />
         </div>
       </div>
       <div className="add-company">

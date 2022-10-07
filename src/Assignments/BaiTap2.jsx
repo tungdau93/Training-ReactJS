@@ -20,7 +20,7 @@ const BaiTap2 = () => {
 
     const newCitiesTag = [...citiesTag];
     if (citiesTag.length < 2) {
-      newCitiesTag.push(citySelected);
+      newCitiesTag.push(citySelected);  
       setCitiesTag([...newCitiesTag]);
     } else alert("No more than 2 cities selected");
   };

@@ -1,13 +1,14 @@
 import "../style/_bai-tap-4-about-company.scss";
+// import { useState } from "react";
 
 
-const AboutCompany =(props)=>{  
-  const {prevStep
-  } = props;
 
+  const AboutCompany = (props) => {
+    const { prevStep } = props;
   
-  return(
-    <div className= "form-about-company">
+
+  return (
+    <div className="form-about-company">
       <div className="heading">
         <img
           className="line-progress"
@@ -24,9 +25,7 @@ const AboutCompany =(props)=>{
                 src={require("../assets/images/step1-active.png")}
               />
             </div>
-            <div className="step-name">
-              Thông tin cá nhân
-            </div>
+            <div className="step-name">Thông tin cá nhân</div>
             <div></div>
           </div>
           <div className="heading-step__second-step">
@@ -37,9 +36,7 @@ const AboutCompany =(props)=>{
                 src={require("../assets/images/step2-active.png")}
               />
             </div>
-            <div className="step-name">
-            Kinh nghiệm làm việc
-            </div>
+            <div className="step-name">Kinh nghiệm làm việc</div>
           </div>
 
           <div className="heading-step__third-step">
@@ -72,12 +69,13 @@ const AboutCompany =(props)=>{
           </div>
           <input className="form-input expected-salary-input" type="text" />
         </div>
-      </div>    
+      </div>
       <button className="finish">Hoàn thành</button>
-      <button onClick={prevStep} className="prev-button" >Quay lại</button> 
+      <button onClick={prevStep} className="prev-button">
+        Quay lại
+      </button>
     </div>
-  )
-    
-}
+  );
+};
 
 export default AboutCompany;

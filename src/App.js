@@ -10,7 +10,7 @@ import BaiTap4 from "./Assignments/BaiTap4";
 
 function App() {
   return (
-    <StrictMode>
+    <>
     <BrowserRouter>
       <Menu />
       <Routes>
@@ -20,7 +20,7 @@ function App() {
         <Route path="/bai-tap-4" element={<BaiTap4/>} />
       </Routes>
     </BrowserRouter>
-    </StrictMode>
+    </>
   );
 }
 

@@ -1,0 +1,17 @@
+
+
+    .company-option-wrap {
+      width: 99.2%;
+      display: block;
+      max-height: 100px;
+      overflow: auto;
+      background-color: #f8f8f8;
+      .company-option{
+        padding:10px;
+        border:1px solid $border-input-color;
+        cursor: pointer;
+        &:hover{
+          background-color: #627d98;
+        }
+      }
+    }
