@@ -8,31 +8,7 @@ const PersonalExpForm = (props) => {
   const [isJobpositionValid, setIsJobPositionValid] = useState(true);
   const [isShowCompaniesSearch, setIsShowCompaiesSearch] = useState(false);
   const [companiesTag, setCompaniesTag] = useState([])
-
-  const { nextStep, prevStep } = props;
-
-  useClickOutside(searchRef, () => setIsShowCompaiesSearch(false));
-
-
-  const searchCompanies = (text) => {
-    if (text) {
-      setIsShowCompaiesSearch(true);
-      console.log(text);
-    } else setIsShowCompaiesSearch(false);
-  };
-
-  const handleClickOptionCompany =(code)=>{
-    const selectedCompany = companies.find((company)=>company.code ===code)
-    // console.log(selectedCompany)
-    const newCompaniesTag =[...companiesTag];
-    newCompaniesTag.push(selectedCompany);
-    console.log(newCompaniesTag)
-
-  }
-
- 
-
-  const companies = [
+  const [companies, setCompanies] = useState([
     {
       name: "Walmart",
       code: 1,
@@ -66,7 +42,32 @@ const PersonalExpForm = (props) => {
       name: "Mckesson",
       code: 8,
     },
-  ];
+  ])
+
+  const { nextStep, prevStep } = props;
+
+  useClickOutside(searchRef, () => setIsShowCompaiesSearch(false));
+
+
+  const searchCompanies = (text) => {
+    if (text) {
+      setIsShowCompaiesSearch(true);
+      console.log(text);
+    } else setIsShowCompaiesSearch(false);
+  };
+
+  const handleClickOptionCompany =(code)=>{
+    const selectedCompany = companies.find((company)=>company.code ===code)
+    // console.log(selectedCompany)
+    const newCompaniesTag =[...companiesTag];
+    newCompaniesTag.push(selectedCompany);
+    console.log(newCompaniesTag)
+
+  }
+
+ 
+
+  
 
   const handleJobPosition = (e) => {
     if (e.target.value <= 5) {

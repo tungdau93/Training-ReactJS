@@ -119,9 +119,8 @@ $border-input-color-invalid: #ed5d5d;
 
       .cities-tag-content{
         display:flex;
-        align-items: center;
         position: absolute;
-        top: 37px;
+        top: 33px;
         left: 30px;
         min-width: 50px;
         border:2px solid #dcdcdc;
@@ -143,6 +142,41 @@ $border-input-color-invalid: #ed5d5d;
         }
 
       }
+
+      .jobs-tag{
+        overflow: hidden;
+        left:25px;
+        top:-35px;
+        display: flex;
+        position: relative;
+        
+        .jobs-tag-content{
+          margin-left: 5px;
+          display:flex;
+          top: 33px;
+          left: 30px;
+          min-width: 50px;
+          border:2px solid #dcdcdc;
+            border-radius: 2px;
+            background:#dcdcdc;
+            cursor: pointer;
+            align-items: center;
+            justify-content: space-between;
+          
+            .jobs-tag-name{
+              margin:1px;
+            }
+          
+          .close-img{
+            height:15px;
+            width:15px;
+            margin:5px;
+            
+          }
+  
+        }
+      }
+
 
       
 
@@ -265,6 +299,7 @@ $border-input-color-invalid: #ed5d5d;
       
       
       .job-position-input {
+        overflow: auto;
         outline: none;
         width: 94.5%;
         display: flex;
