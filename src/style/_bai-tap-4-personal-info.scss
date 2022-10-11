@@ -1,3 +1,5 @@
+
+
 @import "mixins-personal-info";
 $white-color: #ffffff;
 $border-input-color: #dcdcdc;
@@ -218,6 +220,12 @@ $border-input-color-invalid: #ed5d5d;
       }
       .invalid-warning {
         margin-top: 5px;
+        font-size: 13px;
+        color: $border-input-color-invalid;
+      }
+
+      .invalid-warning-self-intro {
+        margin-top: -5px;
         font-size: 13px;
         color: $border-input-color-invalid;
       }

@@ -6,9 +6,11 @@ import useClickOutside from "../hooks/useClickOutside";
 const PersonalExpForm = (props) => {
   const searchRef = useRef();
   const [isJobpositionValid, setIsJobPositionValid] = useState(true);
-  const [isShowCompaniesSearch, setIsShowCompaiesSearch] = useState(false);
+  const [isShowCompaniesSearch, setIsShowCompaniesSearch] = useState(false);
   const [companiesTag, setCompaniesTag] = useState([])
-  const [companies, setCompanies] = useState([
+  const [companiesSearch, setCompaniesSearch] = useState([])
+
+  const companies =[
     {
       name: "Walmart",
       code: 1,
@@ -42,32 +44,44 @@ const PersonalExpForm = (props) => {
       name: "Mckesson",
       code: 8,
     },
-  ])
+  ]
+
+  const filterCompany= (text) => {
+    const regex = new RegExp(`${text}`, "gi");
+    return companies.filter((company) => company.name.match(regex));
+  };
 
   const { nextStep, prevStep } = props;
 
-  useClickOutside(searchRef, () => setIsShowCompaiesSearch(false));
+  useClickOutside(searchRef, () => setIsShowCompaniesSearch(false));
 
 
   const searchCompanies = (text) => {
+
     if (text) {
-      setIsShowCompaiesSearch(true);
-      console.log(text);
-    } else setIsShowCompaiesSearch(false);
+      setIsShowCompaniesSearch(true);
+      const companySearch = filterCompany(text)
+      setCompaniesSearch(companySearch)
+    }
+    
+  
+
   };
 
-  const handleClickOptionCompany =(code)=>{
-    const selectedCompany = companies.find((company)=>company.code ===code)
-    // console.log(selectedCompany)
-    const newCompaniesTag =[...companiesTag];
-    newCompaniesTag.push(selectedCompany);
-    console.log(newCompaniesTag)
-
+  const handleFocusCompanyInput = () => {
+    setIsShowCompaniesSearch(true)
+    setCompaniesSearch(companies)
   }
 
- 
-
-  
+  const handleClickOptionCompany =(code)=>{
+    const selectedCompany = companiesSearch.find((companySearch)=>companySearch.code ===code)
+    const newCompaniesSearch = companiesSearch.filter((companySearch)=>companySearch.code !==code)
+    const newCompaniesTag =[...companiesTag];
+    newCompaniesTag.push(selectedCompany);
+    setCompaniesTag(newCompaniesTag)
+    setCompaniesSearch(newCompaniesSearch)
+    
+  }
 
   const handleJobPosition = (e) => {
     if (e.target.value <= 5) {
@@ -127,18 +141,19 @@ const PersonalExpForm = (props) => {
               onChange={(e)=>searchCompanies(e.target.value)}
               className="company-input"
               type="text"
+              onFocus={handleFocusCompanyInput}
             />
           {isShowCompaniesSearch && (           
             <div ref={searchRef} className="company-option-wrap">
-              {companies.map((company) => {
+              {companiesSearch.map((companySearch) => {
                 return (
                   <div
-                  onClick={(e)=>handleClickOptionCompany(company.code)}
+                  onClick={(e)=>handleClickOptionCompany(companySearch.code)}
                     // onClick={() => }
                     className="company-option"
-                    key={company.code}
+                    key={companySearch.code}
                   >
-                    {company.name}
+                    {companySearch.name}
                   </div>
                 );
               })}
@@ -149,6 +164,17 @@ const PersonalExpForm = (props) => {
             src={require("../assets/images/Trash.png")}
             alt=""
           />
+          {
+            companiesTag && companiesTag.map((companyTag) => { 
+              return(<div className="companies-tag-content">
+
+                <div key={companyTag.code} className="company-tag">
+                  {companyTag.name}
+                </div>
+              </div>
+              )
+          })}
+
         </div>
         <div className="form-input form-all-position">
           <div className="label-input">

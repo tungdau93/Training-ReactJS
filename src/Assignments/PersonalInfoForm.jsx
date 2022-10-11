@@ -4,11 +4,27 @@ import useClickOutside from "../hooks/useClickOutside";
 import React from "react";
 
 const PersonalInfoForm = (props) => {
+  const { nextStep } = props;
+
+  const initialStateForm = {
+    fullName: {
+      status: false,
+      messageError: "aaa",
+    },
+    dob: {
+      status: false,
+      messageError: "",
+    },
+    selfIntro: {
+      status: false,
+      messageError: "",
+    },
+  };
+
+  const [isValidateSuccess, setIsValidateSuccess] = useState(false);
   const searchRef = useRef();
   const [form, setForm] = useState({});
-  const [isSelfIntroValid, setSelfIntroValid] = useState(true);
-  const [isNameValid, setIsNameValid] = useState(true);
-  const [isDateOfBirthValid, setIsDateOfBirthValid] = useState(true);
+  const [formValidate, setFormValidate] = useState(initialStateForm);
   const [cities, setCities] = useState([]);
   const [citiesTag, setCitiesTag] = useState([]);
   const [isShowCitiesTag, setIsShowCitiesTag] = useState(false);
@@ -21,9 +37,8 @@ const PersonalInfoForm = (props) => {
   const [isJobSearchActive, setIsJobSearchActive] = useState(false);
   const [jobTags, setJobTags] = useState([]);
   const [isShowJobsTag, setIsShowJobsTag] = useState(false);
-  const [text, setText] = useState(0);
-  const [isDateOfBirthRequired, setIsDateOfBirthRequired] = useState(false);
-  const [jobPosition, setJobPosition] = useState([
+
+  const jobPosition = [
     {
       code: 1,
       name: "Java Developer",
@@ -52,7 +67,7 @@ const PersonalInfoForm = (props) => {
       code: 7,
       name: "Reactjs Developer",
     },
-  ]);
+  ];
 
   const [isNameRequired, setIsNameRequired] = useState(false);
 
@@ -62,12 +77,7 @@ const PersonalInfoForm = (props) => {
     setIsJobSearchActive(false);
   });
 
-  // console.log(form)
-
-  // const validateInfoForm = () => {
-  //   // let formInfo = [...form]
-  //   console.log(formInfo);
-  // }
+  console.log(form);
 
   const handleCLickJobs = (codeJob) => {
     const jobChosen = findJobs(codeJob);
@@ -81,8 +91,6 @@ const PersonalInfoForm = (props) => {
     } else alert("No more than 3 jobs selected");
   };
 
-  const { nextStep } = props;
-  
   const handleCloseCities = (codeCity) => {
     const citySelectedTag = citiesTag.find((city) => city.code === codeCity);
     setIsShowCitiesTag(false);
@@ -118,7 +126,6 @@ const PersonalInfoForm = (props) => {
     setCitiesTag(newCitiesTag);
     setIsShowCitiesTag(true);
     setIsCitiesSearchActive(false);
-    
   };
 
   const findCity = (code) => {
@@ -148,57 +155,8 @@ const PersonalInfoForm = (props) => {
   };
 
   const validateForm = () => {
-    const dateOfBirth = form.DateOfBirth;
-    const fullName = form.fullName;
-
-    let textLength = text.length;
-    if (textLength <= 10) {
-      setSelfIntroValid(true);
-    } else {
-      setSelfIntroValid(false);
-      textLength = 10;
-    }
-
-    if (!fullName) {
-      setIsNameRequired(true);
-      // console.log("ho ten hop le")
-    } else if (form.fullname && fullName.length <= 10 && fullName.length > 0)
-      {setIsNameValid(true);}
-    else if (fullName.length > 10) {
-      setIsNameValid(false);
-      setIsNameRequired(false);
-    }
-
-    const today = new Date();
-    const dd = today.getDate();
-    const mm = today.getMonth() + 1;
-    const yyyy = today.getFullYear();
-    debugger;
-
-    if (!dateOfBirth) {
-      // console.log("Please select)
-      setIsDateOfBirthRequired(true);
-      // setIsDateOfBirthValid(true);
-
-    } else if (dateOfBirth) {
-      const selectedYYYY = Number(dateOfBirth.slice(0, 4));
-      const selectedMM = Number(dateOfBirth.slice(5, 7));
-      const selectedDD = Number(dateOfBirth.slice(8, 10));
-      console.log(selectedDD);
-      if (
-        (selectedYYYY === yyyy && selectedMM === mm && selectedDD <= dd) 
-       
-      )
-       {
-        setIsDateOfBirthValid(true);}
-       else{
-         setIsDateOfBirthValid(false);
-
-       } 
-    } 
-
-    if (dateOfBirth && fullName && isDateOfBirthValid && isNameValid) {
-      nextStep()
+    if (isValidateSuccess) {
+      nextStep();
     }
   };
 
@@ -225,30 +183,128 @@ const PersonalInfoForm = (props) => {
       });
   }, []);
 
- 
-
   const handleDateOfBirth = (value) => {
-    setForm({
-      ...form,
-      DateOfBirth: value,
-    });
+    const today = new Date();
+    const dd = today.getDate();
+    const mm = today.getMonth() + 1;
+    const yyyy = today.getFullYear();
+    const selectedYYYY = Number(value.slice(0, 4));
+    const selectedMM = Number(value.slice(5, 7));
+    const selectedDD = Number(value.slice(8, 10));
+
+    if (!value) {
+      setIsValidateSuccess(false);
+      setFormValidate({
+        ...formValidate,
+        dob: {
+          status: true,
+          messageError: "Trường này là bắt buộc",
+        },
+      });
+    } else {
+      if (selectedYYYY === yyyy && selectedMM === mm && selectedDD <= dd) {
+        setIsValidateSuccess(true);
+        setFormValidate({
+          ...formValidate,
+          dob: {
+            status: false,
+            messageError: "",
+          },
+        });
+        setForm({
+          ...form,
+          DateOfBirth: value,
+        });
+      } else {
+        setIsValidateSuccess(false);
+        setFormValidate({
+          ...formValidate,
+          dob: {
+            status: true,
+            messageError: "Ngày sinh không hợp lệ",
+          },
+        });
+      }
+    }
   };
 
-  const handleSelfIntro = (text) => {
-   
+  const handleSelfIntro = (textIntro) => {
+    if (!textIntro) {
+      setIsValidateSuccess(false);
+      setFormValidate({
+        ...formValidate,
+        selfIntro: {
+          status: true,
+          messageError: "Trường này là bắt buộc",
+        },
+      });
+    } else {
+      if (textIntro.length <= 10) {
+        setIsValidateSuccess(true);
 
-    setText(text.length);
-    setForm({
-      ...form,
-      selfIntro: text,
-    });
+        setFormValidate({
+          ...formValidate,
+          selfIntro: {
+            status: false,
+            messageError: "",
+          },
+        });
+
+        setForm({
+          ...form,
+          selfIntro: textIntro,
+        });
+      } else {
+        setIsValidateSuccess(false);
+        setFormValidate({
+          ...formValidate,
+          selfIntro: {
+            status: true,
+            messageError: "Không vượt quá 10 ký tự",
+          },
+        });
+      }
+    }
   };
 
-  const handleFullName = (value) => {
-    setForm({
-      ...form,
-      fullName: value,
-    });
+  const handleFullName = (text) => {
+    if (!text) {
+      setIsValidateSuccess(false);
+
+      setFormValidate({
+        ...formValidate,
+        fullName: {
+          status: true,
+          messageError: "Trường này là bắt buộc",
+        },
+      });
+    } else {
+      if (text.length < 10) {
+        setIsValidateSuccess(true);
+        setFormValidate({
+          ...formValidate,
+          fullName: {
+            status: false,
+            messageError: "",
+          },
+        });
+
+        setForm({
+          ...form,
+          fullName: text,
+        });
+      } else {
+        setIsValidateSuccess(false);
+
+        setFormValidate({
+          ...formValidate,
+          fullName: {
+            status: true,
+            messageError: "Không vượt quá 10 ký tự",
+          },
+        });
+      }
+    }
   };
 
   return (
@@ -304,17 +360,14 @@ const PersonalInfoForm = (props) => {
           </div>
           <input
             onChange={(e) => handleFullName(e.target.value)}
-            className={
-              isNameValid || isNameRequired ? "full-name-input" : "full-name-input-invalid"
-            }
+            className="full-name-input"
             type="text"
           />
-          <span className={isNameValid  ? "hide-warning" : "invalid-warning"}>
-            Số kí tối đa là 10
-          </span>
-          <span className={isNameRequired ? "invalid-warning" : "hide-warning"}>
-            Trường này là bắt buộc
-          </span>
+          {formValidate.fullName["status"] && (
+            <span className="invalid-warning">
+              {formValidate.fullName["messageError"]}
+            </span>
+          )}
         </div>
         <div className="form-input form-date-of-birth">
           <div className="label-input">
@@ -324,24 +377,13 @@ const PersonalInfoForm = (props) => {
           <input
             onChange={(e) => handleDateOfBirth(e.target.value)}
             type="date"
-            className={
-              isDateOfBirthValid
-                ? "date-of-birth-input"
-                : "date-of-birth-input-invalid"
-            }
+            className="date-of-birth-input"
           />
-          <span
-            className={isDateOfBirthValid ? "hide-warning" : "invalid-warning"}
-          >
-            Ngày sinh không hợp lệ
-          </span>
-          <span
-            className={
-              isDateOfBirthRequired ? "invalid-warning" : "hide-warning"
-            }
-          >
-            Trường này là bắt buộc
-          </span>
+          {formValidate.dob.status && (
+            <span className="invalid-warning">
+              {formValidate.dob["messageError"]}
+            </span>
+          )}
         </div>
         <div className="form-input form-city">
           <div className="label-input">
@@ -456,13 +498,15 @@ const PersonalInfoForm = (props) => {
             className="self-introduction"
             type="text"
           />
-          <span
-            className={isSelfIntroValid ? "hide-warning" : "invalid-warning"}
-          >
-            Số ký tự không vượt quá 10
+          <span className="text-per-type">
+            {form.selfIntro?.length || 0}/10
           </span>
+          {formValidate.selfIntro["status"] && (
+            <div className="invalid-warning-self-intro">
+              {formValidate.selfIntro["messageError"]}
+            </div>
+          )}
         </div>
-        <span className="text-per-type">{text}/10</span>
         <div className="form-personal-image-label">Ảnh cá nhân</div>
 
         <div className="form-personal-image">

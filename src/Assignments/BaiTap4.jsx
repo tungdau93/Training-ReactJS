@@ -20,7 +20,8 @@ const BaiTap4 = () => {
     <>
       {stepForm === 1 ? (
         <PersonalInfoForm nextStep={nextStep} prevStep={prevStep} />
-      ) : stepForm === 2 ? (
+      ) : 
+      stepForm === 2 ? (
         <PersonalExpForm nextStep={nextStep} prevStep={prevStep} />
       ) : (
         <AboutCompany
