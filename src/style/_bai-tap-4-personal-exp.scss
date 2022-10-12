@@ -1,6 +1,8 @@
 @import "mixins-personal-exp";
 $white-color: #ffffff;
 $border-input-color: #dcdcdc;
+$border-input-color-invalid: #ed5d5d;
+
 
 .form-personal-exp {
   width: 70%;
@@ -103,11 +105,10 @@ $border-input-color: #dcdcdc;
     justify-content: space-between;
     align-items: center;
 
-    .company-tag{
-      
+    .company-tag {
     }
 
-    .company-input-wrap{
+    .company-input-wrap {
       display: flex;
       flex-direction: column;
       width: 100%;
@@ -125,10 +126,10 @@ $border-input-color: #dcdcdc;
         background-repeat: no-repeat;
         background-position: 3px;
         &:focus {
-            outline: none !important;
-          }
+          outline: none !important;
+        }
       }
-      .company-option-wrap{
+      .company-option-wrap {
         width: 86%;
         z-index: 1;
         margin-top: 52px;
@@ -137,31 +138,64 @@ $border-input-color: #dcdcdc;
         max-height: 100px;
         overflow: auto;
         background-color: #f8f8f8;
-        .company-option{
-          padding:10px;
-          border:1px solid $border-input-color;
+        .company-option {
+          padding: 10px;
+          border: 1px solid $border-input-color;
           cursor: pointer;
-          &:hover{
+          &:hover {
             background-color: #627d98;
           }
         }
 
-        .company-search-option{
-          padding:10px;
-          border:1px solid $border-input-color;
+        .company-search-option {
+          padding: 10px;
+          border: 1px solid $border-input-color;
           cursor: pointer;
-          &:hover{
+          &:hover {
             background-color: #627d98;
           }
         }
       }
     }
-    
-    
+
+    .companies-tag-wrap {
+      overflow: auto;
+
+      width: 439px;
+      position: absolute;
+      top: 12px;
+      left: 30px;
+      display: flex;
+      .companies-tag-content {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin: 10px;
+        padding: 5px;
+        min-width: 100px;
+        height: 20px;
+        display: flex;
+        justify-content: space-between;
+        border: 2px solid #dcdcdc;
+        border-radius: 2px;
+        background: #dcdcdc;
+        .close{
+          padding: 1px;
+          cursor: pointer;
+        }
+      }
+    }
+
     .trash {
       margin-right: -5px;
     }
   }
+  .invalid-warning {
+    margin-top: 5px;
+    font-size: 13px;
+    color: $border-input-color-invalid;
+  }
+
 
   .form-input {
     @include form_input;

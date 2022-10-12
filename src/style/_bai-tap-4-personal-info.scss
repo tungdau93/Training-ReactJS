@@ -1,5 +1,3 @@
-
-
 @import "mixins-personal-info";
 $white-color: #ffffff;
 $border-input-color: #dcdcdc;
@@ -13,7 +11,7 @@ $border-input-color-invalid: #ed5d5d;
   display: none;
 }
 
-.hide-tag{
+.hide-tag {
   display: none;
 }
 
@@ -106,6 +104,23 @@ $border-input-color-invalid: #ed5d5d;
 
     .form-input {
       position: relative;
+      .cities-option-wrap {
+        width: 100%;
+        z-index: 2;
+        margin-top: 71px;
+        position: absolute;
+        max-height: 100px;
+        overflow: auto;
+        background-color: #f8f8f8;
+        .city-option {
+          padding: 10px;
+          border: 1px solid $border-input-color;
+          cursor: pointer;
+          &:hover {
+            background-color: #627d98;
+          }
+        }
+      }
       @include form-input;
       .label-input {
         display: flex;
@@ -119,68 +134,61 @@ $border-input-color-invalid: #ed5d5d;
         }
       }
 
-      .cities-tag-content{
-        display:flex;
+      .cities-tag-content {
+        display: flex;
         position: absolute;
         top: 33px;
         left: 30px;
         min-width: 50px;
-        border:2px solid #dcdcdc;
-          border-radius: 2px;
-          background:#dcdcdc;
-          cursor: pointer;
-          align-items: center;
-          justify-content: space-between;
-        
-          .cities-tag-name{
-            margin:1px;
-          }
-        
-        .close-img{
-          height:15px;
-          width:15px;
-          margin:5px;
-          
+        border: 2px solid #dcdcdc;
+        border-radius: 2px;
+        background: #dcdcdc;
+        cursor: pointer;
+        align-items: center;
+        justify-content: space-between;
+
+        .cities-tag-name {
+          margin: 1px;
         }
 
+        .close-img {
+          height: 15px;
+          width: 15px;
+          margin: 5px;
+        }
       }
 
-      .jobs-tag{
+      .jobs-tag {
         overflow: hidden;
-        left:25px;
-        top:-35px;
+        left: 25px;
+        top: -35px;
         display: flex;
         position: relative;
-        
-        .jobs-tag-content{
+
+        .jobs-tag-content {
           margin-left: 5px;
-          display:flex;
+          display: flex;
           top: 33px;
           left: 30px;
           min-width: 50px;
-          border:2px solid #dcdcdc;
-            border-radius: 2px;
-            background:#dcdcdc;
-            cursor: pointer;
-            align-items: center;
-            justify-content: space-between;
-          
-            .jobs-tag-name{
-              margin:1px;
-            }
-          
-          .close-img{
-            height:15px;
-            width:15px;
-            margin:5px;
-            
+          border: 2px solid #dcdcdc;
+          border-radius: 2px;
+          background: #dcdcdc;
+          cursor: pointer;
+          align-items: center;
+          justify-content: space-between;
+
+          .jobs-tag-name {
+            margin: 1px;
           }
-  
+
+          .close-img {
+            height: 15px;
+            width: 15px;
+            margin: 5px;
+          }
         }
       }
-
-
-      
 
       .label-input-job {
         display: flex;
@@ -233,7 +241,7 @@ $border-input-color-invalid: #ed5d5d;
         outline: none;
         cursor: pointer;
         margin-top: 8px;
-        width: 19.7%;
+        width: 20%;
         height: 20px;
         padding: 10px;
 
@@ -241,15 +249,19 @@ $border-input-color-invalid: #ed5d5d;
         border: 1px solid $border-input-color;
         border-radius: 4px;
         &::-webkit-calendar-picker-indicator {
-          background: url(../assets/images/date-img.png);
+          background: url(../assets/images/date.png);
           cursor: pointer;
-          
+          display: block;
+          height: 40px;
+          width: 40px;
+          background-repeat: no-repeat;
+          background-position: 25px;
         }
       }
 
       .date-of-birth-input-invalid {
         margin-top: 8px;
-        width: 19.7%;
+        width: 20%;
         height: 20px;
         padding: 10px;
         border: 1px solid $border-input-color-invalid;
@@ -267,8 +279,7 @@ $border-input-color-invalid: #ed5d5d;
         }
       }
 
-      .select-city-input {
-        width: 94.5%;
+      .select-position-input {
         display: flex;
         align-items: center;
         padding: 10px 10px 10px 30px;
@@ -285,67 +296,59 @@ $border-input-color-invalid: #ed5d5d;
           outline: none !important;
         }
       }
-      .city-option-wrap {
-        width: 100%;
-        z-index: 2;
-        margin-top: 72px;
-        position: absolute;
-        display: block;
-        max-height: 100px;
-        overflow: auto;
-        background-color: #f8f8f8;
-        .city-option{
-          padding:10px;
-          border:1px solid $border-input-color;
-          cursor: pointer;
-          &:hover{
-            background-color: #627d98;
-          }
-        }
-      }
 
-      
-      
-      .job-position-input {
-        overflow: auto;
-        outline: none;
-        width: 94.5%;
-        display: flex;
-        align-items: center;
-        padding: 10px 10px 10px 30px;
-        margin-top: 8px;
-        height: 20px;
-        background: $white-color;
-        border: 1px solid $border-input-color;
-        border-radius: 4px;
-        background-image: url(../assets/images/search.png);
-        background-repeat: no-repeat;
-        background-position: 3px;
-      }
       .job-option-wrap {
         width: 100%;
         z-index: 1;
-        margin-top: 97px;
+        margin-top: 93 px;
         position: absolute;
         display: block;
         max-height: 100px;
         overflow: auto;
         background-color: #f8f8f8;
         // background-color: yellow;
-        .job-option{
-          padding:10px;
-          border:1px solid $border-input-color;
+        .job-option {
+          padding: 10px;
+          border: 1px solid $border-input-color;
           cursor: pointer;
-          &:hover{
+          &:hover {
             background-color: #627d98;
           }
         }
       }
+
+      .select-city-input {
+        display: flex;
+        align-items: center;
+        padding: 10px 10px 10px 30px;
+        margin-top: 8px;
+        height: 20px;
+        background: $white-color;
+        outline: none;
+        border: 1px solid $border-input-color;
+        border-radius: 4px;
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAF+SURBVHgB7VTLbcJAEB1bBq4pgQ6gg4QKIBUEjohD6CCmAsIB+XOxqSCkgqQEp4PQQc7+5r1kLSUottco3HjSyOvdmXn27LwRuaABRt2h4zg3hmFMYGO89tV2VBQFbTWfz9/lFIIgCK7iOH7Acgrb5Hkelsm22+3QNE0az/fdbnc1m80+tAmYPEmSF3zhG4KXVcHKz8byutPpjOpIfsHzvLXruo+iCfiHjKk6N3++oOZ9PCa9Xs8WTfAv8ZjyvhoJUFcb9V5p/y5AX8Rs2AyNBHAawDmS9ghVp9UDtSzkRFTFmnJmHBMc1EW3gu/7QzyiRgL0/l6+xdUKWZYNqW4tAnTSPUUkmqAvVc3R0UiAcfCKbthBoWvRBEcKkj9XzSXreAOytzkqqM66OaNGxRrJp7CRVMCoCbYROKbwqI3FYvFVYzYBSnKH5RLnO1XWIE3T29KnkaCESmZjyS4ZqO0Dk9JYUm5wwlqW9fQXSS1BG1SR/JvQmJTJcYeBXNAGn7G/3wDUfE4/AAAAAElFTkSuQmCC);
+        background-repeat: no-repeat;
+        background-position: 3px;
+      }
+
+      .drop-down-icon {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        right: 10px;
+        top: 55%;
+        cursor: pointer;
+        // background-color: red;
+      }
       .self-introduction {
+        resize: none;
+        // width: 40px;
         outline: none;
         padding: 10px;
         padding-bottom: 100px;
         margin-top: 8px;
+        height: 100px;
 
         background: $white-color;
         border: 1px solid $border-input-color;
@@ -354,12 +357,15 @@ $border-input-color-invalid: #ed5d5d;
     }
     .text-per-type {
       opacity: 0.5;
-      margin-bottom: 10px;
+      margin: 10px 0px 0px;
     }
     .form-personal-image-label {
       margin-top: 10px;
     }
+
     .form-personal-image {
+      margin-right: 50%;
+      transform: scale(0.5, 1);
       background-color: #f8f8f8;
       display: flex;
       justify-content: center;
@@ -388,13 +394,33 @@ $border-input-color-invalid: #ed5d5d;
           margin: auto;
         }
       }
-      .hide-drag-and-drop-label{
+      .hide-drag-and-drop-label {
         display: none;
       }
-      .image-selected{
-        position: absolute;
-        // justify-content:center;
-        height:100%;
+
+      .image-selected-container {
+        position: relative;
+        margin-left: 300%;
+
+        .image-selected {
+          position: absolute;
+          height: 200px;
+          width: 392px;
+        }
+
+        .close-icon {
+          height: 25px;
+          width: 25px;
+          background-color: #ac8686;
+          top: 0px;
+          left: 366px;
+          position: absolute;
+          cursor: pointer;
+
+          &:hover {
+            opacity: 0.9;
+          }
+        }
       }
 
       .drag-and-drop-input {
@@ -404,11 +430,10 @@ $border-input-color-invalid: #ed5d5d;
         cursor: pointer;
       }
     }
-    .form-personal-image-hide {
-      display:none
-    }
 
-    
+    .form-personal-image-hide {
+      display: none;
+    }
   }
 
   .next-button {
@@ -430,26 +455,21 @@ $border-input-color-invalid: #ed5d5d;
   }
 }
 
-.input-avatar-container{
+.input-avatar-container {
   position: relative;
   margin-left: 40%;
+  height: 200px;
+  width: 200px;
+  cursor: pointer;
+  .avatar {
     height: 200px;
-    width:200px;
-    cursor: pointer;
-  .avatar{
-    height: 200px;
-    width:200px;
+    width: 200px;
     position: absolute;
 
-
-    
-  
-    .another-img-input{
+    .another-img-input {
       width: 100%;
-    position: absolute;
-    background-color: #ed5d5d;
-
+      position: absolute;
+      background-color: #ed5d5d;
     }
   }
 }
-

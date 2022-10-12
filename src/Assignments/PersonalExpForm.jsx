@@ -4,11 +4,34 @@ import useClickOutside from "../hooks/useClickOutside";
 
 
 const PersonalExpForm = (props) => {
+  const initialStateForm = {
+    companies: {
+      status: false,
+      messageError: "",
+    },
+    jopPosition: {
+      status: false,
+      messageError: "",
+    },
+    time: {
+      status: false,
+      messageError: "",
+    },
+    description: {
+      status: false,
+      messageError: "",
+    },
+  };
+
   const searchRef = useRef();
+  const [form,setForm] = useState({})
   const [isJobpositionValid, setIsJobPositionValid] = useState(true);
   const [isShowCompaniesSearch, setIsShowCompaniesSearch] = useState(false);
   const [companiesTag, setCompaniesTag] = useState([])
   const [companiesSearch, setCompaniesSearch] = useState([])
+  const [formValidate, setFormValidate] = useState(initialStateForm);
+
+  
 
   const companies =[
     {
@@ -28,7 +51,7 @@ const PersonalExpForm = (props) => {
       code: 4,
     },
     {
-      name: "UnitedHealth Group",
+      name: "UnitedHealth Groupppp",
       code: 5,
     },
     {
@@ -63,25 +86,52 @@ const PersonalExpForm = (props) => {
       const companySearch = filterCompany(text)
       setCompaniesSearch(companySearch)
     }
-    
-  
-
   };
-
   const handleFocusCompanyInput = () => {
     setIsShowCompaniesSearch(true)
     setCompaniesSearch(companies)
   }
-
   const handleClickOptionCompany =(code)=>{
     const selectedCompany = companiesSearch.find((companySearch)=>companySearch.code ===code)
     const newCompaniesSearch = companiesSearch.filter((companySearch)=>companySearch.code !==code)
-    const newCompaniesTag =[...companiesTag];
+    const newCompaniesTag =[...companiesTag]; 
     newCompaniesTag.push(selectedCompany);
-    setCompaniesTag(newCompaniesTag)
+    setCompaniesTag([...newCompaniesTag])
     setCompaniesSearch(newCompaniesSearch)
+    setForm({
+      ...form,  
+      companies: companiesTag 
+    })  
+    console.log(form)
     
   }
+
+
+  const handleClose = (code) => {
+    const newCompaniesTag= companiesTag.filter((companyTag)=>companyTag.code !== code)
+    setCompaniesTag([...newCompaniesTag])
+    setForm({
+      ...form,  
+      companies: companiesTag
+    })
+    console.log(form)
+
+  }
+
+
+  const handleCompanies =()=>{
+    if(!companiesTag){
+      setFormValidate({
+        ...formValidate,
+        companies: {
+          status: true,
+          messageError: "Trường này là bắt buộc",
+        }
+
+        })
+    }
+  }
+
 
   const handleJobPosition = (e) => {
     if (e.target.value <= 5) {
@@ -164,6 +214,7 @@ const PersonalExpForm = (props) => {
             src={require("../assets/images/Trash.png")}
             alt=""
           />
+          <div className="companies-tag-wrap">
           {
             companiesTag && companiesTag.map((companyTag) => { 
               return(<div className="companies-tag-content">
@@ -171,11 +222,19 @@ const PersonalExpForm = (props) => {
                 <div key={companyTag.code} className="company-tag">
                   {companyTag.name}
                 </div>
+                <img onClick={()=>handleClose(companyTag.code)} alt="" className="close" src={require("../assets/images/close-button.png")}/>
               </div>
               )
           })}
+          </div>
 
         </div>
+        {formValidate.companies.status && (
+            <span className="invalid-warning">
+              {formValidate.companies["messageError"]}
+            </span>
+          )}
+
         <div className="form-input form-all-position">
           <div className="label-input">
             <span className="label-require">Must</span>
