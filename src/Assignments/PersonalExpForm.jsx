@@ -4,6 +4,7 @@ import useClickOutside from "../hooks/useClickOutside";
 
 
 const PersonalExpForm = (props) => {
+  
   const initialStateForm = {
     companies: {
       status: false,
@@ -74,7 +75,7 @@ const PersonalExpForm = (props) => {
     return companies.filter((company) => company.name.match(regex));
   };
 
-  const { nextStep, prevStep } = props;
+  const { nextStep, prevStep, formInfo } = props;
 
   useClickOutside(searchRef, () => setIsShowCompaniesSearch(false));
 
@@ -275,7 +276,7 @@ const PersonalExpForm = (props) => {
       <button onClick={nextStep} className="next-button ">
         Tiếp
       </button>
-      <button onClick={prevStep} className="prev-button">
+      <button  onClick={prevStep} className="prev-button">
         Quay lại
       </button>
     </div>

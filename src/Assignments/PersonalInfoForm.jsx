@@ -2,169 +2,203 @@ import { useState, useEffect, useRef } from "react";
 import "../style/_bai-tap-4-personal-info.scss";
 import useClickOutside from "../hooks/useClickOutside";
 import React from "react";
+import { info } from "sass";
 
 const PersonalInfoForm = (props) => {
   const { nextStep } = props;
   const initialStateForm = {
     fullName: {
-      status: false,
+      status: true,
       messageError: "",
+      text: "0",
     },
     dob: {
+      status: true,
+      messageError: "",
+      value: "0",
+    },
+    description: {
       status: false,
       messageError: "",
     },
-    selfIntro: {
+    cityCode: {
+      status: false,
+      messageError: "",
+    },
+    job: {
       status: false,
       messageError: "",
     },
   };
 
-  // const [isValidateSuccess, setIsValidateSuccess] = useState(false);
+  const inputRef = useRef();
   const searchRef = useRef();
+
+  const [isShowMessageErrorName, setIsShowMessageErrorName] = useState(false);
+  const [isShowMessageErrorDoB, setIsShowMessageErrorDoB] = useState(false);
   const [form, setForm] = useState({});
   const [formValidate, setFormValidate] = useState(initialStateForm);
   const [cities, setCities] = useState([]);
-  // const [citiesTag, setCitiesTag] = useState([]);
-  // const [isShowCitiesTag, setIsShowCitiesTag] = useState(false);
+  const [jobs, setJobs] = useState([]);
   const [citiesSearchTag, setCitiesSearchTag] = useState([]);
   const [citiesSearch, setCitiesSearch] = useState([]);
   const [isShowCitiesSearch, setIsShowCitiesSearch] = useState(false);
+  const [jobsSearchTag, setJobsSearchTag] = useState([]);
+  const [jobsSearch, setJobsSearch] = useState([]);
+  const [isShowJobsSearch, setIsShowJobsSearch] = useState(false);
 
-  // const [isCitiesSearchActive, setIsCitiesSearchActive] = useState(false);
-  const [file, setFile] = useState([]);
-  // const [isImgSelected, setIsImgSelected] = useState(false);
-  // const [isJobSearchActive, setIsJobSearchActive] = useState(false);
-  // const [jobTags, setJobTags] = useState([]);
-  // const [isShowJobsTag, setIsShowJobsTag] = useState(false);
+  const [avatar, setAvatar] = useState([]);
+  const [isAvatarSelected, setIsAvatarSelected] = useState(false);
+  const [isShowJobsTag, setIsShowJobsTag] = useState(false);
 
-  // const jobPosition = [
-  //   {
-  //     code: 1,
-  //     name: "Java Developer",
-  //   },
-  //   {
-  //     code: 2,
-  //     name: "PHP Developer",
-  //   },
-  //   {
-  //     code: 3,
-  //     name: "Javascript Developer",
-  //   },
-  //   {
-  //     code: 4,
-  //     name: "C/C++ Developer",
-  //   },
-  //   {
-  //     code: 5,
-  //     name: "Ruby Developer",
-  //   },
-  //   {
-  //     code: 6,
-  //     name: "Vuejs Developer",
-  //   },
-  //   {
-  //     code: 7,
-  //     name: "Reactjs Developer",
-  //   },
-  // ];
+  const jobPosition = [
+    {
+      code: 1,
+      name: "Java Developer",
+    },
+    {
+      code: 2,
+      name: "PHP Developer",
+    },
+    {
+      code: 3,
+      name: "Javascript Developer",
+    },
+    {
+      code: 4,
+      name: "C/C++ Developer",
+    },
+    {
+      code: 5,
+      name: "Ruby Developer",
+    },
+    {
+      code: 6,
+      name: "Vuejs Developer",
+    },
+    {
+      code: 7,
+      name: "Reactjs Developer",
+    },
+  ];
 
-  // const [isNameRequired, setIsNameRequired] = useState(false);
+  useClickOutside(searchRef, () => {
+    setIsShowCitiesSearch(false);
+    setIsShowJobsSearch(false);
+  });
 
-
-  // useClickOutside(searchRef, () => {
-  //   setIsShowCitiesSearch(false);
-  // });  
-
-  const handleClickOptionCity =(code)=>{
-    console.log("here")
-    const selectedCity= citiesSearch.find((citySearch)=>citySearch.code ===code)
-    const newCitiesTag =[...citiesSearchTag]; 
-  
-    newCitiesTag.push(selectedCity);
-    setCitiesSearchTag(newCitiesTag)
-    console.log(citiesSearchTag)
+  const handleAddCity = (code) => {
+    const selectedCity = citiesSearch.find(
+      (citySearch) => citySearch.code === code
+    );
+    setCitiesSearchTag(selectedCity);
+    setIsShowCitiesSearch(false);
     setForm({
-      ...form,  
-      city: citiesSearchTag
-    })  
-    
-  }
- 
-
-  // const handleCloseCities = (codeCity) => {
-  //   const citySelectedTag = citiesTag.find((city) => city.code === codeCity);
-  //   setIsShowCitiesTag(false);
-  //   const newCitiesTag = [...citiesTag];
-  //   newCitiesTag.pop(citySelectedTag);
-  //   setCitiesTag([...newCitiesTag]);
-  // };
-
-  // const handleJobFocus = () => {
-  //   setIsJobSearchActive(!isCitiesSearchActive);
-  // };
-
-  // const handleCloseJobs = (code) => {
-  //   const jobSelectedTag = jobTags.find((job) => job.code === code);
-  //   const newJobsTag = [...jobTags];
-  //   newJobsTag.pop(jobSelectedTag);
-  //   setJobTags([...newJobsTag]);
-  //   setForm({
-  //     ...form,
-  //     codeJob: code,
-  //   });
-  // };
-
-  const handleFocus = () => {
-    setIsShowCitiesSearch(true);
+      ...form,
+      cityCode: selectedCity.code,
+    });
   };
 
-  // const handleClickCitySearch = (code) => {
-  //   // setForm({ ...form, code });
-  //   const citySelected = findCity(code);
-  //   const newCitiesTag = [...citiesSearchTag];
-  //   newCitiesTag.push(citySelected);
-  //   console.log(newCitiesTag);
-  //   // setCitiesTag(newCitiesTag);
+  const handleAddJob = (code) => {
+    const selectedJob = jobsSearch.find((jobSearch) => jobSearch.code === code);
+    const newJobSearch = jobsSearch.filter(
+      (jobSearch) => jobSearch.code !== code
+    );
+    const newJobSearchTag = [...jobsSearchTag];
+    if (newJobSearchTag.length < 3) {
+      newJobSearchTag.push(selectedJob);
+      setJobsSearchTag([...newJobSearchTag]);
 
+      setJobsSearch(newJobSearch);
+      setIsShowJobsTag(true);
+    } else alert("Không vượt quá 3 vị trí");
+
+    setForm({
+      ...form,
+      job: newJobSearchTag,
+    });
+  };
+
+  const handleFocusCity = () => {
+    setIsShowCitiesSearch((current) => !current);
+    setCitiesSearchTag([]);
+    setCitiesSearch(cities);
+  };
+
+  const handleFocusJob = () => {
+    setIsShowJobsSearch(true);
+    setJobsSearchTag([]);
+    setJobsSearch(jobPosition);
+  };
+
+  const handleCloseJobTag = (code) => {
+    const newJobTags = jobsSearchTag.filter(
+      (jobSearchTag) => jobSearchTag.code !== code
+    );
+    const newJobSelected = jobsSearchTag.find(
+      (jobSearchTag) => jobSearchTag.code === code
+    );
+    setJobsSearchTag(newJobTags);
+    if (jobsSearchTag.length === 1) {
+      setIsShowJobsTag(false);
+    }
+    const newJobSearch = [...jobsSearch];
+    newJobSearch.push(newJobSelected);
+    setJobsSearch(newJobSearch);
+    setForm({
+      ...form,
+      job: newJobTags,
+    });
+  };
+
+  const handleAddAvatar = (event) => {
+    const file = URL.createObjectURL(event.target.files[0]);
+    setAvatar(file);
+    setIsAvatarSelected(true);
+
+    setForm({
+      ...form,
+      avatar: file,
+    });
+  };
+
+  const handleCloseAvatar = () => {
+    setIsAvatarSelected(false);
+    setAvatar("");
+  };
+
+  // console.log(form);
+
+  // const handleClickDropDown = () => {
+  //   setIsShowCitiesSearch((prevState)=>!prevState);
   // };
-
-  // const findCity = (code) => {
-  //   if (code) {
-  //     return cities.find((item) => item && item.code === code);
-  //   }
-  //   return {};
-  // };
-
-  // const findJobs = (code) => {
-  //   if (code) {
-  //     return jobPosition.find((item) => item && item.code === code);
-  //   }
-  //   return {};
-  // };
-
-  // const handleAddAvatar = (event) => {
-  //   const file = URL.createObjectURL(event.target.files[0]);
-  //   const fileType = event.target.files[0].type;
-  //   // setForm({ ...form, file });
-  //   setFile(file);
-  //   setIsImgSelected(true);
-  //   setForm({
-  //     ...form,
-  //     file,
-  //   });
-  // };
-
-  const handleclickDropDown =()=>{
-    setIsShowCitiesSearch(true);
-    // console.log('drop down')
-  }
 
   const validateForm = () => {
-    // if (isValidateSuccess) {
-    //   nextStep();
-    // }
+    if (
+      formValidate.fullName.status === true &&
+      formValidate.fullName.text === "0"
+    ) {
+      setIsShowMessageErrorName(true);
+    }
+    if (formValidate.dob.status === true && formValidate.dob.value === "0") {
+      setIsShowMessageErrorDoB(true);
+    }
+
+    
+   
+    if (
+      (form.fullName &&
+          form.DateOfBirth && (!form.description)) ||(form.fullName &&
+            form.DateOfBirth &&(form.description && form.description.length <=20))
+      )
+     {
+      nextStep()
+    }
+
+    
   };
+
+  console.log(form.description && form.description.length);
 
   const filterCity = (text) => {
     const regex = new RegExp(`${text}`, "gi");
@@ -176,6 +210,22 @@ const PersonalInfoForm = (props) => {
       const citySearch = filterCity(text);
       setCitiesSearch(citySearch);
       setIsShowCitiesSearch(true);
+      setCitiesSearchTag([]);
+    }
+  };
+
+  const filterJob = (text) => {
+    setJobs(jobPosition);
+    const regex = new RegExp(`${text}`, "gi");
+    return jobPosition.filter((job) => job.name.match(regex));
+  };
+
+  const searchJobs = (text) => {
+    if (text) {
+      const jobSearch = filterJob(text);
+      setJobsSearch(jobSearch);
+      setIsShowJobsSearch(true);
+      setJobsSearchTag([]);
     }
   };
 
@@ -186,17 +236,24 @@ const PersonalInfoForm = (props) => {
         fullName: {
           status: true,
           messageError: "Trường này là bắt buộc",
+          text: "",
         },
       });
+      setForm({
+        ...form,
+        fullName: text,
+      });
     } else {
-      if (text.length < 10) {
+      if (text.length < 20) {
         setFormValidate({
           ...formValidate,
           fullName: {
             status: false,
             messageError: "",
+            text: "1",
           },
         });
+        setIsShowMessageErrorName(false);
 
         setForm({
           ...form,
@@ -207,7 +264,8 @@ const PersonalInfoForm = (props) => {
           ...formValidate,
           fullName: {
             status: true,
-            messageError: "Không vượt quá 10 ký tự",
+            messageError: "Không vượt quá 20 ký tự",
+            text: "1",
           },
         });
       }
@@ -229,8 +287,10 @@ const PersonalInfoForm = (props) => {
         dob: {
           status: true,
           messageError: "Trường này là bắt buộc",
+          value: "0",
         },
       });
+      setIsShowMessageErrorDoB(true);
     } else {
       if (selectedYYYY === yyyy && selectedMM === mm && selectedDD <= dd) {
         setFormValidate({
@@ -238,8 +298,11 @@ const PersonalInfoForm = (props) => {
           dob: {
             status: false,
             messageError: "",
+            value: "1",
           },
         });
+        setIsShowMessageErrorDoB(false);
+
         setForm({
           ...form,
           DateOfBirth: value,
@@ -250,50 +313,41 @@ const PersonalInfoForm = (props) => {
           dob: {
             status: true,
             messageError: "Ngày sinh không hợp lệ",
+            value: "1",
           },
         });
       }
     }
   };
 
-  // const handleSelfIntro = (textIntro) => {
-  //   if (!textIntro) {
-  //     setIsValidateSuccess(false);
-  //     setFormValidate({
-  //       ...formValidate,
-  //       selfIntro: {
-  //         status: true,
-  //         messageError: "Trường này là bắt buộc",
-  //       },
-  //     });
-  //   } else {
-  //     if (textIntro.length <= 10) {
-  //       setIsValidateSuccess(true);
+  const handleSelfIntro = (textIntro) => {
+    if (textIntro?.length <= 20) {
+      setFormValidate({
+        ...formValidate,
+        description: {
+          status: false,
+          messageError: "",
+        },
+      });
 
-  //       setFormValidate({
-  //         ...formValidate,
-  //         selfIntro: {
-  //           status: false,
-  //           messageError: "",
-  //         },
-  //       });
-
-  //       setForm({
-  //         ...form,
-  //         selfIntro: textIntro,
-  //       });
-  //     } else {
-  //       setIsValidateSuccess(false);
-  //       setFormValidate({
-  //         ...formValidate,
-  //         selfIntro: {
-  //           status: true,
-  //           messageError: "Không vượt quá 10 ký tự",
-  //         },
-  //       });
-  //     }
-  //   }
-  // };
+      setForm({
+        ...form,
+        description: textIntro,
+      });
+    } else {
+      setFormValidate({
+        ...formValidate,
+        description: {
+          status: true,
+          messageError: "Không vượt quá 20 ký tự",
+        },
+      }); setForm({
+        ...form,
+        description: textIntro})
+      
+     
+    }
+  };
 
   useEffect(() => {
     const url = "https://provinces.open-api.vn/api/";
@@ -360,10 +414,13 @@ const PersonalInfoForm = (props) => {
             className="full-name-input"
             type="text"
           />
-          {formValidate.fullName["status"] && (
+          {formValidate.fullName.status && (
             <span className="invalid-warning">
               {formValidate.fullName["messageError"]}
             </span>
+          )}
+          {isShowMessageErrorName && (
+            <span className="invalid-warning">Trường này là bắt buộc</span>
           )}
         </div>
         <div className="form-input form-date-of-birth">
@@ -381,57 +438,50 @@ const PersonalInfoForm = (props) => {
               {formValidate.dob["messageError"]}
             </span>
           )}
+          {isShowMessageErrorDoB && (
+            <span className="invalid-warning">Trường này là bắt buộc</span>
+          )}
         </div>
         <div className="form-input form-city">
           <div className="label-input">
             <span>Thành phố</span>
           </div>
-          <input ref={searchRef}
+          <input
             onChange={(e) => searchCities(e.target.value)}
             className="select-city-input"
             type="text"
-            onFocus={handleFocus}
+            ref={inputRef}
+            onFocus={handleFocusCity}
           />
-          <img
-            onClick={handleclickDropDown}
+
+          <div className="city-tag">{citiesSearchTag.name}</div>
+
+          {/* <img
+            onClick={handleClickDropDown}
             alt=""
             className="drop-down-icon"
             src={require("../assets/images/drop-down-icon.png")}
-          />
-          {/* <div className={isShowCitiesTag ? "cities-tag" : "hide-tag"}>
-            {citiesTag.length > 0 &&
-              citiesTag.map((cityTag) => {
-                return (
-                  <div className="cities-tag-content">
-                    <span className="cities-tag-name" key={cityTag.code}>
-                      {cityTag.name}
-                    </span>
-                    <img
-                      alt=""
-                      onClick={handleCloseCities}
-                      className="close-img"
-                      src={require("../assets/images/close-button.png")}
-                    />
-                  </div>
-                );
-              })}
-          </div> */}
-          {isShowCitiesSearch && <div className="cities-option-wrap">
-          {citiesSearch.length>0 &&
-              citiesSearch.map((citySearch) => {
-                return (
-                  <div onClick={()=>handleClickOptionCity(citySearch.code)} className="city-option">
-                    <span className="cities-name" key={citySearch.code}>
-                      {citySearch.name}
-                    </span>
-                   
-                  </div>
-                );
-              })}
-             
-          </div>}
+          /> */}
+
+          {isShowCitiesSearch && (
+            <div ref={searchRef} className="cities-option-wrap">
+              {citiesSearch.length > 0 &&
+                citiesSearch.map((citySearch) => {
+                  return (
+                    <div
+                      onClick={() => handleAddCity(citySearch.code)}
+                      className="city-option"
+                    >
+                      <span className="cities-name" key={citySearch.code}>
+                        {citySearch.name}
+                      </span>
+                    </div>
+                  );
+                })}
+            </div>
+          )}
         </div>
-        <div className="form-input form-job-position">
+        <div ref={searchRef} className="form-input form-job-position">
           <div className="label-input-job">
             <span>Vị trí làm việc</span>
             <span className="label-input-job-subheading">
@@ -442,7 +492,46 @@ const PersonalInfoForm = (props) => {
             // onFocus={handleJobFocus}
             className="select-position-input"
             type="text"
+            onChange={(e) => searchJobs(e.target.value)}
+            onFocus={handleFocusJob}
           />
+          {isShowJobsTag && (
+            <div className="job-tags-container">
+              {jobsSearchTag &&
+                jobsSearchTag.map((jobSearchTag) => {
+                  return (
+                    <div className="job-tag-content" key={jobSearchTag.code}>
+                      <div className="job-tag-name">{jobSearchTag.name}</div>
+                      <img
+                        onClick={(e) => handleCloseJobTag(jobSearchTag.code)}
+                        alt=""
+                        src={require("../assets/images/close-button.png")}
+                        className="close-button"
+                      />
+                    </div>
+                  );
+                })}
+            </div>
+          )}
+
+          {isShowJobsSearch && (
+            <div ref={searchRef} className="jobs-option-wrap">
+              {jobsSearch.length > 0 &&
+                jobsSearch.map((jobSearch) => {
+                  return (
+                    <div
+                      key={jobSearch.code}
+                      onClick={() => handleAddJob(jobSearch.code)}
+                      className="job-option"
+                    >
+                      <span className="cities-name" key={jobSearch.code}>
+                        {jobSearch.name}
+                      </span>
+                    </div>
+                  );
+                })}
+            </div>
+          )}
 
           {/* {isJobSearchActive ? (
             <div ref={searchRef} className="job-option-wrap">
@@ -483,18 +572,20 @@ const PersonalInfoForm = (props) => {
             <span>Mô tả về bản thân</span>
           </div>
           <textarea
-            // onChange={(e) => handleSelfIntro(e.target.value)}
+            onChange={(e) => handleSelfIntro(e.target.value)}
             className="self-introduction"
             type="text"
+            
+            // spellCheck="false"
           />
           <span className="text-per-type">
-            {/* {form.selfIntro?.length || 0}/10 */}
+            {form.description?.length || 0}/20
           </span>
-          {/* {formValidate.selfIntro["status"] && (
+          {formValidate.description["status"] && (
             <div className="invalid-warning-self-intro">
-              {formValidate.selfIntro["messageError"]}
+              {formValidate.description["messageError"]}
             </div>
-          )} */}
+          )}
         </div>
         <div className="form-personal-image-label">Ảnh cá nhân</div>
 
@@ -513,27 +604,26 @@ const PersonalInfoForm = (props) => {
           </div>
 
           <input
-            // onChange={handleAddAvatar}
+            onChange={handleAddAvatar}
             className="drag-and-drop-input  "
             type="file"
           />
-          <div
-          // className={
-          //     isImgSelected ? "image-selected-container" : "hide-drag-and-drop-label"
-          //   }
-          >
-            <img className="image-selected" alt="" src={file} />
-            {/* <img
-            className=
-               "close-icon" 
-            alt=""
-            src={require("../assets/images/close7.jpg")}
-          /> */}
-          </div>
+
+          {isAvatarSelected && (
+            <div className={"image-selected-container"}>
+              <img className="image-selected" alt="" src={avatar} />
+              <img
+                onClick={handleCloseAvatar}
+                className="close-icon"
+                alt=""
+                src={require("../assets/images/close7.jpg")}
+              />
+            </div>
+          )}
         </div>
       </div>
 
-      <button onClick={validateForm} className="next-button">
+      <button formInfo={form} onClick={validateForm} className="next-button">
         Tiếp
       </button>
     </div>

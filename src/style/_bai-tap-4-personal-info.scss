@@ -121,6 +121,23 @@ $border-input-color-invalid: #ed5d5d;
           }
         }
       }
+      .jobs-option-wrap {
+        width: 100%;
+        z-index: 2;
+        margin-top: 94px;
+        position: absolute;
+        max-height: 100px;
+        overflow: auto;
+        background-color: #f8f8f8;
+        .job-option {
+          padding: 10px;
+          border: 1px solid $border-input-color;
+          cursor: pointer;
+          &:hover {
+            background-color: #627d98;
+          }
+        }
+      }
       @include form-input;
       .label-input {
         display: flex;
@@ -232,8 +249,9 @@ $border-input-color-invalid: #ed5d5d;
         color: $border-input-color-invalid;
       }
 
+      
+
       .invalid-warning-self-intro {
-        margin-top: -5px;
         font-size: 13px;
         color: $border-input-color-invalid;
       }
@@ -297,10 +315,40 @@ $border-input-color-invalid: #ed5d5d;
         }
       }
 
+      .job-tags-container {
+        top: 53px;
+        min-height: 30px;
+        min-width: 200px;
+        position: absolute;
+        // background-color: #ac8686;
+        left: 30px;
+        display: flex;
+        .job-tag-content {
+          border-radius: 3px;
+          align-items: center;
+          background-color: #dcdcdc;
+          margin-right: 10px;
+          display: flex;
+          justify-content: space-around;
+          .job-tag-name {
+            margin-left: 5px;
+          }
+          .close-button {
+            cursor: pointer;
+            margin: 5px;
+            height: 20px;
+            width: 20px;
+            &:hover {
+              opacity: 0.7;
+            }
+          }
+        }
+      }
+
       .job-option-wrap {
         width: 100%;
         z-index: 1;
-        margin-top: 93 px;
+        margin-top: 93px;
         position: absolute;
         display: block;
         max-height: 100px;
@@ -318,6 +366,7 @@ $border-input-color-invalid: #ed5d5d;
       }
 
       .select-city-input {
+        z-index: 0;
         display: flex;
         align-items: center;
         padding: 10px 10px 10px 30px;
@@ -332,18 +381,26 @@ $border-input-color-invalid: #ed5d5d;
         background-position: 3px;
       }
 
-      .drop-down-icon {
+      .city-tag {
+        background-color: rgba(255, 255, 255, 1);
+        min-width: 20px;
         position: absolute;
-        width: 20px;
-        height: 20px;
-        right: 10px;
-        top: 55%;
+        top: 40px;
+        left: 31px;
+      }
+
+      .drop-down-icon {
+        padding: 13px;
+        position: absolute;
+        width: 18px;
+        height: 15px;
+        right: 1px;
+        top: 39%;
         cursor: pointer;
-        // background-color: red;
       }
       .self-introduction {
+        text-decoration: none;
         resize: none;
-        // width: 40px;
         outline: none;
         padding: 10px;
         padding-bottom: 100px;
