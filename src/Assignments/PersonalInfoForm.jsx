@@ -51,6 +51,8 @@ const PersonalInfoForm = (props) => {
   const [isAvatarSelected, setIsAvatarSelected] = useState(false);
   const [isShowJobsTag, setIsShowJobsTag] = useState(false);
 
+  console.log(form)
+
   const jobPosition = [
     {
       code: 1,
@@ -244,7 +246,7 @@ const PersonalInfoForm = (props) => {
         fullName: text,
       });
     } else {
-      if (text.length < 20) {
+      if (text.length <= 20) {
         setFormValidate({
           ...formValidate,
           fullName: {
@@ -267,6 +269,10 @@ const PersonalInfoForm = (props) => {
             messageError: "Không vượt quá 20 ký tự",
             text: "1",
           },
+        });
+        setForm({
+          ...form,
+          fullName: text,
         });
       }
     }
