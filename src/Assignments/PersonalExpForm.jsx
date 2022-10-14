@@ -1,16 +1,35 @@
 import "../style/_bai-tap-4-personal-exp.scss";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import useClickOutside from "../hooks/useClickOutside";
 
 
 const PersonalExpForm = (props) => {
   
+  const closeRef= useRef()
+
+  const validateForm = () => {
+    // console.log(form.companies.length)
+    if(!form.companies){
+      setFormValidate({
+        ...formValidate,
+        companies:{
+          status:true,
+          messageError:"Tối thiểu 1 công ty"
+        }
+      })
+    }
+    
+    
+    
+    
+  }
+
   const initialStateForm = {
     companies: {
       status: false,
       messageError: "",
     },
-    jopPosition: {
+    jobPosition: {
       status: false,
       messageError: "",
     },
@@ -25,15 +44,16 @@ const PersonalExpForm = (props) => {
   };
 
   const searchRef = useRef();
-  const [form,setForm] = useState({})
-  const [isJobpositionValid, setIsJobPositionValid] = useState(true);
+  const [form,setForm] = useState(()=>{
+    const saved = localStorage.getItem("form");
+    const initialValue = JSON.parse(saved);
+    return initialValue || "";
+  })
   const [isShowCompaniesSearch, setIsShowCompaniesSearch] = useState(false);
-  const [companiesTag, setCompaniesTag] = useState([])
+  const [companyTag, setCompanyTag] = useState([])
   const [companiesSearch, setCompaniesSearch] = useState([])
   const [formValidate, setFormValidate] = useState(initialStateForm);
-
   
-
   const companies =[
     {
       name: "Walmart",
@@ -52,7 +72,7 @@ const PersonalExpForm = (props) => {
       code: 4,
     },
     {
-      name: "UnitedHealth Groupppp",
+      name: "Samsung ",
       code: 5,
     },
     {
@@ -75,11 +95,11 @@ const PersonalExpForm = (props) => {
     return companies.filter((company) => company.name.match(regex));
   };
 
-  const { nextStep, prevStep, formInfo } = props;
+  const { nextStep, prevStep } = props;
 
   useClickOutside(searchRef, () => setIsShowCompaniesSearch(false));
 
-
+  
   const searchCompanies = (text) => {
 
     if (text) {
@@ -92,53 +112,49 @@ const PersonalExpForm = (props) => {
     setIsShowCompaniesSearch(true)
     setCompaniesSearch(companies)
   }
-  const handleClickOptionCompany =(code)=>{
+  const handleAddCompany =(code)=>{
     const selectedCompany = companiesSearch.find((companySearch)=>companySearch.code ===code)
-    const newCompaniesSearch = companiesSearch.filter((companySearch)=>companySearch.code !==code)
-    const newCompaniesTag =[...companiesTag]; 
-    newCompaniesTag.push(selectedCompany);
-    setCompaniesTag([...newCompaniesTag])
-    setCompaniesSearch(newCompaniesSearch)
+    setCompanyTag(selectedCompany)
     setForm({
       ...form,  
-      companies: companiesTag 
+      companies: [{
+        company:selectedCompany.name
+        
+      }] 
     })  
-    console.log(form)
+    setIsShowCompaniesSearch(false);
+  }
+  // console.log(form)
+  // const handleRemoveCity = () => {
     
-  }
 
+  // }
 
-  const handleClose = (code) => {
-    const newCompaniesTag= companiesTag.filter((companyTag)=>companyTag.code !== code)
-    setCompaniesTag([...newCompaniesTag])
+  const handlePosition = (text)=>{
+
+    
     setForm({
-      ...form,  
-      companies: companiesTag
-    })
-    console.log(form)
+      ...form,
+      companies:[...companies,
+        {
+          PrevJob:text
 
-  }
-
-
-  const handleCompanies =()=>{
-    if(!companiesTag){
-      setFormValidate({
-        ...formValidate,
-        companies: {
-          status: true,
-          messageError: "Trường này là bắt buộc",
         }
+      ]
+    })  
+   }
 
-        })
-    }
-  }
 
 
-  const handleJobPosition = (e) => {
-    if (e.target.value <= 5) {
-      setIsJobPositionValid(true);
-    } else setIsJobPositionValid(false);
-  };
+
+
+  useEffect(() => {
+    localStorage.setItem("form", JSON.stringify(form));
+  }, [form]);
+
+
+
+ 
 
   return (
     <div className="form-personal-exp">
@@ -199,7 +215,7 @@ const PersonalExpForm = (props) => {
               {companiesSearch.map((companySearch) => {
                 return (
                   <div
-                  onClick={(e)=>handleClickOptionCompany(companySearch.code)}
+                  onClick={(e)=>handleAddCompany(companySearch.code)}
                     // onClick={() => }
                     className="company-option"
                     key={companySearch.code}
@@ -214,26 +230,16 @@ const PersonalExpForm = (props) => {
             className="trash"
             src={require("../assets/images/Trash.png")}
             alt=""
-          />
-          <div className="companies-tag-wrap">
-          {
-            companiesTag && companiesTag.map((companyTag) => { 
-              return(<div className="companies-tag-content">
-
-                <div key={companyTag.code} className="company-tag">
+            // onClick={handleRemoveCity}
+          />         
+          <div key={companyTag.code} className="company-tag">
                   {companyTag.name}
                 </div>
-                <img onClick={()=>handleClose(companyTag.code)} alt="" className="close" src={require("../assets/images/close-button.png")}/>
-              </div>
-              )
-          })}
-          </div>
-
         </div>
         {formValidate.companies.status && (
-            <span className="invalid-warning">
+            <div className="invalid-warning">
               {formValidate.companies["messageError"]}
-            </span>
+            </div>
           )}
 
         <div className="form-input form-all-position">
@@ -241,7 +247,7 @@ const PersonalExpForm = (props) => {
             <span className="label-require">Must</span>
             <span>Vị trí từng làm</span>
           </div>
-          <input className="form-input" type="text" />
+          <input onChange={(e)=>handlePosition(e.target.value)} className="form-input" type="text" />
         </div>
         <div className="form-input form-work-period">
           <div className="label-input">
@@ -259,7 +265,6 @@ const PersonalExpForm = (props) => {
             <span> Mô tả về công việc</span>
           </div>
           <input
-            onChange={handleJobPosition}
             className="work-introduction"
             type="text"
           />
@@ -273,7 +278,7 @@ const PersonalExpForm = (props) => {
         />
         <span>Thêm công ty</span>
       </div>
-      <button onClick={nextStep} className="next-button ">
+      <button onClick={validateForm} className="next-button ">
         Tiếp
       </button>
       <button  onClick={prevStep} className="prev-button">

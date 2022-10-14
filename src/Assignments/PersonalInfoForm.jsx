@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import "../style/_bai-tap-4-personal-info.scss";
 import useClickOutside from "../hooks/useClickOutside";
 import React from "react";
-import { info } from "sass";
 
 const PersonalInfoForm = (props) => {
   const { nextStep } = props;
@@ -21,22 +20,26 @@ const PersonalInfoForm = (props) => {
       status: false,
       messageError: "",
     },
-    cityCode: {
+    cityName: {
       status: false,
       messageError: "",
     },
     job: {
       status: false,
       messageError: "",
+      
     },
   };
-
-  const inputRef = useRef();
+  
   const searchRef = useRef();
-
+  
   const [isShowMessageErrorName, setIsShowMessageErrorName] = useState(false);
   const [isShowMessageErrorDoB, setIsShowMessageErrorDoB] = useState(false);
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState(()=>{
+    const saved = localStorage.getItem("form");
+    const initialValue = JSON.parse(saved);
+    return initialValue || "";
+  });
   const [formValidate, setFormValidate] = useState(initialStateForm);
   const [cities, setCities] = useState([]);
   const [jobs, setJobs] = useState([]);
@@ -46,13 +49,13 @@ const PersonalInfoForm = (props) => {
   const [jobsSearchTag, setJobsSearchTag] = useState([]);
   const [jobsSearch, setJobsSearch] = useState([]);
   const [isShowJobsSearch, setIsShowJobsSearch] = useState(false);
-
   const [avatar, setAvatar] = useState([]);
   const [isAvatarSelected, setIsAvatarSelected] = useState(false);
   const [isShowJobsTag, setIsShowJobsTag] = useState(false);
 
-  console.log(form)
 
+
+  
   const jobPosition = [
     {
       code: 1,
@@ -89,6 +92,7 @@ const PersonalInfoForm = (props) => {
     setIsShowJobsSearch(false);
   });
 
+
   const handleAddCity = (code) => {
     const selectedCity = citiesSearch.find(
       (citySearch) => citySearch.code === code
@@ -97,17 +101,20 @@ const PersonalInfoForm = (props) => {
     setIsShowCitiesSearch(false);
     setForm({
       ...form,
-      cityCode: selectedCity.code,
+      cityName: selectedCity.name,
     });
+
   };
 
+  
   const handleAddJob = (code) => {
+   
     const selectedJob = jobsSearch.find((jobSearch) => jobSearch.code === code);
     const newJobSearch = jobsSearch.filter(
       (jobSearch) => jobSearch.code !== code
     );
     const newJobSearchTag = [...jobsSearchTag];
-    if (newJobSearchTag.length < 3) {
+    if (newJobSearchTag.length < 3) { 
       newJobSearchTag.push(selectedJob);
       setJobsSearchTag([...newJobSearchTag]);
 
@@ -119,7 +126,12 @@ const PersonalInfoForm = (props) => {
       ...form,
       job: newJobSearchTag,
     });
+
+
+
   };
+
+
 
   const handleFocusCity = () => {
     setIsShowCitiesSearch((current) => !current);
@@ -151,22 +163,41 @@ const PersonalInfoForm = (props) => {
       ...form,
       job: newJobTags,
     });
+
+   
+
+
   };
 
   const handleAddAvatar = (event) => {
     const file = URL.createObjectURL(event.target.files[0]);
-    setAvatar(file);
+    
+
+
     setIsAvatarSelected(true);
+    event.target.value = null;
+    setAvatar(file)
+    // upload img twice 
 
     setForm({
       ...form,
       avatar: file,
     });
+
   };
 
   const handleCloseAvatar = () => {
-    setIsAvatarSelected(false);
-    setAvatar("");
+   
+
+      setIsAvatarSelected(false);
+      setAvatar(null)
+      setForm({
+        ...form,
+        avatar: null,
+      });
+
+    
+  
   };
 
   // console.log(form);
@@ -189,18 +220,18 @@ const PersonalInfoForm = (props) => {
     
    
     if (
-      (form.fullName &&
+      (form.fullName && 
           form.DateOfBirth && (!form.description)) ||(form.fullName &&
             form.DateOfBirth &&(form.description && form.description.length <=20))
       )
      {
       nextStep()
+      // const test = JSON.parse(localStorage.getItem('form'))
+      // alert(test)
     }
 
     
   };
-
-  console.log(form.description && form.description.length);
 
   const filterCity = (text) => {
     const regex = new RegExp(`${text}`, "gi");
@@ -232,6 +263,7 @@ const PersonalInfoForm = (props) => {
   };
 
   const handleFullName = (text) => {
+    
     if (!text) {
       setFormValidate({
         ...formValidate,
@@ -278,6 +310,8 @@ const PersonalInfoForm = (props) => {
     }
   };
 
+  // console.log(valueStore)
+
   const handleDateOfBirth = (value) => {
     const today = new Date();
     const dd = today.getDate();
@@ -286,6 +320,7 @@ const PersonalInfoForm = (props) => {
     const selectedYYYY = Number(value.slice(0, 4));
     const selectedMM = Number(value.slice(5, 7));
     const selectedDD = Number(value.slice(8, 10));
+
 
     if (!value) {
       setFormValidate({
@@ -296,9 +331,12 @@ const PersonalInfoForm = (props) => {
           value: "0",
         },
       });
+      
       setIsShowMessageErrorDoB(true);
     } else {
-      if (selectedYYYY === yyyy && selectedMM === mm && selectedDD <= dd) {
+      if ((selectedYYYY === yyyy && selectedMM === mm && selectedDD <= dd) ||
+      (selectedYYYY === yyyy && selectedMM < mm)|| (selectedYYYY < yyyy))
+      {
         setFormValidate({
           ...formValidate,
           dob: {
@@ -322,11 +360,15 @@ const PersonalInfoForm = (props) => {
             value: "1",
           },
         });
+        
       }
     }
   };
 
   const handleSelfIntro = (textIntro) => {
+   
+
+
     if (textIntro?.length <= 20) {
       setFormValidate({
         ...formValidate,
@@ -340,6 +382,7 @@ const PersonalInfoForm = (props) => {
         ...form,
         description: textIntro,
       });
+
     } else {
       setFormValidate({
         ...formValidate,
@@ -350,6 +393,7 @@ const PersonalInfoForm = (props) => {
       }); setForm({
         ...form,
         description: textIntro})
+
       
      
     }
@@ -363,6 +407,11 @@ const PersonalInfoForm = (props) => {
         setCities(data);
       });
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("form", JSON.stringify(form));
+  }, [form]);
+
 
   return (
     <div className="form-personal-info">
@@ -419,6 +468,7 @@ const PersonalInfoForm = (props) => {
             onChange={(e) => handleFullName(e.target.value)}
             className="full-name-input"
             type="text"
+            value={form.fullName}
           />
           {formValidate.fullName.status && (
             <span className="invalid-warning">
@@ -438,6 +488,9 @@ const PersonalInfoForm = (props) => {
             onChange={(e) => handleDateOfBirth(e.target.value)}
             type="date"
             className="date-of-birth-input"
+            value={form.DateOfBirth}
+
+            
           />
           {formValidate.dob.status && (
             <span className="invalid-warning">
@@ -456,11 +509,10 @@ const PersonalInfoForm = (props) => {
             onChange={(e) => searchCities(e.target.value)}
             className="select-city-input"
             type="text"
-            ref={inputRef}
             onFocus={handleFocusCity}
           />
 
-          <div className="city-tag">{citiesSearchTag.name}</div>
+          <div className="city-tag">{form.cityName}</div>
 
           {/* <img
             onClick={handleClickDropDown}
@@ -477,8 +529,10 @@ const PersonalInfoForm = (props) => {
                     <div
                       onClick={() => handleAddCity(citySearch.code)}
                       className="city-option"
+                        key={citySearch.code}
+
                     >
-                      <span className="cities-name" key={citySearch.code}>
+                      <span className="cities-name" >
                         {citySearch.name}
                       </span>
                     </div>
@@ -503,13 +557,13 @@ const PersonalInfoForm = (props) => {
           />
           {isShowJobsTag && (
             <div className="job-tags-container">
-              {jobsSearchTag &&
-                jobsSearchTag.map((jobSearchTag) => {
+              {jobsSearchTag && 
+                form.job?.map((jobItem) => {
                   return (
-                    <div className="job-tag-content" key={jobSearchTag.code}>
-                      <div className="job-tag-name">{jobSearchTag.name}</div>
+                    <div className="job-tag-content" key={jobItem.code}>
+                      <div className="job-tag-name">{jobItem.name}</div>
                       <img
-                        onClick={(e) => handleCloseJobTag(jobSearchTag.code)}
+                        onClick={(e) => handleCloseJobTag(jobItem.code)}
                         alt=""
                         src={require("../assets/images/close-button.png")}
                         className="close-button"
@@ -529,6 +583,7 @@ const PersonalInfoForm = (props) => {
                       key={jobSearch.code}
                       onClick={() => handleAddJob(jobSearch.code)}
                       className="job-option"
+                      value={form.job}
                     >
                       <span className="cities-name" key={jobSearch.code}>
                         {jobSearch.name}
@@ -538,40 +593,6 @@ const PersonalInfoForm = (props) => {
                 })}
             </div>
           )}
-
-          {/* {isJobSearchActive ? (
-            <div ref={searchRef} className="job-option-wrap">
-              {jobPosition.map((job) => {
-                return (
-                  <div
-                    onClick={() => handleCLickJobs(job.code)}
-                    className="job-option"
-                    key={job.code}
-                  >
-                    {job.name}
-                  </div>
-                );
-              })}
-            </div>
-          ) : null} */}
-          {/* <div className={isShowJobsTag ? "jobs-tag" : "hide-tag"}>
-            {jobTags.length > 0 &&
-              jobTags.map((jobTag) => {
-                return (
-                  <div className="jobs-tag-content">
-                    <span className="jobs-tag-name" key={jobTag.code}>
-                      {jobTag.name}
-                    </span>
-                    <img
-                      onClick={() => handleCloseJobs(jobTag.code)}
-                      className="close-img"
-                      alt=""
-                      src={require("../assets/images/close-button.png")}
-                    />
-                  </div>
-                );
-              })}
-          </div> */}
         </div>
         <div className="form-input form-self-introduction">
           <div className="label-input">
@@ -581,8 +602,8 @@ const PersonalInfoForm = (props) => {
             onChange={(e) => handleSelfIntro(e.target.value)}
             className="self-introduction"
             type="text"
-            
-            // spellCheck="false"
+            value={form.description}
+            spellCheck="false"
           />
           <span className="text-per-type">
             {form.description?.length || 0}/20
@@ -613,6 +634,7 @@ const PersonalInfoForm = (props) => {
             onChange={handleAddAvatar}
             className="drag-and-drop-input  "
             type="file"
+            // value={form.avatar}
           />
 
           {isAvatarSelected && (
@@ -629,7 +651,7 @@ const PersonalInfoForm = (props) => {
         </div>
       </div>
 
-      <button formInfo={form} onClick={validateForm} className="next-button">
+      <button onClick={validateForm} className="next-button">
         Tiếp
       </button>
     </div>
