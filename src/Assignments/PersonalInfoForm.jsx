@@ -217,15 +217,30 @@ const PersonalInfoForm = (props) => {
       setIsShowMessageErrorDoB(true);
     }
 
+    if(form.fullName && form.fullName.length >20){
+      console.log("ok")
+      setIsShowMessageErrorName(false);
+      setFormValidate({
+        ...formValidate,
+        fullName: {
+          status: true,
+          messageError: "Không vượt quá 20 ký tự",
+          text: "1",
+        },
+      });
+
+    }
+
     
    
     if (
-      (form.fullName && 
-          form.DateOfBirth && (!form.description)) ||(form.fullName &&
+      ((form.fullName &&form.fullName.length<=20)&& 
+          form.DateOfBirth && (!form.description)) ||((form.fullName &&form.fullName.length<=20) &&
             form.DateOfBirth &&(form.description && form.description.length <=20))
       )
      {
       nextStep()
+      // console.log("okd")
       // const test = JSON.parse(localStorage.getItem('form'))
       // alert(test)
     }
@@ -364,6 +379,9 @@ const PersonalInfoForm = (props) => {
       }
     }
   };
+
+  console.log(form)
+  // console.log(formValidate);
 
   const handleSelfIntro = (textIntro) => {
    
