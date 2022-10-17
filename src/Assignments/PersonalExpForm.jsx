@@ -2,36 +2,17 @@ import "../style/_bai-tap-4-personal-exp.scss";
 import { useState, useRef, useEffect } from "react";
 import useClickOutside from "../hooks/useClickOutside";
 
-
 const PersonalExpForm = (props) => {
-  
-  const closeRef= useRef()
-
-  const validateForm = () => {
-    // console.log(form.companies.length)
-    if(!form.companies){
-      setFormValidate({
-        ...formValidate,
-        companies:{
-          status:true,
-          messageError:"Tối thiểu 1 công ty"
-        }
-      })
-    }
-    
-    
-    
-    
-  }
+  const closeRef = useRef();
 
   const initialStateForm = {
     companies: {
       status: false,
-      messageError: "",
+      messageError: "Trường này là bắt buộc",
     },
     jobPosition: {
       status: false,
-      messageError: "",
+      messageError: "Trường này là bắt buộc",
     },
     time: {
       status: false,
@@ -44,17 +25,23 @@ const PersonalExpForm = (props) => {
   };
 
   const searchRef = useRef();
-  const [form,setForm] = useState(()=>{
+  const [form, setForm] = useState(() => {
     const saved = localStorage.getItem("form");
     const initialValue = JSON.parse(saved);
     return initialValue || "";
-  })
+  });
   const [isShowCompaniesSearch, setIsShowCompaniesSearch] = useState(false);
-  const [companyTag, setCompanyTag] = useState([])
-  const [companiesSearch, setCompaniesSearch] = useState([])
+  const [companyTag, setCompanyTag] = useState([]);
+  const [companiesSearch, setCompaniesSearch] = useState([]);
   const [formValidate, setFormValidate] = useState(initialStateForm);
+  const [selectedCompany, setSelectedCompany] = useState([]);
+  const [prevJob, setPrevJob] = useState("");
+  const [workPeriodStart, setWorkPeriodStart] = useState({});
+  // const [company,setCompany] = useState([<Company key={0}/>])
+
   
-  const companies =[
+
+  const companies = [
     {
       name: "Walmart",
       code: 1,
@@ -88,9 +75,125 @@ const PersonalExpForm = (props) => {
       name: "Mckesson",
       code: 8,
     },
-  ]
+  ];
 
-  const filterCompany= (text) => {
+  const handleAddCompany = (company) => {
+  };
+
+  const validateForm = () => {};
+  // console.log(form.companies[0].company === "")
+  //   if (
+  //     form.companies[0].company === "" ||
+  //     (form.companies[0].company && form.companies[0].company.length === 0) ||
+  //     form.companies[0].company === undefined
+  //   ) {
+  //     if (
+  //       form.companies[0].prevJob === undefined ||
+  //       form.companies[0].prevJob === ""
+  //     ){
+
+  //       setFormValidate({
+  //         ...formValidate,
+  //         companies: {
+  //           status: true,
+  //           messageError: "Tối thiểu 1 công ty",
+  //         },
+  //         jobPosition: {
+  //           status: true,
+  //           messageError: "Trường này là bắt buộc",
+  //         },
+  //       });
+  //     }
+
+  //     if (
+  //       form.companies[0].prevJob && form.companies[0].prevJob.length >10
+  //     ){
+
+  //       setFormValidate({
+  //         ...formValidate,
+  //         companies: {
+  //           status: true,
+  //           messageError: "Tối thiểu 1 công ty",
+  //         },
+  //         jobPosition: {
+  //           status: true,
+  //           messageError: "Không vượt quá 10 ký tự",
+  //         },
+  //       });
+  //     }
+
+  //   }
+  //   else {
+  //     setFormValidate({
+  //       ...formValidate,
+  //       companies: {
+  //         status: false,
+  //         messageError: "",
+  //       },
+  //     });
+  //   }
+
+  //   if (
+  //     form.companies[0].prevJob === undefined ||
+  //     form.companies[0].prevJob === ""
+  //   ) {
+  //     if (
+  //       form.companies[0].company === "" ||
+  //       (form.companies[0].company && form.companies[0].company.length === 0) ||
+  //       form.companies[0].company === undefined
+  //     )
+
+  //     setFormValidate({
+  //       ...formValidate,
+  //       jobPosition: {
+  //         status: true,
+  //         messageError: "Trường này là bắt buộc",
+  //       },
+  //       companies: {
+  //         status: true,
+  //         messageError: "Tối thiểu 1 công ty",
+  //       },
+
+  //     });
+
+  //   }
+  //   if(form.companies[0].prevJob && form.companies[0].prevJob.length >10){
+  //     if (
+  //       form.companies[0].company === "" ||
+  //       (form.companies[0].company && form.companies[0].company.length === 0) ||
+  //       form.companies[0].company === undefined
+  //     )
+
+  //     setFormValidate({
+  //       ...formValidate,
+  //       jobPosition: {
+  //         status: true,
+  //         messageError: "Không vượt quá 10 ký tự",
+  //       },
+  //       companies: {
+  //         status: true,
+  //         messageError: "Tối thiểu 1 công ty",
+  //       },
+
+  //     });
+  //   }
+
+  //   else{
+  //     setFormValidate({
+  //       ...formValidate,
+  //       jobPosition: {
+  //         status: false,
+  //         messageError: "",
+  //       },
+  //       companies: {
+  //         status: false,
+  //         messageError: "",
+  //       },
+  //     });
+  //   }
+  // };
+
+  const filterCompany = (text) => {
     const regex = new RegExp(`${text}`, "gi");
     return companies.filter((company) => company.name.match(regex));
   };
@@ -99,62 +202,153 @@ const PersonalExpForm = (props) => {
 
   useClickOutside(searchRef, () => setIsShowCompaniesSearch(false));
 
-  
   const searchCompanies = (text) => {
-
     if (text) {
       setIsShowCompaniesSearch(true);
-      const companySearch = filterCompany(text)
-      setCompaniesSearch(companySearch)
+      const companySearch = filterCompany(text);
+      setCompaniesSearch(companySearch);
     }
   };
   const handleFocusCompanyInput = () => {
-    setIsShowCompaniesSearch(true)
-    setCompaniesSearch(companies)
-  }
-  const handleAddCompany =(code)=>{
-    const selectedCompany = companiesSearch.find((companySearch)=>companySearch.code ===code)
-    setCompanyTag(selectedCompany)
-    setForm({
-      ...form,  
-      companies: [{
-        company:selectedCompany.name
-        
-      }] 
-    })  
-    setIsShowCompaniesSearch(false);
-  }
-  // console.log(form)
-  // const handleRemoveCity = () => {
-    
-
-  // }
-
-  const handlePosition = (text)=>{
-
-    
+    setIsShowCompaniesSearch(!isShowCompaniesSearch);
+    setCompaniesSearch(companies);
+  };
+  const handleAddCompanyName = (code) => {
+    const selectedCompany = companiesSearch.find(
+      (companySearch) => companySearch.code === code
+    );
+    setCompanyTag(selectedCompany);
+    setSelectedCompany(selectedCompany);
+    setFormValidate({
+      ...formValidate,
+      companies: {
+        status: false,
+        messageError: "",
+      },
+    });
     setForm({
       ...form,
-      companies:[...companies,
+      companies: [
         {
-          PrevJob:text
+          company: selectedCompany.name,
+          code: selectedCompany.code,
+          prevJob: prevJob,
+        },
+      ],
+    });
+    setIsShowCompaniesSearch(false);
+  };
 
-        }
-      ]
-    })  
-   }
+  const handleRemoveCompany = (code) => {
+    const newCompanyTag = [companyTag];
+    newCompanyTag.pop(selectedCompany);
+    setCompanyTag(newCompanyTag);
+    setFormValidate({
+      ...formValidate,
+      companies: {
+        status: true,
+        messageError: "Tối thiểu 1 công ty",
+      },
+    });
+    setForm({
+      ...form,
+      companies: [
+        {
+          company: "",
+          code: "",
+          prevJob: prevJob,
+        },
+      ],
+    });
+  };
 
+  // console.log(form)
 
+  const handleAddPrevJob = (text) => {
+    if (text) {
+      setForm({
+        ...form,
+        companies: [
+          {
+            company: selectedCompany.name,
+            code: selectedCompany.code,
+            prevJob: text,
+          },
+        ],
+      });
+      setFormValidate({
+        ...formValidate,
+        jobPosition: {
+          status: false,
+          messageError: "",
+        },
+      });
+    } else {
+      setForm({
+        ...form,
+        companies: [
+          {
+            company: selectedCompany.name,
+            code: selectedCompany.code,
+            prevJob: text,
+          },
+        ],
+      });
+      setFormValidate({
+        ...formValidate,
+        jobPosition: {
+          status: true,
+          messageError: "Trường này là bắt buộc",
+        },
+      });
+    }
 
+    // console.log(form.companies)
+  };
+  const handleAddWorkPeriodStart = (valueStart) => {
+    console.log(valueStart);
+    const selectedYYYYStart = Number(valueStart.slice(0, 4));
+    const selectedMMStart = Number(valueStart.slice(5, 7));
+    const selectedDDStart = Number(valueStart.slice(8, 10));
+    setWorkPeriodStart({
+      ddStart: selectedDDStart,
+      mmStart: selectedMMStart,
+      yyStart: selectedYYYYStart,
+    });
+    setForm({
+      ...form,
+      companies: [
+        {
+          company: selectedCompany.name,
+          code: selectedCompany.code,
+          prevJob: prevJob,
+          start: `${selectedDDStart} - ${selectedMMStart} - ${selectedYYYYStart}`,
+        },
+      ],
+    });
+  };
 
+  const handleAddWorkPeriodEnd = (valueEnd) => {
+    const selectedYYYYEnd = Number(valueEnd.slice(0, 4));
+    const selectedMMEnd = Number(valueEnd.slice(5, 7));
+    const selectedDDEnd = Number(valueEnd.slice(8, 10));
+
+    setForm({
+      ...form,
+      companies: [
+        {
+          company: selectedCompany.name,
+          code: selectedCompany.code,
+          prevJob: prevJob,
+          end: `${selectedDDEnd} - ${selectedMMEnd} - ${selectedYYYYEnd}`,
+        },
+      ],
+    });
+  };
 
   useEffect(() => {
     localStorage.setItem("form", JSON.stringify(form));
   }, [form]);
-
-
-
- 
 
   return (
     <div className="form-personal-exp">
@@ -205,69 +399,84 @@ const PersonalExpForm = (props) => {
         <div className="form-company-container">
           <div className="company-input-wrap">
             <input
-              onChange={(e)=>searchCompanies(e.target.value)}
+              onChange={(e) => searchCompanies(e.target.value)}
               className="company-input"
               type="text"
-              onFocus={handleFocusCompanyInput}
+              onMouseUp={handleFocusCompanyInput}
             />
-          {isShowCompaniesSearch && (           
-            <div ref={searchRef} className="company-option-wrap">
-              {companiesSearch.map((companySearch) => {
-                return (
-                  <div
-                  onClick={(e)=>handleAddCompany(companySearch.code)}
-                    // onClick={() => }
-                    className="company-option"
-                    key={companySearch.code}
-                  >
-                    {companySearch.name}
-                  </div>
-                );
-              })}
-            </div>)}
+            {isShowCompaniesSearch && (
+              <div ref={searchRef} className="company-option-wrap">
+                {companiesSearch.map((companySearch) => {
+                  return (
+                    <div
+                      onClick={(e) => handleAddCompanyName(companySearch.code)}
+                      // onClick={() => }
+                      className="company-option"
+                      key={companySearch.code}
+                    >
+                      {companySearch.name}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
           <img
             className="trash"
             src={require("../assets/images/Trash.png")}
             alt=""
-            // onClick={handleRemoveCity}
-          />         
+            onClick={handleRemoveCompany}
+          />
           <div key={companyTag.code} className="company-tag">
-                  {companyTag.name}
-                </div>
+            {form.companies[0].company}
+          </div>
         </div>
         {formValidate.companies.status && (
-            <div className="invalid-warning">
-              {formValidate.companies["messageError"]}
-            </div>
-          )}
+          <div className="invalid-warning">
+            {formValidate.companies["messageError"]}
+          </div>
+        )}
 
-        <div className="form-input form-all-position">
+        <div className="form-input form-prev-job">
           <div className="label-input">
             <span className="label-require">Must</span>
             <span>Vị trí từng làm</span>
           </div>
-          <input onChange={(e)=>handlePosition(e.target.value)} className="form-input" type="text" />
+          <input
+            onChange={(e) => handleAddPrevJob(e.target.value)}
+            className="form-input"
+            type="text"
+          />
         </div>
+        {formValidate.jobPosition.status && (
+          <div className="invalid-warning">
+            {formValidate.jobPosition["messageError"]}
+          </div>
+        )}
         <div className="form-input form-work-period">
           <div className="label-input">
             <span className="label-require">Must</span>
             <span>Thời gian làm việc</span>
           </div>
           <div className="work-period-input-container">
-            <input type="date" className="work-period-input" />
+            <input
+              onChange={(e) => handleAddWorkPeriodStart(e.target.value)}
+              type="date"
+              className="work-period-input"
+            />
             <span className="dash">-</span>
-            <input type="date" className="work-period-input" />
+            <input
+              onChange={(e) => handleAddWorkPeriodEnd(e.target.value)}
+              type="date"
+              className="work-period-input"
+            />
           </div>
         </div>
         <div className="form-input form-work-introduction">
           <div className="label-input">
             <span> Mô tả về công việc</span>
           </div>
-          <input
-            className="work-introduction"
-            type="text"
-          />
+          <textarea className="work-introduction" type="text" />
         </div>
       </div>
       <div className="add-company">
@@ -278,10 +487,11 @@ const PersonalExpForm = (props) => {
         />
         <span>Thêm công ty</span>
       </div>
+
       <button onClick={validateForm} className="next-button ">
         Tiếp
       </button>
-      <button  onClick={prevStep} className="prev-button">
+      <button onClick={prevStep} className="prev-button">
         Quay lại
       </button>
     </div>

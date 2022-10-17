@@ -27,15 +27,14 @@ const PersonalInfoForm = (props) => {
     job: {
       status: false,
       messageError: "",
-      
     },
   };
-  
+
   const searchRef = useRef();
-  
+
   const [isShowMessageErrorName, setIsShowMessageErrorName] = useState(false);
   const [isShowMessageErrorDoB, setIsShowMessageErrorDoB] = useState(false);
-  const [form, setForm] = useState(()=>{
+  const [form, setForm] = useState(() => {
     const saved = localStorage.getItem("form");
     const initialValue = JSON.parse(saved);
     return initialValue || "";
@@ -53,9 +52,6 @@ const PersonalInfoForm = (props) => {
   const [isAvatarSelected, setIsAvatarSelected] = useState(false);
   const [isShowJobsTag, setIsShowJobsTag] = useState(false);
 
-
-
-  
   const jobPosition = [
     {
       code: 1,
@@ -92,7 +88,6 @@ const PersonalInfoForm = (props) => {
     setIsShowJobsSearch(false);
   });
 
-
   const handleAddCity = (code) => {
     const selectedCity = citiesSearch.find(
       (citySearch) => citySearch.code === code
@@ -103,18 +98,18 @@ const PersonalInfoForm = (props) => {
       ...form,
       cityName: selectedCity.name,
     });
-
   };
 
-  
+  // console.log(form)
+
+
   const handleAddJob = (code) => {
-   
     const selectedJob = jobsSearch.find((jobSearch) => jobSearch.code === code);
     const newJobSearch = jobsSearch.filter(
       (jobSearch) => jobSearch.code !== code
     );
     const newJobSearchTag = [...jobsSearchTag];
-    if (newJobSearchTag.length < 3) { 
+    if (newJobSearchTag.length < 3) {
       newJobSearchTag.push(selectedJob);
       setJobsSearchTag([...newJobSearchTag]);
 
@@ -126,12 +121,7 @@ const PersonalInfoForm = (props) => {
       ...form,
       job: newJobSearchTag,
     });
-
-
-
   };
-
-
 
   const handleFocusCity = () => {
     setIsShowCitiesSearch((current) => !current);
@@ -163,41 +153,29 @@ const PersonalInfoForm = (props) => {
       ...form,
       job: newJobTags,
     });
-
-   
-
-
   };
 
   const handleAddAvatar = (event) => {
     const file = URL.createObjectURL(event.target.files[0]);
-    
-
 
     setIsAvatarSelected(true);
     event.target.value = null;
-    setAvatar(file)
-    // upload img twice 
+    setAvatar(file);
+    // upload img twice
 
     setForm({
       ...form,
       avatar: file,
     });
-
   };
 
   const handleCloseAvatar = () => {
-   
-
-      setIsAvatarSelected(false);
-      setAvatar(null)
-      setForm({
-        ...form,
-        avatar: null,
-      });
-
-    
-  
+    setIsAvatarSelected(false);
+    setAvatar(null);
+    setForm({
+      ...form,
+      avatar: null,
+    });
   };
 
   // console.log(form);
@@ -209,7 +187,8 @@ const PersonalInfoForm = (props) => {
   const validateForm = () => {
     if (
       formValidate.fullName.status === true &&
-      formValidate.fullName.text === "0"
+      formValidate.fullName.text === "0" &&
+      !form.fullName
     ) {
       setIsShowMessageErrorName(true);
     }
@@ -217,8 +196,7 @@ const PersonalInfoForm = (props) => {
       setIsShowMessageErrorDoB(true);
     }
 
-    if(form.fullName && form.fullName.length >20){
-      console.log("ok")
+    if (form.fullName && form.fullName.length > 20) {
       setIsShowMessageErrorName(false);
       setFormValidate({
         ...formValidate,
@@ -228,24 +206,39 @@ const PersonalInfoForm = (props) => {
           text: "1",
         },
       });
-
     }
 
-    
-   
+    if (form.DateOfBirth) {
+      setIsShowMessageErrorDoB(false);
+    }
+
+    if (form.description && form.description.length > 20) {
+      setFormValidate({
+        ...formValidate,
+        description: {
+          status: true,
+          messageError: "Không vượt quá 20 ký tự",
+        },
+      });
+    }
+
     if (
-      ((form.fullName &&form.fullName.length<=20)&& 
-          form.DateOfBirth && (!form.description)) ||((form.fullName &&form.fullName.length<=20) &&
-            form.DateOfBirth &&(form.description && form.description.length <=20))
-      )
-     {
-      nextStep()
+      (form.fullName &&
+        form.fullName.length <= 20 &&
+        form.DateOfBirth &&
+        !form.description) ||
+      (form.fullName &&
+        form.fullName.length <= 20 &&
+        form.DateOfBirth &&
+        form.description &&
+        form.description.length <= 20)
+    ) {
+      nextStep();
+
       // console.log("okd")
       // const test = JSON.parse(localStorage.getItem('form'))
       // alert(test)
     }
-
-    
   };
 
   const filterCity = (text) => {
@@ -278,7 +271,6 @@ const PersonalInfoForm = (props) => {
   };
 
   const handleFullName = (text) => {
-    
     if (!text) {
       setFormValidate({
         ...formValidate,
@@ -325,8 +317,6 @@ const PersonalInfoForm = (props) => {
     }
   };
 
-  // console.log(valueStore)
-
   const handleDateOfBirth = (value) => {
     const today = new Date();
     const dd = today.getDate();
@@ -335,7 +325,6 @@ const PersonalInfoForm = (props) => {
     const selectedYYYY = Number(value.slice(0, 4));
     const selectedMM = Number(value.slice(5, 7));
     const selectedDD = Number(value.slice(8, 10));
-
 
     if (!value) {
       setFormValidate({
@@ -346,12 +335,14 @@ const PersonalInfoForm = (props) => {
           value: "0",
         },
       });
-      
+
       setIsShowMessageErrorDoB(true);
     } else {
-      if ((selectedYYYY === yyyy && selectedMM === mm && selectedDD <= dd) ||
-      (selectedYYYY === yyyy && selectedMM < mm)|| (selectedYYYY < yyyy))
-      {
+      if (
+        (selectedYYYY === yyyy && selectedMM === mm && selectedDD <= dd) ||
+        (selectedYYYY === yyyy && selectedMM < mm) ||
+        selectedYYYY < yyyy
+      ) {
         setFormValidate({
           ...formValidate,
           dob: {
@@ -375,18 +366,11 @@ const PersonalInfoForm = (props) => {
             value: "1",
           },
         });
-        
       }
     }
   };
 
-  console.log(form)
-  // console.log(formValidate);
-
   const handleSelfIntro = (textIntro) => {
-   
-
-
     if (textIntro?.length <= 20) {
       setFormValidate({
         ...formValidate,
@@ -400,7 +384,6 @@ const PersonalInfoForm = (props) => {
         ...form,
         description: textIntro,
       });
-
     } else {
       setFormValidate({
         ...formValidate,
@@ -408,12 +391,11 @@ const PersonalInfoForm = (props) => {
           status: true,
           messageError: "Không vượt quá 20 ký tự",
         },
-      }); setForm({
+      });
+      setForm({
         ...form,
-        description: textIntro})
-
-      
-     
+        description: textIntro,
+      });
     }
   };
 
@@ -429,7 +411,6 @@ const PersonalInfoForm = (props) => {
   useEffect(() => {
     localStorage.setItem("form", JSON.stringify(form));
   }, [form]);
-
 
   return (
     <div className="form-personal-info">
@@ -507,8 +488,6 @@ const PersonalInfoForm = (props) => {
             type="date"
             className="date-of-birth-input"
             value={form.DateOfBirth}
-
-            
           />
           {formValidate.dob.status && (
             <span className="invalid-warning">
@@ -547,12 +526,9 @@ const PersonalInfoForm = (props) => {
                     <div
                       onClick={() => handleAddCity(citySearch.code)}
                       className="city-option"
-                        key={citySearch.code}
-
+                      key={citySearch.code}
                     >
-                      <span className="cities-name" >
-                        {citySearch.name}
-                      </span>
+                      <span className="cities-name">{citySearch.name}</span>
                     </div>
                   );
                 })}
@@ -575,7 +551,7 @@ const PersonalInfoForm = (props) => {
           />
           {isShowJobsTag && (
             <div className="job-tags-container">
-              {jobsSearchTag && 
+              {jobsSearchTag &&
                 form.job?.map((jobItem) => {
                   return (
                     <div className="job-tag-content" key={jobItem.code}>
@@ -655,9 +631,9 @@ const PersonalInfoForm = (props) => {
             // value={form.avatar}
           />
 
-          {isAvatarSelected && (
+          {(isAvatarSelected || form.avatar)  && (
             <div className={"image-selected-container"}>
-              <img className="image-selected" alt="" src={avatar} />
+              <img className="image-selected" alt="" src={avatar?form.avatar:"../assets/images/no-preview.jpg"} />
               <img
                 onClick={handleCloseAvatar}
                 className="close-icon"
@@ -666,12 +642,18 @@ const PersonalInfoForm = (props) => {
               />
             </div>
           )}
+          {console.log(avatar)}
         </div>
       </div>
 
       <button onClick={validateForm} className="next-button">
         Tiếp
       </button>
+      {/* <div>
+        {form.job.map((jobItem) => {
+          return jobItem.name
+        })} 
+      </div> */}
     </div>
   );
 };
