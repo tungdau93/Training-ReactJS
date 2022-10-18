@@ -95,108 +95,107 @@ $border-input-color-invalid: #ed5d5d;
   border: 1px solid $border-input-color;
   border-radius: 4px;
   padding: 32px;
-  .form-company-container {
-    position: relative;
-    padding: 10px;
-    background: #f8f8f8;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  
 
-    .company-tag {
-      position: absolute;
-      position: absolute;
-      left: 40px;
-       background-color: rgb(255, 255, 255);
-      top: 30px;
-    }
+    .form-company {
+      margin-bottom: 20px;
+      position: relative;
+      border: 1px solid $border-input-color;
+      // margin-left: 32px;
+      width: 94%;
+      padding: 32px;
 
-    .company-input-wrap {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      .company-input {
-        width: 84%;
-        display: flex;
-        align-items: center;
-        padding: 10px 10px 10px 30px;
-        margin-top: 8px;
-        height: 20px;
-        background: $white-color;
-        border: 1px solid $border-input-color;
-        border-radius: 4px;
-        background-image: url(../assets/images/search.png);
-        background-repeat: no-repeat;
-        background-position: 3px;
-        &:focus {
-          outline: none !important;
-        }
-      }
-      .company-option-wrap {
-        width: 84.5%;
-        z-index: 1;
-        margin-top: 52px;
+      .trash{
         position: absolute;
-        display: block;
-        max-height: 100px;
-        overflow: auto;
-        background-color: #f8f8f8;
-        .company-option {
-          padding: 10px;
-          border: 1px solid $border-input-color;
-          cursor: pointer;
-          &:hover {
-            background-color: #627d98;
-          }
-        }
-
-        .company-search-option {
-          padding: 10px;
-          border: 1px solid $border-input-color;
-          cursor: pointer;
-          &:hover {
-            background-color: #627d98;
-          }
-        }
-      }
-    }
-
-    .companies-tag-wrap {
-      overflow: auto;
-
-      width: 439px;
-      position: absolute;
-      top: 12px;
-      left: 30px;
-      display: flex;
-      &::-webkit-scrollbar-thumb {
-        background-image: linear-gradient(-45deg, #6a5af9, #d66efd);
-        border-radius: 50px;
-      }
-      .companies-tag-content {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        margin: 10px;
+        top:0px;
+        right:0px;
+        cursor: pointer;
         padding: 5px;
-        min-width: 100px;
-        height: 19px;
-        display: flex;
-        justify-content: space-between;
-        border: 2px solid #dcdcdc;
-        border-radius: 2px;
-        background: #dcdcdc;
-        .close {
-          padding: 1px;
-          cursor: pointer;
+      }
+      
+      .company-name-input {
+        margin-left: 12px;
+        /* display: flex; */
+        width: 100%;
+        align-items: center;
+        justify-content: space-around;
+        .company-input {
+          width: 80.6%;
+          display: flex;
+          padding: 10px 10px 10px 30px;
+          height: 20px;
+          background: $white-color;
+          border: 1px solid $border-input-color;
+          border-radius: 4px;
+          background-image: url(../assets/images/search.png);
+          background-repeat: no-repeat;
+          background-position: 3px;
+          margin-left: -12px;
+          margin-bottom: 8px;
+          &:focus {
+            outline: none !important;
+          }
+        }
+        .company-option-wrap {
+          width: 84.5%;
+          z-index: 1;
+          margin-top: 52px;
+          position: absolute;
+          display: block;
+          max-height: 100px;
+          overflow: auto;
+          background-color: #f8f8f8;
+          .company-option {
+            padding: 10px;
+            border: 1px solid $border-input-color;
+            cursor: pointer;
+            &:hover {
+              background-color: #627d98;
+            }
+          }
+
+          .company-search-option {
+            padding: 10px;
+            border: 1px solid $border-input-color;
+            cursor: pointer;
+            &:hover {
+              background-color: #627d98;
+            }
+          }
         }
       }
-    }
 
-    .trash {
-      cursor: pointer;
-      margin-right: -5px;
+      .companies-tag-wrap {
+        overflow: auto;
+
+        width: 439px;
+        position: absolute;
+        top: 12px;
+        left: 30px;
+        display: flex;
+        &::-webkit-scrollbar-thumb {
+          background-image: linear-gradient(-45deg, #6a5af9, #d66efd);
+          border-radius: 50px;
+        }
+        .companies-tag-content {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          margin: 10px;
+          padding: 5px;
+          min-width: 100px;
+          height: 19px;
+          display: flex;
+          justify-content: space-between;
+          border: 2px solid #dcdcdc;
+          border-radius: 2px;
+          background: #dcdcdc;
+          .close {
+            padding: 1px;
+            cursor: pointer;
+          }
+        }
+      }
     }
   }
   .invalid-warning {
@@ -208,10 +207,27 @@ $border-input-color-invalid: #ed5d5d;
   .form-input {
     @include form_input;
     outline: none;
-    .work-period-input-container {
-      display: flex;
-      align-items: center;
+
+    .input-company-name {
+      padding: 12px;
+      margin-top: 8px;
+      background: #ffffff;
+      border: 1px solid #dcdcdc;
+      border-radius: 4px;
+      outline: none;
+      width: 83%;
     }
+
+    .input-job-position{
+      padding: 12px;
+      margin-top: 8px;
+      background: #ffffff;
+      border: 1px solid #dcdcdc;
+      border-radius: 4px;
+      outline: none;
+      width: 83%;
+    }
+
     .label-input {
       display: flex;
       align-items: center;
@@ -228,10 +244,8 @@ $border-input-color-invalid: #ed5d5d;
       width: 83%;
       padding: 10px;
       margin-top: 8px;
-      height: 20px;
 
       background: $white-color;
-      border: 1px solid $border-input-color;
       border-radius: 4px;
     }
     .dash {
@@ -293,27 +307,27 @@ $border-input-color-invalid: #ed5d5d;
     opacity: 0.5;
     margin-bottom: 10px;
   }
-}
-
-.add-company {
-  margin: 24px 0;
-  width: 140px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  color: #48647f;
-  border: 1px solid $border-input-color;
-  border-radius: 3px;
-  padding: 8px;
-  &:hover {
-    border: 1px solid #107ce0;
+  .add-company {
+    margin: 24px 0 0 15px;
+    width: 140px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    color: #48647f;
+    border: 1px solid $border-input-color;
     border-radius: 3px;
-    cursor: pointer;
+    padding: 8px;
+
+    &:hover {
+      border: 1px solid #107ce0;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .plus-2 {
+      margin-right: 8px;
+    }
   }
-  .plus-2 {
-    margin-right: 8px;
-  }
-}
+
 
 .next-button {
   margin-top: 30px;

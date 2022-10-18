@@ -185,60 +185,60 @@ const PersonalInfoForm = (props) => {
   // };
 
   const validateForm = () => {
-    if (
-      formValidate.fullName.status === true &&
-      formValidate.fullName.text === "0" &&
-      !form.fullName
-    ) {
-      setIsShowMessageErrorName(true);
-    }
-    if (formValidate.dob.status === true && formValidate.dob.value === "0") {
-      setIsShowMessageErrorDoB(true);
-    }
+    // if (
+    //   formValidate.fullName.status === true &&
+    //   formValidate.fullName.text === "0" &&
+    //   !form.fullName
+    // ) {
+    //   setIsShowMessageErrorName(true);
+    // }
+    // if (formValidate.dob.status === true && formValidate.dob.value === "0") {
+    //   setIsShowMessageErrorDoB(true);
+    // }
 
-    if (form.fullName && form.fullName.length > 20) {
-      setIsShowMessageErrorName(false);
-      setFormValidate({
-        ...formValidate,
-        fullName: {
-          status: true,
-          messageError: "Không vượt quá 20 ký tự",
-          text: "1",
-        },
-      });
-    }
+    // if (form.fullName && form.fullName.length > 20) {
+    //   setIsShowMessageErrorName(false);
+    //   setFormValidate({
+    //     ...formValidate,
+    //     fullName: {
+    //       status: true,
+    //       messageError: "Không vượt quá 20 ký tự",
+    //       text: "1",
+    //     },
+    //   });
+    // }
 
-    if (form.DateOfBirth) {
-      setIsShowMessageErrorDoB(false);
-    }
+    // if (form.DateOfBirth) {
+    //   setIsShowMessageErrorDoB(false);
+    // }
 
-    if (form.description && form.description.length > 20) {
-      setFormValidate({
-        ...formValidate,
-        description: {
-          status: true,
-          messageError: "Không vượt quá 20 ký tự",
-        },
-      });
-    }
+    // if (form.description && form.description.length > 20) {
+    //   setFormValidate({
+    //     ...formValidate,
+    //     description: {
+    //       status: true,
+    //       messageError: "Không vượt quá 20 ký tự",
+    //     },
+    //   });
+    // }
 
-    if (
-      (form.fullName &&
-        form.fullName.length <= 20 &&
-        form.DateOfBirth &&
-        !form.description) ||
-      (form.fullName &&
-        form.fullName.length <= 20 &&
-        form.DateOfBirth &&
-        form.description &&
-        form.description.length <= 20)
-    ) {
+    // if (
+    //   (form.fullName &&
+    //     form.fullName.length <= 20 &&
+    //     form.DateOfBirth &&
+    //     !form.description) ||
+    //   (form.fullName &&
+    //     form.fullName.length <= 20 &&
+    //     form.DateOfBirth &&
+    //     form.description &&
+    //     form.description.length <= 20)
+    // ) {
       nextStep();
 
-      // console.log("okd")
-      // const test = JSON.parse(localStorage.getItem('form'))
-      // alert(test)
-    }
+    //   // console.log("okd")
+    //   // const test = JSON.parse(localStorage.getItem('form'))
+    //   // alert(test)
+    // }
   };
 
   const filterCity = (text) => {
