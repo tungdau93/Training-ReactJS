@@ -234,11 +234,6 @@ const PersonalInfoForm = (props) => {
     //     form.description.length <= 20)
     // ) {
       nextStep();
-
-    //   // console.log("okd")
-    //   // const test = JSON.parse(localStorage.getItem('form'))
-    //   // alert(test)
-    // }
   };
 
   const filterCity = (text) => {

@@ -7,7 +7,9 @@ import React from "react";
 export const formContext = createContext();
 export const companyContext = createContext();
 
+
 const PersonalExpForm = (props) => {
+
   const closeRef = useRef();
 
   const initialStateForm = [
@@ -36,49 +38,16 @@ const PersonalExpForm = (props) => {
   const [selectedCompany, setSelectedCompany] = useState([]);
   const [prevJob, setPrevJob] = useState("");
   const [form, setForm] = useState(initialStateForm);
+ 
 
-  const [companies, setCompanies] = useState([<Company key={0} />]);
 
-  // const companies = [
-  //   {
-  //     name: "Walmart",
-  //     code: 1,
-  //   },
-  //   {
-  //     name: "Amazon",
-  //     code: 2,
-  //   },
-  //   {
-  //     name: "Apple",
-  //     code: 3,
-  //   },
-  //   {
-  //     name: "CVS Health",
-  //     code: 4,
-  //   },
-  //   {
-  //     name: "Samsung ",
-  //     code: 5,
-  //   },
-  //   {
-  //     name: "Alphabet",
-  //     code: 6,
-  //   },
-  //   {
-  //     name: "Berkershire",
-  //     code: 7,
-  //   },
-
-  //   {
-  //     name: "Mckesson",
-  //     code: 8,
-  //   },
-  // ];
-
+  
   useClickOutside(searchRef, () => setIsShowCompaniesSearch(false));
 
+ 
   const handleAddCompany = () => {
-    setForm([
+    
+    setForm([ 
       ...form,
       {
         keyCompany: form.length,
@@ -93,28 +62,9 @@ const PersonalExpForm = (props) => {
     ]);
   };
 
-  const handleRemoveCompany = () => {};
-
-  // const filterCompany = (text) => {
-  //   const regex = new RegExp(`${text}`, "gi");
-  //   return companies.filter((company) => company.name.match(regex));
-  // };
-
   const { nextStep, prevStep } = props;
 
   useClickOutside(searchRef, () => setIsShowCompaniesSearch(false));
-
-  // const searchCompanies = (text) => {
-  //   if (text) {
-  //     setIsShowCompaniesSearch(true);
-  //     const companySearch = filterCompany(text);
-  //     setCompaniesSearch(companySearch);
-  //   }
-  // };
-  // const handleFocusCompanyInput = () => {
-  //   setIsShowCompaniesSearch(!isShowCompaniesSearch);
-  //   setCompaniesSearch(companies);
-  // };
 
   useEffect(() => {
     localStorage.setItem("form", JSON.stringify(form));
@@ -166,13 +116,13 @@ const PersonalExpForm = (props) => {
         </div>
       </div>
       <div className="body">
-        <formContext.Provider value={[form, setForm]}>
-          {/* {companies &&
-            companies.map((company) => {
-              return <div key={company.length}>{company}</div>;
-            })} */}
+        <formContext.Provider value={[form, setForm] } >
           {form.length > 0 &&
-            form.map((item) => <Company key={item.keyCompany} />)}
+            form.map((item) =>{
+              return(
+                <Company  keyCompany={item.keyCompany}/>
+              )}
+              )}
         </formContext.Provider>
         <div onClick={handleAddCompany} className="add-company">
           <img
