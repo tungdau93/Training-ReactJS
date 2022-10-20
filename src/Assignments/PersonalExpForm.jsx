@@ -7,20 +7,48 @@ import React from "react";
 export const formContext = createContext();
 export const companyContext = createContext();
 
-
 const PersonalExpForm = (props) => {
+  const { keyCompanyForm } = props;
 
   const closeRef = useRef();
 
   const initialStateForm = [
     {
-      keyCompany: 0,
+      keyCompanyForm: 0,
       companyName: "",
       info: {
         jobPosition: "",
+        jobDescription: "",
         timeStart: "",
         timeEnd: "",
-        jobDescription: "",
+      },
+    },
+  ];
+
+  const initialStateFormValidate = [
+    {
+      keyCompanyValidate: 0,
+      companyName: {
+        state: false,
+        messageError: "",
+      },
+      info: {
+        jobPosition: {
+          messageError: "",
+          state: false,
+        },
+        jobDescription: {
+          messageError: "",
+          state: false,
+        },
+        timeStart: {
+          messageError: "",
+          state: false,
+        },
+        timeEnd: {
+          messageError: "",
+          state: false,
+        },
       },
     },
   ];
@@ -38,19 +66,44 @@ const PersonalExpForm = (props) => {
   const [selectedCompany, setSelectedCompany] = useState([]);
   const [prevJob, setPrevJob] = useState("");
   const [form, setForm] = useState(initialStateForm);
- 
+  const [formValidate, setFormValidate] = useState(initialStateFormValidate);
 
-
-  
   useClickOutside(searchRef, () => setIsShowCompaniesSearch(false));
 
- 
+  const validateForm = () => {
+    // console.log(formValidate)
+    const newFormValidate = [...formValidate]
+
+    form.forEach((itemForm) => {
+      newFormValidate.forEach((itemValidate) => {
+        if (
+          itemForm.companyName === "" &&
+          itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
+        ) {
+          itemValidate.companyName.state = true;
+          itemValidate.companyName.messageError = "Tối thiểu 1 công ty";
+        }
+        if( itemForm.companyName !== "" &&
+        itemForm.keyCompanyForm === itemValidate.keyCompanyValidate){
+          itemValidate.companyName.state = false;
+          itemValidate.companyName.messageError = "";
+        }
+      });
+    });
+    setFormValidate(newFormValidate)
+  };
+
+  const formWitFormValidate = {
+    form: form,
+    formValidate: formValidate,
+  };
+
   const handleAddCompany = () => {
     
-    setForm([ 
+    setForm([
       ...form,
       {
-        keyCompany: form.length,
+        keyCompanyForm: form.length,
         companyName: "",
         info: {
           jobPosition: "",
@@ -60,6 +113,37 @@ const PersonalExpForm = (props) => {
         },
       },
     ]);
+
+    setFormValidate([
+      ...formValidate,
+      {
+        keyCompanyValidate: formValidate.length,
+        companyName: {
+          state: false,
+          messageError: "",
+        },
+        info: {
+          jobPosition: {
+            messageError: "",
+            state: false,
+          },
+          jobDescription: {
+            messageError: "",
+            state: false,
+          },
+          timeStart: {
+            messageError: "",
+            state: false,
+          },
+          timeEnd: {
+            messageError: "",
+            state: false,
+          },
+        },
+       
+      },
+    ]);
+    console.log(form)
   };
 
   const { nextStep, prevStep } = props;
@@ -116,13 +200,11 @@ const PersonalExpForm = (props) => {
         </div>
       </div>
       <div className="body">
-        <formContext.Provider value={[form, setForm] } >
+        <formContext.Provider value={formWitFormValidate}>
           {form.length > 0 &&
-            form.map((item) =>{
-              return(
-                <Company  keyCompany={item.keyCompany}/>
-              )}
-              )}
+            form.map((item) => {
+              return <Company keyCompanyForm={item.keyCompanyForm} />;
+            })}
         </formContext.Provider>
         <div onClick={handleAddCompany} className="add-company">
           <img
@@ -133,7 +215,9 @@ const PersonalExpForm = (props) => {
           <span>Thêm công ty</span>
         </div>
       </div>
-      <button className="next-button ">Tiếp</button>
+      <button onClick={validateForm} className="next-button ">
+        Tiếp
+      </button>
       <button onClick={prevStep} className="prev-button">
         Quay lại
       </button>

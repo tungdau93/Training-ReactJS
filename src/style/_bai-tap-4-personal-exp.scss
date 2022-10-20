@@ -210,7 +210,7 @@ $border-input-color-invalid: #ed5d5d;
     outline: none;
 
     .input-company-name {
-      // caret-color: transparent;
+      
       cursor:pointer;
       padding: 12px;
       
@@ -223,6 +223,11 @@ $border-input-color-invalid: #ed5d5d;
       background-repeat: no-repeat;
       background-position: 99%;
     }
+    .invalid-warning {
+      margin-top: 5px;
+      font-size: 13px;
+      color: $border-input-color-invalid;
+    }
 
     .company-name{
       cursor: pointer;
@@ -233,11 +238,13 @@ $border-input-color-invalid: #ed5d5d;
       left:20px;
     }
 
+   
+
     .companies-container {
       border-radius: 3px;
       width: 100%;
       z-index: 2;
-      margin-top: 5px;
+      margin-top: -13px;
       position: absolute;
       max-height: 120px;
       overflow: auto;

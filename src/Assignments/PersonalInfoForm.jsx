@@ -417,7 +417,7 @@ const PersonalInfoForm = (props) => {
         ></img>
         <div className="heading-name">Đơn ứng tuyển</div>
         <div className="heading-step">
-          <div className="heading-step__first-step">
+          <div className="headin  g-step__first-step">
             <div className="step-img-container">
               <img
                 className="step-img"
@@ -506,13 +506,7 @@ const PersonalInfoForm = (props) => {
 
           <div className="city-tag">{form.cityName}</div>
 
-          {/* <img
-            onClick={handleClickDropDown}
-            alt=""
-            className="drop-down-icon"
-            src={require("../assets/images/drop-down-icon.png")}
-          /> */}
-
+         
           {isShowCitiesSearch && (
             <div ref={searchRef} className="cities-option-wrap">
               {citiesSearch.length > 0 &&
@@ -538,7 +532,6 @@ const PersonalInfoForm = (props) => {
             </span>
           </div>
           <input
-            // onFocus={handleJobFocus}
             className="select-position-input"
             type="text"
             onChange={(e) => searchJobs(e.target.value)}
