@@ -21,25 +21,27 @@ const Company = (props) => {
     setIsShowCompanies(!isShowCompanies);
   };
 
+  const handleClickButton = () => {
+  }
   const [form, setForm] = useState(formWitFormValidate.form);
   const [formValidate, setFormValidate] = useState(
     formWitFormValidate.formValidate
   );
 
-  const handleClickButton = () => {
-    // form.forEach((itemForm) => {
-    //   formValidate.forEach((itemValidate)=>{
-    //     if( itemForm.companyName ===""){
-    //       if(itemForm.keyCompanyForm === itemValidate.keyCompanyValidate){
-    //        console.log(itemValidate)
-    //       }
-    //     }
-    //   })
-    //   }
-    // )
-    // formValidate.forEach((itemForm) => console.log(itemForm));
-  };
-  //  formValidate.forEach((itemValidate)=>console.log(itemValidate))
+  // const handleClickButton = () => {
+  //   // form.forEach((itemForm) => {
+  //   //   formValidate.forEach((itemValidate)=>{
+  //   //     if( itemForm.companyName ===""){
+  //   //       if(itemForm.keyCompanyForm === itemValidate.keyCompanyValidate){
+  //   //        console.log(itemValidate)
+  //   //       }
+  //   //     }
+  //   //   })
+  //   //   }
+  //   // )
+  //   // formValidate.forEach((itemForm) => console.log(itemForm));
+  // };
+  // //  formValidate.forEach((itemValidate)=>console.log(itemValidate))
 
   const companies = [
     {
@@ -131,10 +133,9 @@ const Company = (props) => {
   };
   const handleRemoveCompany = () => {
     const newForm = [...form];
-    // console.log(newForm)
-    // const newRemoveForm = newForm.filter((item) => item.keyCompanyForm !== keyCompanyForm);
-    // console.log(newRemoveForm)
     console.log(newForm)
+    // const newRemoveForm = newForm.find((item) => item.keyCompanyForm !== keyCompanyForm);
+    // console.log(newRemoveForm)
   };
 
   const handleAddJobDescription = (jobDescription) => {
@@ -151,13 +152,11 @@ const Company = (props) => {
   };
 
   return (
+    
+   
     <div className="form-company">
-      <img
-        onClick={handleRemoveCompany}
-        className="trash"
-        src={require("../assets/images/Trash.png")}
-        alt=""
-      />
+       <button onClick={handleClickButton} className="button">aaa</button>
+     
       <div ref={searchRef} className="form-input form-company-name">
         {isShowCompanyName && (
           <div onClick={handleClickCompanyName} className="company-name">

@@ -12,7 +12,60 @@ const PersonalExpForm = (props) => {
 
   const closeRef = useRef();
 
-  const initialStateForm = [
+  // const initialStateForm = [
+  //   {
+  //     keyCompanyForm: 0,
+  //     companyName: "",
+  //     info: {
+  //       jobPosition: "",
+  //       jobDescription: "",
+  //       timeStart: "",
+  //       timeEnd: "",
+  //     },
+  //   },
+  // ];
+
+  // const initialStateFormValidate = [
+  //   {
+  //     keyCompanyValidate: 0,
+  //     companyName: {
+  //       state: false,
+  //       messageError: "",
+  //     },
+  //     info: {
+  //       jobPosition: {
+  //         messageError: "",
+  //         state: false,
+  //       },
+  //       jobDescription: {
+  //         messageError: "",
+  //         state: false,
+  //       },
+  //       timeStart: {
+  //         messageError: "",
+  //         state: false,
+  //       },
+  //       timeEnd: {
+  //         messageError: "",
+  //         state: false,
+  //       },
+  //     },
+  //   },
+  // ];
+
+  const searchRef = useRef();
+  const [formSaved, setFormSaved] = useState(() => {
+    const saved = localStorage.getItem("form");
+    const initialValue = JSON.parse(saved);
+    return initialValue || "";
+  });
+
+  const [isShowCompaniesSearch, setIsShowCompaniesSearch] = useState(false);
+  const [companyTag, setCompanyTag] = useState([]);
+  // const [companiesSearch, setCompaniesSearch] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState([]);
+  const [prevJob, setPrevJob] = useState("");
+  const [form, setForm] = useState([
     {
       keyCompanyForm: 0,
       companyName: "",
@@ -23,9 +76,8 @@ const PersonalExpForm = (props) => {
         timeEnd: "",
       },
     },
-  ];
-
-  const initialStateFormValidate = [
+  ])
+  const [formValidate, setFormValidate] = useState([
     {
       keyCompanyValidate: 0,
       companyName: {
@@ -51,27 +103,12 @@ const PersonalExpForm = (props) => {
         },
       },
     },
-  ];
-
-  const searchRef = useRef();
-  const [formSaved, setFormSaved] = useState(() => {
-    const saved = localStorage.getItem("form");
-    const initialValue = JSON.parse(saved);
-    return initialValue || "";
-  });
-
-  const [isShowCompaniesSearch, setIsShowCompaniesSearch] = useState(false);
-  const [companyTag, setCompanyTag] = useState([]);
-  // const [companiesSearch, setCompaniesSearch] = useState([]);
-  const [selectedCompany, setSelectedCompany] = useState([]);
-  const [prevJob, setPrevJob] = useState("");
-  const [form, setForm] = useState(initialStateForm);
-  const [formValidate, setFormValidate] = useState(initialStateFormValidate);
+  ]);
 
   useClickOutside(searchRef, () => setIsShowCompaniesSearch(false));
 
   const validateForm = () => {
-    // console.log(formValidate)
+    console.log(form)
     const newFormValidate = [...formValidate]
 
     form.forEach((itemForm) => {
@@ -96,6 +133,9 @@ const PersonalExpForm = (props) => {
   const formWitFormValidate = {
     form: form,
     formValidate: formValidate,
+    
+    
+
   };
 
   const handleAddCompany = () => {
@@ -143,8 +183,8 @@ const PersonalExpForm = (props) => {
        
       },
     ]);
-    console.log(form)
   };
+  console.log(form)
 
   const { nextStep, prevStep } = props;
 
@@ -206,6 +246,12 @@ const PersonalExpForm = (props) => {
               return <Company keyCompanyForm={item.keyCompanyForm} />;
             })}
         </formContext.Provider>
+        <img
+        
+        className="trash"
+        src={require("../assets/images/Trash.png")}
+        alt=""
+      />
         <div onClick={handleAddCompany} className="add-company">
           <img
             className="plus-2"

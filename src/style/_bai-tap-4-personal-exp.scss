@@ -95,6 +95,14 @@ $border-input-color-invalid: #ed5d5d;
   border: 1px solid $border-input-color;
   border-radius: 4px;
   padding: 32px;
+  position: relative;
+  .trash{
+    position: absolute;
+    cursor: pointer;
+    right:35px;
+    top:35px;
+    
+  }
   
 
     .form-company {
@@ -104,13 +112,7 @@ $border-input-color-invalid: #ed5d5d;
       width: 94%;
       padding: 32px;
 
-      .trash{
-        position: absolute;
-        top:0px;
-        right:0px;
-        cursor: pointer;
-        
-      }
+      
       
       .company-name-input {
         font-size: 20px;
