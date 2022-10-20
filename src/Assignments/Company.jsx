@@ -8,9 +8,6 @@ const Company = (props) => {
   const searchRef = useRef();
 
   const {
-    handleFocusCompanyInput,
-    companyTag,
-    formValidate,
     handleAddPrevJob,
     handleAddWorkPeriodStart,
     handleAddWorkPeriodEnd,
@@ -25,11 +22,13 @@ const Company = (props) => {
   const [isShowCompanies, setIsShowCompanies] = useState(false);
   const [form, setForm] = useContext(formContext);
   const [isShowCompanyName, setIsShowCompanyName] = useState(false);
-  const [selectedCompanies, setSelectedCompanies] = useState("");
+  const [companyName,setCompanyName] = useState("")
+  
 
   const handleCLickCompanyInput = () => {
     setIsShowCompanies(!isShowCompanies);
   };
+
 
   const companies = [
     {
@@ -67,41 +66,34 @@ const Company = (props) => {
     },
   ];
 
-  const handleRemoveComma = (e) => {
-    const value = e.target.value;
-  };
+ 
 
-  // const handleClickCompanyName = ()=>{
-  //   setIsShowCompanies(!isShowCompanies)
-  // }
+  const handleClickCompanyName = ()=>{
+    setIsShowCompanies(!isShowCompanies)
+  }
 
   const handleSelectCompany = (companyName, companyCode) => {
+    
     const newForm = [...form];
     setIsShowCompanies(false);
     newForm.forEach((item) => {
       console.log(item.keyCompany);
       if (item && item.keyCompany === keyCompany) {
         item.companyName = companyName;
+        setCompanyName(companyName)
+        setIsShowCompanyName(true)
       }
     });
-
-    const selectedCompanies = companies.find(
-      (company) => company.code === companyCode
-    );
-    console.log(selectedCompanies);
-
-    setSelectedCompanies(selectedCompanies);
     setForm([...newForm]);
-    console.log(selectedCompanies);
+    console.log(form)
   };
   const handleRemoveCompany = () => {
     const newForm = [...form];
     const newRemoveForm = newForm.filter(
       (item) => item.keyCompany !== keyCompany
     );
-    console.log(newRemoveForm);
     setForm([...newRemoveForm]);
-    // )
+    console.log(newRemoveForm)
   };
 
   return (
@@ -113,11 +105,14 @@ const Company = (props) => {
         alt=""
       />
       <div ref={searchRef} className="form-input form-company-name">
-        {form.forEach((item) => {
-          if (item.keyCompany === selectedCompanies.code) {
-            return <div className="company-name">{item.companyName}</div>;
+        {/* {form.find((item) => {
+          if(item.keyCompany === keyCompany){
+            <div className="company-name">{item.companyName}</div>
           }
-        })}
+          return <div className="company-name">{item.companyName}</div>
+        
+        })} */}
+        {isShowCompanyName && <div onClick={handleClickCompanyName} className="company-name">{companyName}</div> }
         <input
           readOnly
           onClick={handleCLickCompanyInput}
