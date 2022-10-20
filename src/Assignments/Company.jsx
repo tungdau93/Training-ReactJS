@@ -156,7 +156,12 @@ const Company = (props) => {
    
     <div className="form-company">
        <button onClick={handleClickButton} className="button">aaa</button>
-     
+      {/* <img
+        onClick={handleRemoveCompany}
+        className="trash"
+        src={require("../assets/images/Trash.png")}
+        alt=""
+      /> */}
       <div ref={searchRef} className="form-input form-company-name">
         {isShowCompanyName && (
           <div onClick={handleClickCompanyName} className="company-name">

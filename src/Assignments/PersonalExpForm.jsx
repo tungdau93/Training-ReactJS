@@ -107,6 +107,10 @@ const PersonalExpForm = (props) => {
 
   useClickOutside(searchRef, () => setIsShowCompaniesSearch(false));
 
+  const handleRemoveCompany = () => {
+    console.log(form)
+  }
+
   const validateForm = () => {
     console.log(form)
     const newFormValidate = [...formValidate]
@@ -240,18 +244,18 @@ const PersonalExpForm = (props) => {
         </div>
       </div>
       <div className="body">
+      <img
+      onClick={handleRemoveCompany}
+        className="trash"
+        src={require("../assets/images/Trash.png")}
+        alt=""
+      />
         <formContext.Provider value={formWitFormValidate}>
           {form.length > 0 &&
             form.map((item) => {
               return <Company keyCompanyForm={item.keyCompanyForm} />;
             })}
         </formContext.Provider>
-        <img
-        
-        className="trash"
-        src={require("../assets/images/Trash.png")}
-        alt=""
-      />
         <div onClick={handleAddCompany} className="add-company">
           <img
             className="plus-2"

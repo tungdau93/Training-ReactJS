@@ -97,6 +97,7 @@ $border-input-color-invalid: #ed5d5d;
   padding: 32px;
   position: relative;
   .trash{
+    z-index: 2;
     position: absolute;
     cursor: pointer;
     right:35px;
