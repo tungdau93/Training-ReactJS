@@ -100,9 +100,6 @@ const PersonalInfoForm = (props) => {
     });
   };
 
-  // console.log(form)
-
-
   const handleAddJob = (code) => {
     const selectedJob = jobsSearch.find((jobSearch) => jobSearch.code === code);
     const newJobSearch = jobsSearch.filter(
