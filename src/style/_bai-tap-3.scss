@@ -1,0 +1,145 @@
+
+
+.drag-drop-files-container {
+  width: 70%;
+  margin: auto;
+  .drag-drop-files {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    border: 1px solid #dcdcdc;
+    height: 300px;
+    position: relative;
+    &:hover {
+      border: 1px solid #107ce0;
+      border-radius: 3px;}  
+
+    .drag-drop-label {
+      display: flex;
+      flex-direction: column;
+      min-width: 150px;
+      position: absolute;
+      bottom: calc(300px - 54px - 150px);
+
+      .image-drag-drop {
+        display: flex;
+        justify-content: center;
+
+        img {
+          margin-bottom: 16px;
+        }
+      }
+
+      span {
+        margin: 4px 0;
+      }
+    }
+
+    .input-files {
+      width: 100%;
+      opacity: 0;
+    }
+  }
+  .show-data {
+    margin-top: 33px;
+    min-height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .maximum-files-length{
+      color: #6d1b1b;
+    }
+    .show-data-list {
+      overflow-x: auto;
+      overflow-y: hidden;
+      border-radius: 3px;
+      width: 90%;
+      display: flex;
+      flex-direction: row;
+      padding: 8px 0;
+
+      .show-data-list-item {
+        padding: 5px;
+        margin: 0 8px;
+        min-width: 28%;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid #dcdcdc;
+        border-radius: 3px;
+        .file-upload-info{
+          display: flex;
+        }
+        
+
+        &:hover {
+          border: 1px solid #107ce0;
+          border-radius: 3px;
+        }
+        .image-item {
+          height: 37px;
+          width: 24px;
+        }
+        .image-invalid{
+          height: 37px;
+          width: 24px;
+          background-color: rgb(253, 253, 243);
+        }
+        .item-label {
+          display: flex;
+          flex-direction: column;
+          margin-left: 12px;
+          .item-label-name {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 116px;
+            overflow: hidden;
+            font-weight: 700;
+            font-family: "Noto Sans";
+          }
+          .item-label-capacity {
+            font-weight: 400;
+            font-family: "Noto Sans";
+          }
+        }
+        // .item-label--close-button {
+        //   margin-left: 25%;
+        //   width: 16.67px;
+        //   height: 16.67px;
+        //   margin-right: 10px;
+        // }
+      }
+    }
+    
+    .next-button {
+      margin-top: 30px;
+    padding: 10px 8px;
+    border: none;
+    border-radius: 3px;
+    width: 43px;
+    height: 35px;
+    margin-bottom: 50px;
+    color: #ffffff;
+    font-weight: 700;
+    margin-right: 34px;
+    }
+  }
+  .upload-button{
+    position: relative;
+    width: 50px;
+    height: 30px;
+    top:550px;
+    left: 344px;
+    border: none;
+    border-radius: 3px;
+    &:hover{
+      opacity: 0.7;
+      background-color: rgb(207, 207, 193);
+    }
+    
+  }
+}
+

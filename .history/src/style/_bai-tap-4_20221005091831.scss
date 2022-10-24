@@ -1,0 +1,253 @@
+.form__container {
+  width: 70%;
+  margin: auto;
+
+  .form__container--heading {
+    margin-top: 160px;
+    .line-progress {
+      position: absolute;
+      width: 221px;
+      background-color: #dbdbdb;
+      margin-left: 77px;
+      margin-top: 73px;
+      height: 1px;
+    }
+    .form__container--heading-name {
+      width: 164px;
+      height: 36px;
+      font-family: "Noto Sans JP";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 36px;
+      color: #333333;
+    }
+    .form__container--heading-steps {
+      display: flex;
+      margin-top: 18px;
+
+      .step-1 {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        .step-1-img-container {
+          width: 114px;
+          height: 40px;
+          .step-1-img {
+            margin-left: 37px;
+          }
+        }
+        .form__container--heading-steps-name {
+          display: flex;
+          justify-content: center;
+          margin-top: 14px;
+          height: 24px;
+          font-family: "Noto Sans JP";
+          font-style: normal;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 24px;
+        }
+      }
+      .step-2 {
+        z-index: 1;
+        margin-left: 16.5px;
+        display: flex;
+        flex-direction: column;
+        .step-2-img-container {
+          width: 114px;
+          height: 40px;
+          .step-2-img {
+            margin-left: 37px;
+            height: 20px;
+          }
+        }
+        .form__container--heading-steps-name-2 {
+          display: flex;
+          justify-content: center;
+          margin-top: 14px;
+          height: 24px;
+          font-family: "Noto Sans JP";
+          font-style: normal;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 24px;
+        }
+      }
+      .step-3 {
+        margin-left: 16.5px;
+        display: flex;
+        flex-direction: column;
+        height: 101.98px;
+        .step-3-img-container {
+          width: 114px;
+          height: 40px;
+          .step-3-img {
+            margin-left: 37px;
+            height: 40px;
+          }
+        }
+        .form__container--heading-steps-name-3 {
+          display: flex;
+          flex-direction: column;
+          margin-top: 14px;
+          height: 24px;
+          font-family: "Noto Sans JP";
+          font-style: normal;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 24px;
+
+          span {
+            margin: auto;
+          }
+        }
+      }
+    }
+  }
+  .form__container--body {
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    padding: 32px;
+
+    .form-input {
+      margin-bottom: 10px;
+      .label-input {
+        display: flex;
+        align-items: center;
+        .label-require {
+          margin-right: 8px;
+          background: #627d98;
+          border-radius: 3px;
+          padding: 1px 4px;
+          border: 1px solid #627d98;
+        }
+      }
+
+      .label-input-job {
+        display: flex;
+        flex-direction: column;
+        span {
+          padding: 4px;
+        }
+        .label-input-job-subheading {
+          font-weight: 400;
+          font-size: 12px;
+          opacity: 0.5;
+        }
+      }
+
+      .full-name-input {
+        padding: 10px;
+        margin-top: 8px;
+        width: 63%;
+        height: 20px;
+
+        background: #ffffff;
+        border: 1px solid #dcdcdc;
+        border-radius: 4px;
+      }
+      .date-of-birth-input {
+        margin-top: 8px;
+        width: 19.7%;
+        height: 20px;
+        padding: 10px;
+
+        background: #ffffff;
+        border: 1px solid #dcdcdc;
+        border-radius: 4px;
+
+        &::-webkit-calendar-picker-indicator {
+          background: url(../assets/images/date-img.png);
+        }
+      }
+      .select-city-input {
+        margin-top: 8px;
+        width: 63%;
+        height: 20px;
+        padding: 20px;
+
+        background: #ffffff;
+        border: 1px solid #dcdcdc;
+        border-radius: 4px;
+      }
+
+      .job-position-input {
+        display: flex;
+        align-items: center;
+        padding: 10px 10px 10px 30px;
+        margin-top: 8px;
+        width: 58%;
+        height: 20px;
+        background: #ffffff;
+        border: 1px solid #dcdcdc;
+        border-radius: 4px;
+        background-image: url(../assets/images/search.png);
+        background-repeat: no-repeat;
+        background-position: 3px;
+      }
+      .self-introduction {
+        padding: 10px;
+        padding-bottom: 100px;
+        margin-top: 8px;
+        width: 63%;
+
+        background: #ffffff;
+        border: 1px solid #dcdcdc;
+        border-radius: 4px;
+      }
+    }
+    .text-per-type {
+      opacity: 0.5;
+      margin-bottom: 10px;
+    }
+    .form-personal-image {
+      background-color: #f8f8f8;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      margin-top: 8px;
+      width: 95%;
+      height: 200px;
+      border: 1px solid #dcdcdc;
+      border-radius: 4px;
+      .drag-and-drop-label {
+        display: flex;
+        flex-direction: column;
+        min-width: 150px;
+        position: absolute;
+        bottom: calc(100px - 53px);
+
+        .image-drag-drop {
+          display: flex;
+          justify-content: center;
+
+          img {
+            margin-bottom: 16px;
+          }
+        }
+
+        span {
+          margin: auto;
+        }
+      }
+
+      .full-name-input {
+        opacity: 0;
+        height: 200px;
+        width: 100%;
+      }
+    }
+  }
+
+  .next-button {
+    margin-top: 20px;
+    padding: 10px 8px;
+    border: none;
+    border-radius: 3px;
+    width: 80px;
+    height: 40px;
+    margin-bottom: 50px;
+  }
+}
