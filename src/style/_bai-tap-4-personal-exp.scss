@@ -198,9 +198,16 @@ $border-input-color-invalid: #ed5d5d;
   }
 }
 .invalid-warning {
+  
   margin: 15px 0px;
   font-size: 13px;
   color: $border-input-color-invalid;
+}
+
+.invalid-time-end{
+  font-size: 13px;
+  color: $border-input-color-invalid;
+  margin-left:20px;
 }
 
 .form-input {

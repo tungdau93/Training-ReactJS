@@ -4,6 +4,7 @@ import useClickOutside from "../hooks/useClickOutside";
 import Company from "./Company";
 import React from "react";
 import RemoveCompany from "./RemoveCompany";
+import { info } from "sass";
 
 export const formContext = createContext();
 export const companyContext = createContext();
@@ -24,13 +25,6 @@ const PersonalExpForm = (props) => {
     ]);
   };
 
-  const [style, setStyle] = useState({
-    position: "absolute ",
-    zIndex: 2,
-    cursor: "pointer",
-    left: "93%",
-    top: 614,
-  });
   // const [formSaved, setFormSaved] = useState(() => {
   //   const saved = localStorage.getItem("form");
   //   const initialValue = JSON.parse(saved);
@@ -72,6 +66,15 @@ const PersonalExpForm = (props) => {
           state:false,
           messageError:""
         }
+        ,
+          timeStart:{
+            state:false,
+            messageError:""
+          },
+          timeEnd:{
+            state:false,
+            messageError:""
+          }
        
       },
     },
@@ -86,37 +89,34 @@ const PersonalExpForm = (props) => {
     },
   ]);
 
+
   useClickOutside(searchRef, () => setIsShowCompaniesSearch(false));
+
+  const handleRemoveCompany=(value)=>{
+    const newForm = form.filter(
+      (item) => item && item.keyCompanyForm !== value
+    );
+
+    setForm(newForm)
+  }
 
   const validateForm = () => {
     const newFormValidate = [...formValidate];
+    const newForm = [...form]
 
-    form.forEach((itemForm) => {
+    newForm.forEach((itemForm) => {
       newFormValidate.forEach((itemValidate) => {
         if (
           itemForm.companyName === "" &&
           itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
         ) {
           itemValidate.companyName.state = true;
-          itemValidate.companyName.messageError = "Tối thiểu 1 công ty";
+          itemValidate.companyName.messageError = "Trường này là bắt buộc";
         }
         if (
           itemForm.companyName !== "" 
         ) {
-          // if(
-          // itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
-
-          // ){
-
-          //   itemValidate.companyName.state = false;
-          //   itemValidate.companyName.messageError = "";
-          // }
-          // if(
-          //   itemForm.keyCompanyForm !== itemValidate.keyCompanyValidate
-          // ){ 
-          //   // itemValidate.companyName.state = false;
-          //   // itemValidate.companyName.messageError = "";
-          // }
+         
           itemValidate.companyName.state = false;
           itemValidate.companyName.messageError = ""
         }
@@ -146,30 +146,48 @@ const PersonalExpForm = (props) => {
           itemValidate.info.jobDescription.messageError = "Không vượt quá 5 ký tự";
         }
 
+        if (  
+          itemForm.info.jobDescription !== "" &&
+          itemForm.info.jobDescription.length <= 5 
+         
+        ) {
+          if( itemForm.keyCompanyForm === itemValidate.keyCompanyValidate){
+
+            itemValidate.info.jobDescription.state = false;
+            itemValidate.info.jobDescription.messageError = "";
+          }
+        }
+
+        if (
+          itemForm.info.jobDescription === "" &&
+          itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
+        ) {
+          itemValidate.info.jobDescription.state = false;
+         
+        }
+
+        if (
+          (itemForm.info.timeStart === "" || itemForm.info.timeEnd === "" ||
+          itemForm.info.timeStart === "null" ||   itemForm.info.timeEnd === "null" 
+          )  &&
+          itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
+        ) {
+          // itemValidate.info.timeValidate.messageError ="Thời gian làm việc là bắt buộc"
+         
+        }
+
         if (
           itemForm.info.timeStart &&
           itemForm.info.timeEnd 
-          &&
-          itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
+          
           && 
-          ((Number(itemForm.info.timeStart.slice(6, 10)) >
-            Number(itemForm.info.timeEnd.slice(6, 10)) )
-            ||
-            (Number(itemForm.info.timeStart.slice(6, 10)) ===
-              Number(itemForm.info.timeEnd.slice(6, 10)) &&
-              Number(itemForm.info.timeStart.slice(3, 5)) >
-                Number(itemForm.info.timeEnd.slice(3, 5)))||
-                (Number(itemForm.info.timeStart.slice(6, 10)) ===
-                Number(itemForm.info.timeEnd.slice(6, 10)) &&
-                Number(itemForm.info.timeStart.slice(3, 5)) ===
-                  Number(itemForm.info.timeEnd.slice(3, 5)) && 
-                  Number(itemForm.info.timeStart.slice(0, 2)) >
-                  Number(itemForm.info.timeEnd.slice(0, 2))
-                  )
-                )
+          itemForm.info.timeStart > itemForm.info.timeEnd
         ) {
-          itemValidate.info.timeValidate.state = true
+          if(itemForm.keyCompanyForm === itemValidate.keyCompanyValidate){
+            itemValidate.info.timeValidate.state = true
           itemValidate.info.timeValidate.messageError ="Thời gian băt đầu không vượt quá thời gian kết thúc"
+          }
+          
         
         }
 
@@ -177,7 +195,9 @@ const PersonalExpForm = (props) => {
       });
     });
     
-    setFormValidate(newFormValidate);
+    setFormValidate([...newFormValidate]);
+    // console.log("formValidate",formValidate)
+    
   };
 
   const formWitFormValidate = {
@@ -219,6 +239,14 @@ const PersonalExpForm = (props) => {
           },
           
           timeValidate:{
+            state:false,
+            messageError:""
+          },
+          timeStart:{
+            state:false,
+            messageError:""
+          },
+          timeEnd:{
             state:false,
             messageError:""
           }
@@ -285,7 +313,7 @@ const PersonalExpForm = (props) => {
           {form.length > 0 &&
             form.map((item) => {
               return (
-                <Company ref={heightRef} keyCompanyForm={item.keyCompanyForm} />
+                <Company handleRemoveCompany ={handleRemoveCompany} ref={heightRef} keyCompanyForm={item.keyCompanyForm} />
               );
             })}
         </formContext.Provider>
