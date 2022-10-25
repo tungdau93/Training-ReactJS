@@ -43,10 +43,13 @@ $border-input-color-invalid: #ed5d5d;
         display: flex;
         flex-direction: column;
         .step-img-container {
+
           width: 114px;
           .step-img {
             @include step_img;
             height: 40px;
+            margin-left:37px;
+
           }
         }
         .step-name {

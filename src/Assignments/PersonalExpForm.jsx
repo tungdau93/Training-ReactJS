@@ -12,18 +12,7 @@ export const companyContext = createContext();
 const PersonalExpForm = (props) => {
   const { keyCompanyForm } = props;
 
-  const closeRef = useRef();
   const searchRef = useRef();
-  const trashRef = useRef();
-  const heightRef = useRef();
-  const handleClickButton = () => {
-    setCompanyPosition([
-      {
-        key: "",
-        position: "",
-      },
-    ]);
-  };
 
   // const [formSaved, setFormSaved] = useState(() => {
   //   const saved = localStorage.getItem("form");
@@ -31,9 +20,6 @@ const PersonalExpForm = (props) => {
   //   return initialValue || "";
   // });
   const [isShowCompaniesSearch, setIsShowCompaniesSearch] = useState(false);
-  const [companyTag, setCompanyTag] = useState([]);
-  const [selectedCompany, setSelectedCompany] = useState([]);
-  const [prevJob, setPrevJob] = useState("");
   const [form, setForm] = useState([
     {
       keyCompanyForm: 0,
@@ -46,6 +32,15 @@ const PersonalExpForm = (props) => {
       },
     },
   ]);
+
+  const [timeRange, setTimeRange] = useState([
+    {
+      keyCompanyTime: 0,
+      timeStart: "",
+      timeEnd: "",
+    },
+  ]);
+
   const [formValidate, setFormValidate] = useState([
     {
       keyCompanyValidate: 0,
@@ -62,47 +57,37 @@ const PersonalExpForm = (props) => {
           messageError: "",
           state: false,
         },
-        timeValidate:{
-          state:false,
-          messageError:""
-        }
-        ,
-          timeStart:{
-            state:false,
-            messageError:""
-          },
-          timeEnd:{
-            state:false,
-            messageError:""
-          }
-       
+        timeValidate: {
+          state: false,
+          messageError: "",
+        },
+        timeStart: {
+          state: false,
+          messageError: "",
+        },
+        timeEnd: {
+          state: false,
+          messageError: "",
+        },
       },
     },
   ]);
-  const [idRemoveCompany, setIdRemoveCompany] = useState([]);
-  const [id, setId] = useState(1);
-
-  const [companyPosition, setCompanyPosition] = useState([
-    {
-      key: "",
-      position: "",
-    },
-  ]);
-
 
   useClickOutside(searchRef, () => setIsShowCompaniesSearch(false));
 
-  const handleRemoveCompany=(value)=>{
+  const handleRemoveCompany = (value) => {
     const newForm = form.filter(
       (item) => item && item.keyCompanyForm !== value
     );
 
-    setForm(newForm)
-  }
+    console.log(value)
+
+    setForm(newForm);
+  };
 
   const validateForm = () => {
     const newFormValidate = [...formValidate];
-    const newForm = [...form]
+    const newForm = [...form];
 
     newForm.forEach((itemForm) => {
       newFormValidate.forEach((itemValidate) => {
@@ -113,12 +98,9 @@ const PersonalExpForm = (props) => {
           itemValidate.companyName.state = true;
           itemValidate.companyName.messageError = "Trường này là bắt buộc";
         }
-        if (
-          itemForm.companyName !== "" 
-        ) {
-         
+        if (itemForm.companyName !== "") {
           itemValidate.companyName.state = false;
-          itemValidate.companyName.messageError = ""
+          itemValidate.companyName.messageError = "";
         }
 
         if (
@@ -143,16 +125,15 @@ const PersonalExpForm = (props) => {
           itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
         ) {
           itemValidate.info.jobDescription.state = true;
-          itemValidate.info.jobDescription.messageError = "Không vượt quá 5 ký tự";
+          itemValidate.info.jobDescription.messageError =
+            "Không vượt quá 5 ký tự";
         }
 
-        if (  
+        if (
           itemForm.info.jobDescription !== "" &&
-          itemForm.info.jobDescription.length <= 5 
-         
+          itemForm.info.jobDescription.length <= 5
         ) {
-          if( itemForm.keyCompanyForm === itemValidate.keyCompanyValidate){
-
+          if (itemForm.keyCompanyForm === itemValidate.keyCompanyValidate) {
             itemValidate.info.jobDescription.state = false;
             itemValidate.info.jobDescription.messageError = "";
           }
@@ -163,41 +144,88 @@ const PersonalExpForm = (props) => {
           itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
         ) {
           itemValidate.info.jobDescription.state = false;
-         
         }
 
         if (
-          (itemForm.info.timeStart === "" || itemForm.info.timeEnd === "" ||
-          itemForm.info.timeStart === "null" ||   itemForm.info.timeEnd === "null" 
-          )  &&
+          (itemForm.info.timeStart === "" ||
+            itemForm.info.timeEnd === "" ||
+            itemForm.info.timeStart === "null" ||
+            itemForm.info.timeEnd === "null") &&
           itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
         ) {
-          // itemValidate.info.timeValidate.messageError ="Thời gian làm việc là bắt buộc"
-         
+          itemValidate.info.timeValidate.messageError =
+            "Thời gian làm việc là bắt buộc";
         }
 
         if (
           itemForm.info.timeStart &&
-          itemForm.info.timeEnd 
-          
-          && 
+          itemForm.info.timeEnd &&
           itemForm.info.timeStart > itemForm.info.timeEnd
         ) {
-          if(itemForm.keyCompanyForm === itemValidate.keyCompanyValidate){
-            itemValidate.info.timeValidate.state = true
-          itemValidate.info.timeValidate.messageError ="Thời gian băt đầu không vượt quá thời gian kết thúc"
+          if (itemForm.keyCompanyForm === itemValidate.keyCompanyValidate) {
+            itemValidate.info.timeValidate.state = true;
+            itemValidate.info.timeValidate.messageError =
+              "Thời gian băt đầu không vượt quá thời gian kết thúc";
           }
-          
-        
         }
 
+        if (
+          itemForm.info.timeStart &&
+          itemForm.info.timeEnd &&
+          itemForm.info.timeStart < itemForm.info.timeEnd
+        ) {
+          if (itemForm.keyCompanyForm === itemValidate.keyCompanyValidate) {
+            itemValidate.info.timeValidate.state = false;
+            itemValidate.info.timeValidate.messageError = "";
+          }
+        }
 
+        for (var i = 0; i < form.length; i++) {
+          for (var j = 0; j < form.length; j++) {
+            if (
+              (i !== j &&
+                (
+                  (form[i].info.timeEnd > form[j].info.timeStart &&
+                  form[i].info.timeStart < form[j].info.timeStart &&
+                  form[i].info.timeStart < form[i].info.timeEnd) 
+                  ||
+                  (form[i].info.timeStart > form[j].info.timeStart &&
+                    form[i].info.timeEnd < form[j].info.timeEnd &&
+                    form[i].info.timeStart < form[i].info.timeEnd) 
+                  ||
+                  (form[i].info.timeStart > form[j].info.timeStart &&
+                    form[i].info.timeStart < form[j].info.timeEnd &&
+                    form[i].info.timeEnd > form[j].info.timeEnd &&
+                    form[i].info.timeStart < form[i].info.timeEnd
+                    )
+                    )
+                    ) 
+                    ||
+
+                    (i !== j && form[i].info.timeStart!=="" && form[i].info.timeEnd!=="" &&
+                      (
+                        JSON.stringify(form[i].info.timeStart) ===
+                          JSON.stringify(form[j].info.timeStart) ||
+                        JSON.stringify(form[i].info.timeStart) ===
+                          JSON.stringify(form[j].info.timeEnd) ||
+                        JSON.stringify(form[i].info.timeEnd) ===
+                          JSON.stringify(form[j].info.timeStart) ||
+                        JSON.stringify(form[i].info.End) ===
+                          JSON.stringify(form[j].info.timeEnd)
+                      )
+                    )
+
+            ) {
+              itemValidate.info.timeValidate.state = true;
+              itemValidate.info.timeValidate.messageError =
+                "Trùng thời gian làm ở công ty khác";
+            }
+          }
+        }
       });
     });
-    
+
     setFormValidate([...newFormValidate]);
-    // console.log("formValidate",formValidate)
-    
   };
 
   const formWitFormValidate = {
@@ -237,22 +265,33 @@ const PersonalExpForm = (props) => {
             messageError: "",
             state: false,
           },
-          
-          timeValidate:{
-            state:false,
-            messageError:""
+
+          timeValidate: {
+            state: false,
+            messageError: "",
           },
-          timeStart:{
-            state:false,
-            messageError:""
+          timeStart: {
+            state: false,
+            messageError: "",
           },
-          timeEnd:{
-            state:false,
-            messageError:""
-          }
+          timeEnd: {
+            state: false,
+            messageError: "",
+          },
         },
       },
     ]);
+
+    setTimeRange([
+      ...timeRange,
+      {
+        keyCompanyTime: timeRange.length,
+        timeStart: "",
+        timeEnd: "",
+      },
+    ]);
+
+    console.log(form.keyCompanyForm)
   };
 
   const { nextStep, prevStep } = props;
@@ -313,7 +352,12 @@ const PersonalExpForm = (props) => {
           {form.length > 0 &&
             form.map((item) => {
               return (
-                <Company handleRemoveCompany ={handleRemoveCompany} ref={heightRef} keyCompanyForm={item.keyCompanyForm} />
+                <Company
+                  handleRemoveCompany={handleRemoveCompany}
+                  keyCompanyForm={item.keyCompanyForm}
+                  timeRange={timeRange}
+                  setTimeRange={setTimeRange}
+                />
               );
             })}
         </formContext.Provider>

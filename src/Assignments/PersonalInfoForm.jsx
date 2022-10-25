@@ -414,7 +414,7 @@ const PersonalInfoForm = (props) => {
         ></img>
         <div className="heading-name">Đơn ứng tuyển</div>
         <div className="heading-step">
-          <div className="headin  g-step__first-step">
+          <div className="heading-step__first-step">
             <div className="step-img-container">
               <img
                 className="step-img"
