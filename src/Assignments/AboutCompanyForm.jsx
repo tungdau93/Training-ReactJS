@@ -1,11 +1,65 @@
 import "../style/_bai-tap-4-about-company.scss";
-// import { useState } from "react";
+import { useState } from "react";
 
+const AboutCompany = (props) => {
+  const { prevStep } = props;
+  const [form, setForm] = useState({
+    reason: "",
+    expectedSalary: "",
+  });
+  const [formValidate, setFormValidate] = useState({
+    reason: {
+      messageError: "",
+      state: false
+    },
+    expectedSalary: {
+      messageError: "",
+      state: false,
+    },
+  });
 
+  const handleAddReason = (e) => {
+    // form.reason = e.target.value.replace(/\n/g, "").replace(/\s/g, "");
+    setForm({
+      ...form,
+      reason: e.target.value.replace(/\n/g, "").replace(/\s/g, "")
+    });
+  };
 
-  const AboutCompany = (props) => {
-    const { prevStep } = props;
-  
+  const handleAddExpectedSalary = (e) => {
+    setForm({
+      ...form,
+      expectedSalary: e.target.value
+    });
+  };
+
+  const validateForm = () => {
+
+    if (form.reason === "") {
+      setFormValidate({
+        ...formValidate,
+        reason: {
+          messageError: "Trường này là bắt buộc",
+          state: true,
+        },
+      });
+    }
+
+    if (form.expectedSalary === "") {
+      setFormValidate({
+        ...formValidate,
+        expectedSalary: {
+          messageError: "Trường này là bắt buộc",
+          state: true,
+        },
+      });
+    }
+
+   
+
+   
+    
+  };
 
   return (
     <div className="form-about-company">
@@ -56,21 +110,36 @@ import "../style/_bai-tap-4-about-company.scss";
       <div className="body">
         <div className="form-input form-reason-join">
           <div className="label-input">
-            <span className="lab  el-require">Must</span>
+            <span className="label-require">Must</span>
             <span>Lý do muốn ứng tuyển vào công ty</span>
           </div>
-          <input className="reason-join-input" type="text" />
+          <textarea
+            onChange={(e) => handleAddReason(e)}
+            className="reason-join-input"
+            type="text"
+          />
         </div>
-        <span className="text-per-type">0/1000</span>
+        {formValidate.reason.state && (
+          <span className="invalid-warning">
+            {formValidate.reason["messageError"]}
+          </span>
+        )}
+        <div className="text-per-type">0/1000</div>
         <div className="form-input form-expected-salary">
           <div className="label-input">
             <span className="label-require">Must</span>
             <span>Mức lương mong muốn </span>
           </div>
-          <input className="form-input expected-salary-input" type="text" />
+          <input
+            onChange={(e) => handleAddExpectedSalary(e)}
+            className="expected-salary-input"
+            type="text"
+          />
         </div>
       </div>
-      <button className="finish">Hoàn thành</button>
+      <button onClick={validateForm} className="finish">
+        Hoàn thành
+      </button>
       <button onClick={prevStep} className="prev-button">
         Quay lại
       </button>

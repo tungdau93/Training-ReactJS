@@ -8,13 +8,20 @@ import { useCallback } from "react";
 const Company = (props, ref) => {
   const searchRef = useRef();
 
-  const { nextStep, keyCompanyForm, timeRange, setTimeRange } = props;
+  const {
+    nextStep,
+    keyCompanyForm,
+    timeRange,
+    setTimeRange,
+    companies,
+    setCompanies,
+  } = props;
 
   useClickOutside(searchRef, () => {
     setIsShowCompanies(false);
   });
 
-  const [arrayCompanyNameChange, setArrayCompanyNameChange] = useState([]);
+  const [classId, setClassId] = useState(0);
   const [isShowCompanies, setIsShowCompanies] = useState(false);
   const formWitFormValidate = useContext(formContext);
   const [isShowCompanyName, setIsShowCompanyName] = useState(false);
@@ -42,46 +49,11 @@ const Company = (props, ref) => {
     setFormValidate([...newFormValidate]);
   };
 
+
   const [form, setForm] = useState(formWitFormValidate.form);
   const [formValidate, setFormValidate] = useState(
     formWitFormValidate.formValidate
   );
-
-  const companies = [
-    {
-      name: "Walmart",
-      code: 1,
-    },
-    {
-      name: "Amazon",
-      code: 2,
-    },
-    {
-      name: "Apple",
-      code: 3,
-    },
-    {
-      name: "CVS Health",
-      code: 4,
-    },
-    {
-      name: "Samsung ",
-      code: 5,
-    },
-    {
-      name: "Alphabet",
-      code: 6,
-    },
-    {
-      name: "Berkershire",
-      code: 7,
-    },
-
-    {
-      name: "Mckesson",
-      code: 8,
-    },
-  ];
 
   const handleAddTimeStart = (value) => {
     const newFormValidate = [...formValidate];
@@ -93,7 +65,8 @@ const Company = (props, ref) => {
           if (value) {
             if (
               itemForm.keyCompanyForm === keyCompanyForm &&
-              itemForm.keyCompanyForm === itemTimeRange.keyCompanyTime
+              itemForm.keyCompanyForm === itemTimeRange.keyCompanyTime &&
+              itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
             ) {
               itemValidate.info.timeValidate.state = false;
               itemValidate.info.timeStart.state = false;
@@ -123,6 +96,9 @@ const Company = (props, ref) => {
     setTimeRange([...newTimeRange]);
   };
 
+  console.log(form)
+
+
   const handleAddTimeEnd = (value) => {
     const newFormValidate = [...formValidate];
     const newForm = [...form];
@@ -133,7 +109,8 @@ const Company = (props, ref) => {
           if (value) {
             if (
               itemForm.keyCompanyForm === keyCompanyForm &&
-              itemForm.keyCompanyForm === itemTimeRange.keyCompanyTime
+              itemForm.keyCompanyForm === itemTimeRange.keyCompanyTime &&
+              itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
             ) {
               itemValidate.info.timeValidate.state = false;
               itemValidate.info.timeEnd.state = false;
@@ -198,9 +175,28 @@ const Company = (props, ref) => {
 
   const handleClickCompanyName = () => {
     setIsShowCompanies(!isShowCompanies);
-  };
+    const newForm =[...form]
+    const newFormValidate = [...formValidate];
 
-  const handleAddCompanyName = (companyName, companyCode) => {
+    newFormValidate.forEach((itemValidate)=>{
+      newForm.forEach((itemForm)=>{
+        if(itemValidate.keyCompanyValidate === itemForm.keyCompanyForm){
+          itemValidate.companyName.messageError= ""
+
+
+        }
+      })
+    })
+    setFormValidate([...newFormValidate]);
+    
+      
+    }
+
+  
+
+  const handleAddCompanyName = (event, companyName, companyCode) => {
+    setClassId(companyCode);
+
     const newForm = [...form];
     const newFormValidate = [...formValidate];
     setIsShowCompanies(false);
@@ -225,33 +221,6 @@ const Company = (props, ref) => {
         }
       });
     });
-  };
-
-  const handleClickButton = () => {
-    // const compareRangeTime = (a, b) => {
-    //   if (a.timeEnd - a.timeStart < b.timeEnd - b.timeStart) return -1;
-    //   if (a.timeEnd - a.timeStart > b.timeEnd - b.timeStart) return 1;
-    //   return 0;
-    // };
-    // timeRange.sort(compareRangeTime)
-
-    const newTimeRange = [...timeRange];
-
-    if (
-      (newTimeRange[0].timeStart < newTimeRange[0].timeEnd &&
-        newTimeRange[0].timeEnd >= newTimeRange[1].timeStart &&
-        newTimeRange[1].timeStart < newTimeRange[1].timeEnd) ||
-      (newTimeRange[0].timeStart < newTimeRange[0].timeEnd &&
-        newTimeRange[0].timeStart >= newTimeRange[1].timeStart &&
-        newTimeRange[1].timeStart < newTimeRange[1].timeEnd) ||
-      (newTimeRange[0].timeStart < newTimeRange[0].timeEnd &&
-        newTimeRange[0].timeStart >= newTimeRange[1].timeEnd &&
-        newTimeRange[1].timeStart < newTimeRange[1].timeEnd)
-    ) {
-      console.log("khong hop le");
-    }
-
-    // console.log(itemTimeRange[0].timeStart <itemTimeRange[0].timeEnd)
   };
 
   const handleAddJobDescription = (jobDescription) => {
@@ -296,10 +265,6 @@ const Company = (props, ref) => {
     setForm([...newJobDescription]);
   };
 
-  const handleCompanyChange = () => {
-    form.map((itemForm) => itemForm.companyName);
-  };
-
   useEffect(() => {
     setForm(Array.from(formWitFormValidate.form));
   }, [formWitFormValidate.form]);
@@ -334,7 +299,6 @@ const Company = (props, ref) => {
           alt=""
           onClick={() => props.handleRemoveCompany(keyCompanyForm)}
         />
-
         <div ref={searchRef} className="form-input form-company-name">
           {isShowCompanyName && (
             <div onClick={handleClickCompanyName} className="company-name">
@@ -352,7 +316,10 @@ const Company = (props, ref) => {
           {formValidate.map((itemValidate) => {
             if (itemValidate.keyCompanyValidate === keyCompanyForm) {
               return (
-                <div className="invalid-warning">
+                <div
+                  key={itemValidate.keyCompanyValidate}
+                  className="invalid-warning"
+                >
                   {itemValidate.companyName.messageError}
                 </div>
               );
@@ -364,11 +331,14 @@ const Company = (props, ref) => {
               {companies.map((company) => {
                 return (
                   <div
-                    onClick={() =>
-                      handleAddCompanyName(company.name, company.code)
+                    onClick={(event) => {
+                      handleAddCompanyName(event, company.name, company.code);
+                    }}
+                    className={
+                      company.code === classId ? "company-disable" : "company"
                     }
-                    className="company"
                     key={company.code}
+                    id={company.code}
                   >
                     {company.name}
                   </div>
@@ -392,7 +362,10 @@ const Company = (props, ref) => {
           {formValidate.map((itemValidate) => {
             if (itemValidate.keyCompanyValidate === keyCompanyForm) {
               return (
-                <div className="invalid-warning">
+                <div
+                  key={itemValidate.keyCompanyValidate}
+                  className="invalid-warning"
+                >
                   {itemValidate.info.jobPosition.messageError}
                 </div>
               );
@@ -423,7 +396,10 @@ const Company = (props, ref) => {
           {formValidate.map((itemValidate) => {
             if (itemValidate.keyCompanyValidate === keyCompanyForm) {
               return (
-                <div className="invalid-warning">
+                <div
+                  key={itemValidate.keyCompanyValidate}
+                  className="invalid-warning"
+                >
                   {itemValidate.info.timeValidate.messageError}
                 </div>
               );
@@ -446,21 +422,21 @@ const Company = (props, ref) => {
           {formValidate.map((itemValidate) => {
             if (itemValidate.keyCompanyValidate === keyCompanyForm) {
               return (
-                <div className="invalid-warning">
+                <div key={itemValidate.keyCompanyValidate} className="invalid-warning">
                   {itemValidate.info.jobDescription.messageError}
                 </div>
               );
             }
           })}
 
-          <span className="text-per-type">
+          
             {form.map((item) => {
               if (item && item.keyCompanyForm === keyCompanyForm) {
-                return item.info.jobDescription?.length || 0;
+                return <span key={item.keyCompanyForm} className="text-per-type"> {item.info.jobDescription?.length || 0}/10 </span>
               }
             })}
-            /5
-          </span>
+           
+          
         </div>
       </div>
     </>
