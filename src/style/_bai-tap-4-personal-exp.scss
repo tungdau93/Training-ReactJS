@@ -198,10 +198,9 @@ $border-input-color-invalid: #ed5d5d;
   }
 }
 .invalid-warning {
-  
   margin: 15px 0px;
   font-size: 13px;
-  color: $border-input-color-invalid;
+  color: $border-input-color-invalid; 
 }
 
 .form-input {
@@ -222,6 +221,8 @@ $border-input-color-invalid: #ed5d5d;
     background-repeat: no-repeat;
     background-position: 99%;
   }
+
+  
   
   .invalid-warning {
     margin-top: 5px;
@@ -260,6 +261,31 @@ $border-input-color-invalid: #ed5d5d;
       border: 1px solid $border-input-color;
       pointer-events:none;
       opacity:0.15
+    }
+  }
+
+  .jobs-container {
+    border-radius: 3px;
+    width: 100%;
+    z-index: 2;
+    margin-top: 93px;
+    position: absolute;
+    max-height: 125px;
+    overflow: auto;
+    background-color: #f8f8f8;
+    .job {
+      padding: 10px;
+      border: 1px solid $border-input-color;
+      cursor: pointer;
+      &:hover {
+        background-color: #627d98;
+      }
+    }
+    .company-disable {
+      padding: 10px;
+      border: 1px solid $border-input-color;
+      pointer-events: none;
+      opacity: 0.15;
     }
   }
 

@@ -9,6 +9,7 @@ const BaiTap2 = () => {
   const [citySearch, setCitySearch] = useState([]);
   const [citiesTag, setCitiesTag] = useState([]);
   const [isShowCitiesSearch, setIsShowCitiesSearch] = useState(false);
+  
 
   useClickOutside(searchRef, () => setIsShowCitiesSearch(false));
 

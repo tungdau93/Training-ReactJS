@@ -43,13 +43,11 @@ $border-input-color-invalid: #ed5d5d;
         display: flex;
         flex-direction: column;
         .step-img-container {
-
           width: 114px;
           .step-img {
             @include step_img;
             height: 40px;
-            margin-left:37px;
-
+            margin-left: 37px;
           }
         }
         .step-name {
@@ -107,15 +105,25 @@ $border-input-color-invalid: #ed5d5d;
 
     .form-input {
       position: relative;
-      .cities-option-wrap {
-        width: 100%;
-        z-index: 2;
-        margin-top: 71px;
+      .city-name {
+        cursor: pointer;
         position: absolute;
-        max-height: 100px;
+        height: 50%;
+        min-width: 30px;
+        top: 39px;
+        left: 31px;
+      }
+
+      .cities-container {
+        border-radius: 3px;
+        width: 100%;
+        z-index: 3;
+        margin-top: 2px;
+        position: absolute;
+        max-height: 125px;
         overflow: auto;
         background-color: #f8f8f8;
-        .city-option {
+        .city {
           padding: 10px;
           border: 1px solid $border-input-color;
           cursor: pointer;
@@ -123,16 +131,19 @@ $border-input-color-invalid: #ed5d5d;
             background-color: #627d98;
           }
         }
+        
+       
       }
-      .jobs-option-wrap {
+      .jobs-container {
+        border-radius: 3px;
         width: 100%;
         z-index: 2;
-        margin-top: 94px;
+        margin-top: 2px;
         position: absolute;
-        max-height: 100px;
+        max-height: 125px;
         overflow: auto;
         background-color: #f8f8f8;
-        .job-option {
+        .job {
           padding: 10px;
           border: 1px solid $border-input-color;
           cursor: pointer;
@@ -140,7 +151,51 @@ $border-input-color-invalid: #ed5d5d;
             background-color: #627d98;
           }
         }
+       
       }
+
+      .jobs-tag {
+        z-index: 1;
+        // left: 15px;
+        top: -34px;
+        display: flex;
+        position: relative;
+        height:25px;
+        cursor: pointer;
+        min-width: 50px;
+
+        .job-tag-content {
+          z-index: 2;
+          margin-left: 10px;
+          display: flex;
+          min-width: 100px;
+          border-radius: 9px;
+          background: #dcdcdc;
+          cursor: pointer;
+          align-items: center;
+          justify-content: space-between;
+          height:27px;
+
+          .job-tag-name {
+            padding:5px;
+            font-size: 14px;
+
+          }
+
+          .close-img {
+            height: 18px;
+            width: 18px;
+            margin: 5px;
+
+            &:hover{
+              opacity: 0.5;
+            }
+          }
+        }
+      }
+
+      
+      
       @include form-input;
       .label-input {
         display: flex;
@@ -178,38 +233,7 @@ $border-input-color-invalid: #ed5d5d;
         }
       }
 
-      .jobs-tag {
-        overflow: hidden;
-        left: 25px;
-        top: -35px;
-        display: flex;
-        position: relative;
-
-        .jobs-tag-content {
-          margin-left: 5px;
-          display: flex;
-          top: 33px;
-          left: 30px;
-          min-width: 50px;
-          border: 2px solid #dcdcdc;
-          border-radius: 2px;
-          background: #dcdcdc;
-          cursor: pointer;
-          align-items: center;
-          justify-content: space-between;
-
-          .jobs-tag-name {
-            margin: 1px;
-          }
-
-          .close-img {
-            height: 15px;
-            width: 15px;
-            margin: 5px;
-          }
-        }
-      }
-
+      
       .label-input-job {
         display: flex;
         flex-direction: column;
@@ -252,8 +276,6 @@ $border-input-color-invalid: #ed5d5d;
         color: $border-input-color-invalid;
       }
 
-      
-
       .invalid-warning-self-intro {
         font-size: 13px;
         color: $border-input-color-invalid;
@@ -280,38 +302,24 @@ $border-input-color-invalid: #ed5d5d;
         }
       }
 
-      .date-of-birth-input-invalid {
-        margin-top: 8px;
-        width: 20%;
-        height: 20px;
-        padding: 10px;
-        border: 1px solid $border-input-color-invalid;
-        background: $white-color;
-        border-radius: 4px;
-        border: 1px solid $border-input-color-invalid;
-
-        &:focus {
-          outline: none;
-          border: 1px solid $border-input-color-invalid;
-          box-shadow: 0 0 2px #719ece;
-        }
-        &::-webkit-calendar-picker-indicator {
-          background: url(../assets/images/date-img.png);
-        }
-      }
+      
 
       .select-position-input {
         display: flex;
-        align-items: center;
-        padding: 10px 10px 10px 30px;
+        padding: 10px ;
         margin-top: 8px;
         height: 20px;
         background: $white-color;
         border: 1px solid $border-input-color;
         border-radius: 4px;
-        background-image: url(../assets/images/search.png);
         background-repeat: no-repeat;
         background-position: 3px;
+        background-image: url(../assets/images/drop-down-icon.png);
+        background-position: 99%;
+        cursor: pointer;
+        width: 96.5%;
+
+
 
         &:focus {
           outline: none !important;
@@ -348,25 +356,6 @@ $border-input-color-invalid: #ed5d5d;
         }
       }
 
-      .job-option-wrap {
-        width: 100%;
-        z-index: 1;
-        margin-top: 93px;
-        position: absolute;
-        display: block;
-        max-height: 100px;
-        overflow: auto;
-        background-color: #f8f8f8;
-        // background-color: yellow;
-        .job-option {
-          padding: 10px;
-          border: 1px solid $border-input-color;
-          cursor: pointer;
-          &:hover {
-            background-color: #627d98;
-          }
-        }
-      }
 
       .select-city-input {
         z-index: 0;
@@ -382,6 +371,7 @@ $border-input-color-invalid: #ed5d5d;
         background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAF+SURBVHgB7VTLbcJAEB1bBq4pgQ6gg4QKIBUEjohD6CCmAsIB+XOxqSCkgqQEp4PQQc7+5r1kLSUottco3HjSyOvdmXn27LwRuaABRt2h4zg3hmFMYGO89tV2VBQFbTWfz9/lFIIgCK7iOH7Acgrb5Hkelsm22+3QNE0az/fdbnc1m80+tAmYPEmSF3zhG4KXVcHKz8byutPpjOpIfsHzvLXruo+iCfiHjKk6N3++oOZ9PCa9Xs8WTfAv8ZjyvhoJUFcb9V5p/y5AX8Rs2AyNBHAawDmS9ghVp9UDtSzkRFTFmnJmHBMc1EW3gu/7QzyiRgL0/l6+xdUKWZYNqW4tAnTSPUUkmqAvVc3R0UiAcfCKbthBoWvRBEcKkj9XzSXreAOytzkqqM66OaNGxRrJp7CRVMCoCbYROKbwqI3FYvFVYzYBSnKH5RLnO1XWIE3T29KnkaCESmZjyS4ZqO0Dk9JYUm5wwlqW9fQXSS1BG1SR/JvQmJTJcYeBXNAGn7G/3wDUfE4/AAAAAElFTkSuQmCC);
         background-repeat: no-repeat;
         background-position: 3px;
+        width: 93.5%;
       }
 
       .city-tag {

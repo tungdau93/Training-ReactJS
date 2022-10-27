@@ -1,5 +1,6 @@
 import "../style/_bai-tap-4-about-company.scss";
 import { useState } from "react";
+import { info } from "sass";
 
 const AboutCompany = (props) => {
   const { prevStep } = props;
@@ -10,7 +11,7 @@ const AboutCompany = (props) => {
   const [formValidate, setFormValidate] = useState({
     reason: {
       messageError: "",
-      state: false
+      state: false,
     },
     expectedSalary: {
       messageError: "",
@@ -19,47 +20,111 @@ const AboutCompany = (props) => {
   });
 
   const handleAddReason = (e) => {
-    // form.reason = e.target.value.replace(/\n/g, "").replace(/\s/g, "");
     setForm({
       ...form,
-      reason: e.target.value.replace(/\n/g, "").replace(/\s/g, "")
+      reason: e.target.value.replace(/\n/g, "").replace(/\s/g, ""),
     });
+    if(!e.target.value || e.target.value ){
+      setFormValidate({
+        ...formValidate,
+        reason: {
+          messageError: "",
+          state: false,
+        },
+      });
+    }
   };
 
   const handleAddExpectedSalary = (e) => {
+    const value = e.target.value;
+    console.log(value.replace(/\./g,' '))
+   
     setForm({
       ...form,
-      expectedSalary: e.target.value
+      expectedSalary: e.target.value.replace(/\./g,'').replace(/\s/g, "").replace(/,/g, ''),
     });
+    if(!e.target.value || e.target.value ){
+      setFormValidate({
+        ...formValidate,
+        expectedSalary: {
+          messageError: "",
+          state: false,
+        },
+      });
+    }
   };
+
 
   const validateForm = () => {
 
     if (form.reason === "") {
-      setFormValidate({
-        ...formValidate,
-        reason: {
-          messageError: "Trường này là bắt buộc",
-          state: true,
-        },
-      });
+      setFormValidate(prevState=>{
+        return{
+          ...prevState, 
+          reason:{
+            messageError:"Trường này là bắt buộc",
+            state:true
+          }
+        }
+      }
+      );
+     
     }
-
     if (form.expectedSalary === "") {
-      setFormValidate({
-        ...formValidate,
-        expectedSalary: {
-          messageError: "Trường này là bắt buộc",
-          state: true,
-        },
-      });
+      setFormValidate(prevState=>{
+        return{
+          ...prevState, 
+          expectedSalary:{
+            messageError:"Trường này là bắt buộc",
+            state:true
+          }
+        }
+      }
+      );
     }
 
-   
+    if(form.reason && form.reason.length >10){
+      setFormValidate(prevState=>{
+        return{
+          ...prevState, 
+          reason:{
+            messageError:"Không vượt quá 10 ký tự",
+            state:true
+          }
+        }
+      }
+      );
+    }
 
-   
-    
+    if( isNaN(Number(form.expectedSalary)))  {
+      setFormValidate(prevState=>{
+        return{
+          ...prevState, 
+          expectedSalary:{
+            messageError:"Phải là số",
+            state:true
+          }
+        }
+      }
+      );
+
+    }
+
+    if( Number(form.expectedSalary) && form.expectedSalary.length >10 )  {
+      setFormValidate(prevState=>{
+        return{
+          ...prevState, 
+          expectedSalary:{
+            messageError:"Tối đa 10 chữ số",
+            state:true
+          }
+        }
+      }
+      );
+      // console.log(Number(form.expectedSalary) && Number(form.expectedSalary) >10)
+    }
   };
+
 
   return (
     <div className="form-about-company">
@@ -124,7 +189,7 @@ const AboutCompany = (props) => {
             {formValidate.reason["messageError"]}
           </span>
         )}
-        <div className="text-per-type">0/1000</div>
+        <div className="text-per-type">{form.reason?.length || 0 }/10</div>
         <div className="form-input form-expected-salary">
           <div className="label-input">
             <span className="label-require">Must</span>
@@ -136,6 +201,12 @@ const AboutCompany = (props) => {
             type="text"
           />
         </div>
+        {formValidate.expectedSalary.state && (
+          <span className="invalid-warning">
+            {formValidate.expectedSalary["messageError"]}
+          </span>
+        )}
+        
       </div>
       <button onClick={validateForm} className="finish">
         Hoàn thành
