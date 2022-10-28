@@ -8,31 +8,52 @@ const PersonalInfoForm = (props) => {
   const searchCityRef = useRef();
   const searchJobRef = useRef();
   const jobTagContent = useRef();
+  const inputAvatar = useRef();
+  const dateRef = useRef();
   const [cityName, setCityName] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [isShowAvatar, setIsShowAvatar] = useState(false);
 
   useClickOutside(searchCityRef, () => {
     setIsShowCities(false);
   });
   useClickOutside(searchJobRef, () => {
-    setIsShowJobs(false)
+    setIsShowJobs(false);
   });
-
 
   const clearCityInput = useRef();
-  const [jobTag, setJobTag] = useState([])
-  const [isShowJobs,setIsShowJobs] =useState(false)
+  const [jobTag, setJobTag] = useState([]);
+  const [isShowJobs, setIsShowJobs] = useState(false);
   const [citySearch, setCitySearch] = useState([]);
   const [isShowCityName, setIsShowCityName] = useState(false);
-  const [form, setForm] = useState({
-    fullName: "",
-    dateOfBirth: "",
-    city: "",
-    jobPosition: [],
-    selfDescription: "",
-    avatar: "",
+  const [form, setForm] = useState(() => {
+    const saved = localStorage.getItem("personal-info-form");
+    const initialValue = JSON.parse(saved);
+    return initialValue || {}
   });
+
+  
+  const [date,setDate] = useState(()=>{
+    const saved = localStorage.getItem("personal-info-form");
+
+    const initialValueDate = JSON.parse(saved)
+
+    return initialValueDate?.dateOfBirth|| "";
+  })
+  // const [jobs,setJobs] = useState(()=>{
+  //   const saved = localStorage.getItem("personal-info-form");
+
+  //   const initialValueJobs = JSON.parse(saved)
+
+  //   return initialValueJobs?.jobPosition|| [];
+  // })
+
+  // console.log(jobs)
+
+ 
+
   const [cities, setCities] = useState([]);
-  const [isShowJobTag,setIsShowJobTag] =useState(false)
+  const [isShowJobTag, setIsShowJobTag] = useState(false);
 
   const [formValidate, setFormValidate] = useState({
     fullName: {
@@ -63,7 +84,7 @@ const PersonalInfoForm = (props) => {
 
   const [isShowCities, setIsShowCities] = useState(false);
 
-  const [jobPosition,setJobPosition]= useState([
+  const [jobPosition, setJobPosition] = useState([
     {
       name: "PhP developer",
       code: 1,
@@ -99,7 +120,9 @@ const PersonalInfoForm = (props) => {
 
       code: 8,
     },
-  ] )
+  ]);
+
+
 
   const handleAddFullName = (e) => {
     setForm((prevState) => {
@@ -156,7 +179,9 @@ const PersonalInfoForm = (props) => {
         };
       });
     }
+    setDate(e.target.value.slice(0,10))
   };
+
   const handleClickCityInput = (e) => {
     setIsShowCities(!isShowCities);
     setCitySearch([...cities]);
@@ -206,125 +231,195 @@ const PersonalInfoForm = (props) => {
     setCityName(cityName);
   };
 
-  const handleClickJobInput = ()=>{
-    
-    setIsShowJobs(!isShowJobs)
-  }
-  const handleClickJobTags = ()=>{
-    // setIsShowJobs(!isShowJobs)
-    // if(form.jobPosition.length === 0){
-    //   setIsShowJobs(false)
-    // }
-    // // if(true){
+  const handleClickJobInput = () => {
+    setIsShowJobs(!isShowJobs);
+  };
+  // const handleClickJobTags = ()=>{
+  //   // setIsShowJobs(!isShowJobs)
+  //   // if(form.jobPosition.length === 0){
+  //   //   setIsShowJobs(false)
+  //   // }
+  //   // // if(true){
 
-    //   console.log(!jobTagContent.current)
-    // }
-  }
+  //   //   console.log(!jobTagContent.current)
+  //   // }
+  // }
 
-  const handleAddJobs = (jobCode)=>{
-   
-    if( form.jobPosition.length <4){
-      setIsShowJobTag(true)
-      setIsShowJobs(true)
-      const newJobTag= [...jobTag]
-      const selectedJob = jobPosition.find((job)=>job.code === jobCode)
-      const newJobPosition = jobPosition.filter((job)=>job.code !== jobCode)
-        newJobTag.push(selectedJob)
-        setJobTag([...newJobTag])
-        setJobPosition([...newJobPosition])
-        setForm((prevState) => {
-          return {
-            ...prevState,
-            jobPosition: [...newJobTag],
-          };
-        });
-    }else{
-      alert("Không quá 4 vị trí")
-      setIsShowJobs(false)
+  const handleAddJobs = (jobCode) => {
+    if (form.jobPosition && form.jobPosition.length < 4) {
+      setIsShowJobTag(true);
+      setIsShowJobs(true);  
+      const newJobTag = [...jobTag];
+      const selectedJob = jobPosition.find((job) => job.code === jobCode);
+      console.log(selectedJob)
+      const newJobPosition = jobPosition.filter((job) => job.code !== jobCode);
+      newJobTag.push(selectedJob);
+      setJobTag([...newJobTag]);
+      setJobPosition([...newJobPosition]);
+      setForm((prevState) => {
+        return {
+          ...prevState,
+          jobPosition: [...newJobTag],
+        };
+
+      });
+      // setJobs([...newJobTag])
     }
- 
-  }
-  
-  const handleRemoveJobs = (jobCode)=>{
-    const newJobPosition = [...jobPosition]
-    const newJobTag = [...jobTag]
-   const jobSelected =  newJobTag.find((job)=>job.code === jobCode) 
-   const jobAfterSelected =  newJobTag.filter((job)=>job.code !== jobCode) 
-   newJobPosition.push(jobSelected)
-   setJobPosition(newJobPosition)
-   setJobTag(jobAfterSelected)
-   setForm((prevState) => {
-    return {
-      ...prevState,
-      jobPosition: [...jobAfterSelected],
-    };
-  });
+    if (form.jobPosition && form.jobPosition.length >= 4) {
+      alert("Không quá 4 vị trí");
+      setIsShowJobs(false);
+    }
+  };
 
-  if(jobAfterSelected.length=== 0){
-    setIsShowJobTag(false)
-    setIsShowJobs(false)
-  }
-  }
+  const handleRemoveJobs = (jobCode) => {
+    const newJobPosition = [...jobPosition];
+    // const newJobs = [...jobs]
+    const newJobTag = [...jobTag];
+    const jobSelected = newJobTag.find((job) => job.code === jobCode);
+    const jobAfterSelected = newJobTag.filter((job) => job.code !== jobCode);
+    newJobPosition.push(jobSelected);
+    setJobPosition(newJobPosition);
+    setJobTag(jobAfterSelected);
+    setForm((prevState) => {
+      return {
+        ...prevState,
+        jobPosition: [...jobAfterSelected],
+      };
+    });
+    // setJobs(jobAfterSelected)
 
-  console.log("jobPosition",jobPosition)
-  console.log("jobTag",jobTag)
+    if (jobAfterSelected.length === 0) {
+      setIsShowJobTag(false);
+      setIsShowJobs(false);
+    }
+  };
 
+  const handleAddSelfDescription = (text) => {
+    setForm((prevState) => {
+      return {
+        ...prevState,
+        selfDescription: text.replace(/\n/g, "").replace(/\s/g, ""),
+      };
+    });
+    if (text || !text) {
+      setFormValidate((prevState) => {
+        return {
+          ...prevState,
+          selfDescription: {
+            messageError: "",
+            state: false,
+          },
+        };
+      });
+    }
+  };
 
+  const handleAddAvatar = (e) => {
+    const avatar = URL.createObjectURL(e.target.files[0]);
+    setIsShowAvatar(true);
+    setAvatar(avatar);
+    setForm((prevState) => {
+      return {
+        ...prevState,
+        avatar,
+      };
+    });
+  };
 
+  const handleRemoveAvatar = () => {
+    setAvatar("");
+    setIsShowAvatar(false);
+    setForm((prevState) => {
+      return {
+        ...prevState,
+        avatar: "",
+      };
+    });
+    inputAvatar.current.value = "";
+  };
+  // var dateObjectGetFromLocalStorage = new Date(JSON.parse(localStorage.getItem(("personal-info-form"))).dateOfBirth)
+  // console.log(dateGetFormLocalStorage)
+  // useEffect(()=>{
+  //   var dateStringGetFromLocalStorage = (JSON.parse(localStorage.getItem(("personal-info-form"))).dateOfBirth).slice(0,10)
+  // },[])
 
-
+  // console.log(dateStringGetFromLocalStorage)
 
   const validateForm = () => {
-    // if (!form.fullName) {
-    //   setFormValidate((prevState) => {
-    //     return {
-    //       ...prevState,
-    //       fullName: {
-    //         messageError: "Trường này là bắt buộc",
-    //         state: true,
-    //       },
-    //     };
-    //   });
-    // }
+    if (!form.fullName) {
+      setFormValidate((prevState) => {
+        return {
+          ...prevState,
+          fullName: {
+            messageError: "Trường này là bắt buộc",
+            state: true,
+          },
+        };
+      });
+    }
 
-    // if (form.fullName && form.fullName.length >10) {
-    //   setFormValidate((prevState) => {
-    //     return {
-    //       ...prevState,
-    //       fullName: {
-    //         messageError: "Không vượt quá 10 ký tự",
-    //         state: true,
-    //       },
-    //     };
-    //   });
-    // }
+    if (form.fullName && form.fullName.length > 10) {
+      setFormValidate((prevState) => {
+        return {
+          ...prevState,
+          fullName: {
+            messageError: "Không vượt quá 10 ký tự",
+            state: true,
+          },
+        };
+      });
+    }
 
-    // if (form.dateOfBirth ==="null" || form.dateOfBirth ==="") {
-    //   setFormValidate((prevState) => {
-    //     return {
-    //       ...prevState,
-    //       dateOfBirth: {
-    //         messageError: "Trường này là bắt buộc",
-    //         state: true,
-    //       },
-    //     };
-    //   });
-    // }
+    if (form.dateOfBirth === "null" || form.dateOfBirth === "") {
+      setFormValidate((prevState) => {
+        return {
+          ...prevState,
+          dateOfBirth: {
+            messageError: "Trường này là bắt buộc",
+            state: true,
+          },
+        };
+      });
+    }
 
-    // if (form.dateOfBirth && form.dateOfBirth >new Date()) {
-    //   setFormValidate((prevState) => {
-    //     return {
-    //       ...prevState,
-    //       dateOfBirth: {
-    //         messageError: "Ngày sinh không hợp lệ",
-    //         state: true,
-    //       },
-    //     };
-    //   });
-    // }
+    if (form.dateOfBirth && form.dateOfBirth > new Date()) {
+      setFormValidate((prevState) => {
+        return {
+          ...prevState,
+          dateOfBirth: {
+            messageError: "Ngày sinh không hợp lệ",
+            state: true,
+          },
+        };
+      });
+    }
 
-    nextStep();
+    if (form.selfDescription && form.selfDescription.length > 10) {
+      setFormValidate((prevState) => {
+        return {
+          ...prevState,
+          selfDescription: {
+            messageError: "Không vượt quá 10 ký tự",
+            state: true,
+          },
+        };
+      });
+    }
+
+    if (
+      formValidate.fullName.state === false &&
+      formValidate.dateOfBirth.state === false &&
+      formValidate.city.state === false &&
+      formValidate.jobPosition.state === false &&
+      formValidate.selfDescription.state === false &&
+      formValidate.avatar.state === false &&
+      form.fullName !== "" &&
+      form.dateOfBirth !== ""
+    ) {
+      nextStep();
+    }
   };
+
 
   useEffect(() => {
     const url = "https://provinces.open-api.vn/api/";
@@ -335,8 +430,20 @@ const PersonalInfoForm = (props) => {
       });
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("personal-info-form", JSON.stringify(form));
+  }, [form]);
+
+  // const setDate =()=>{
+  //   // console.log("dateRef.current",dateRef.current.value)
+  //   // dateRef.current.value = dateObjectGetFromLocalStorage
+  //   console.log(typeof (JSON.parse(localStorage.getItem(("personal-info-form"))).dateOfBirth).slice(0,10)  )
+
+  // }
+
   return (
     <div className="form-personal-info">
+      {/* <button className="set-date" onClick={setDate}>sadfasdfsdaf</button> */}
       <div className="heading">
         <img
           className="line-progress"
@@ -390,6 +497,7 @@ const PersonalInfoForm = (props) => {
             onChange={(e) => handleAddFullName(e)}
             className="full-name-input"
             type="text"
+            value={form.fullName}
           />
         </div>
         {formValidate.fullName.state && (
@@ -404,9 +512,11 @@ const PersonalInfoForm = (props) => {
             <span>Ngày sinh</span>
           </div>
           <input
+            ref={dateRef}
             onChange={handleAddDateOfBirth}
             type="date"
             className="date-of-birth-input"
+            value={date.slice(0,10)}
           />
         </div>
         {formValidate.dateOfBirth.state && (
@@ -448,46 +558,72 @@ const PersonalInfoForm = (props) => {
             )}
           </div>
         </div>
-        <div  className="form-input form-job-position">
+        <div className="form-input form-job-position">
           <div className="label-input-job">
             <span>Vị trí làm việc</span>
             <span className="label-input-job-subheading">
               Có thể chọn nhiều vị trí mà bạn muốn làm việc{" "}
             </span>
           </div>
-          <div ref={searchJobRef}  className="position-input-with-position-search">
-
-          <input onClick={handleClickJobInput} readOnly className="select-position-input" type="text" />
-          <div className="jobs-container">
-            {isShowJobs && jobPosition.map((job) => {
-              return (
-                <div onClick={()=>handleAddJobs(job.code)} className="job">{job.name}</div>
-              );
-            })}
-          </div>
-          </div>
-        { isShowJobTag && <div onClick={handleClickJobTags} className="jobs-tag">
-            {jobTag.map(job =>{
-              return(
-            <div ref={jobTagContent} className="job-tag-content">
-              <div className="job-tag-name">{job.name}</div>
-              <img onClick={()=>handleRemoveJobs(job.code)} className="close-img" alt="" src={require("../assets/images/close-button.png")}/>
+          <div
+            ref={searchJobRef}
+            className="position-input-with-position-search"
+          >
+            <input
+              onClick={handleClickJobInput}
+              readOnly
+              className="select-position-input"
+              type="text"
+            />
+            <div className="jobs-container">
+              {isShowJobs &&
+                jobPosition.map((job) => {
+                  return (
+                    <div
+                      onClick={() => handleAddJobs(job.code)}
+                      className="job"
+                    >
+                      {job.name}
+                    </div>
+                  );
+                })}
             </div>
-              )
-            })}
-          </div>}
+          </div>
+          {isShowJobTag && (
+            <div className="jobs-tag">
+              {jobTag.map((job) => {
+                return (
+                  <div ref={jobTagContent} className="job-tag-content">
+                    <div className="job-tag-name">{job.name}</div>
+                    <img
+                      onClick={() => handleRemoveJobs(job.code)}
+                      className="close-img"
+                      alt=""
+                      src={require("../assets/images/close-button.png")}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
-        <div className="form-input form-self-introduction">
+        <div className="form-input form-self-description">
           <div className="label-input">
             <span>Mô tả về bản thân</span>
           </div>
           <textarea
-            className="self-introduction"
+            onChange={(e) => handleAddSelfDescription(e.target.value)}
+            className="self-description"
             type="text"
             spellCheck="false"
           />
           <span className="text-per-type"></span>
         </div>
+        {formValidate.selfDescription.state && (
+          <span className="invalid-warning">
+            {formValidate.selfDescription["messageError"]}
+          </span>
+        )}
         <div className="form-personal-image-label">Ảnh cá nhân</div>
 
         <div className="form-personal-image">
@@ -504,7 +640,23 @@ const PersonalInfoForm = (props) => {
             <span>Browse Files</span>
           </div>
 
-          <input className="drag-and-drop-input  " type="file" />
+          <input
+            ref={inputAvatar}
+            multiple
+            onChange={(e) => handleAddAvatar(e)}
+            className="drag-and-drop-input"
+            type="file"
+          />
+          {isShowAvatar && (
+            <div className="avatar-container">
+              <img alt="" className="avatar-preview" src={avatar} />
+              <img
+                onClick={handleRemoveAvatar}
+                src={require("../assets/images/close7.jpg")}
+                className="close-icon"
+              />
+            </div>
+          )}
         </div>
       </div>
 

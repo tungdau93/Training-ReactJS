@@ -19,6 +19,10 @@ $border-input-color-invalid: #ed5d5d;
   width: 70%;
   margin: auto;
 
+  .set-date{
+    margin-top:100px;
+  }
+
   .heading {
     margin-top: 160px;
     .line-progress {
@@ -131,8 +135,6 @@ $border-input-color-invalid: #ed5d5d;
             background-color: #627d98;
           }
         }
-        
-       
       }
       .jobs-container {
         border-radius: 3px;
@@ -151,7 +153,6 @@ $border-input-color-invalid: #ed5d5d;
             background-color: #627d98;
           }
         }
-       
       }
 
       .jobs-tag {
@@ -160,7 +161,7 @@ $border-input-color-invalid: #ed5d5d;
         top: -34px;
         display: flex;
         position: relative;
-        height:25px;
+        height: 25px;
         cursor: pointer;
         min-width: 50px;
 
@@ -174,12 +175,11 @@ $border-input-color-invalid: #ed5d5d;
           cursor: pointer;
           align-items: center;
           justify-content: space-between;
-          height:27px;
+          height: 27px;
 
           .job-tag-name {
-            padding:5px;
+            padding: 5px;
             font-size: 14px;
-
           }
 
           .close-img {
@@ -187,15 +187,13 @@ $border-input-color-invalid: #ed5d5d;
             width: 18px;
             margin: 5px;
 
-            &:hover{
+            &:hover {
               opacity: 0.5;
             }
           }
         }
       }
 
-      
-      
       @include form-input;
       .label-input {
         display: flex;
@@ -233,7 +231,6 @@ $border-input-color-invalid: #ed5d5d;
         }
       }
 
-      
       .label-input-job {
         display: flex;
         flex-direction: column;
@@ -256,6 +253,7 @@ $border-input-color-invalid: #ed5d5d;
         border: 1px solid $border-input-color;
         border-radius: 4px;
         outline: none;
+        width: 97.5%
       }
       .full-name-input-invalid {
         padding: 10px;
@@ -302,11 +300,9 @@ $border-input-color-invalid: #ed5d5d;
         }
       }
 
-      
-
       .select-position-input {
         display: flex;
-        padding: 10px ;
+        padding: 10px;
         margin-top: 8px;
         height: 20px;
         background: $white-color;
@@ -317,9 +313,7 @@ $border-input-color-invalid: #ed5d5d;
         background-image: url(../assets/images/drop-down-icon.png);
         background-position: 99%;
         cursor: pointer;
-        width: 96.5%;
-
-
+        width: 97.5%;
 
         &:focus {
           outline: none !important;
@@ -356,31 +350,31 @@ $border-input-color-invalid: #ed5d5d;
         }
       }
 
+     
 
-      .select-city-input {
-        z-index: 0;
-        display: flex;
-        align-items: center;
-        padding: 10px 10px 10px 30px;
-        margin-top: 8px;
-        height: 20px;
-        background: $white-color;
-        outline: none;
-        border: 1px solid $border-input-color;
-        border-radius: 4px;
-        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAF+SURBVHgB7VTLbcJAEB1bBq4pgQ6gg4QKIBUEjohD6CCmAsIB+XOxqSCkgqQEp4PQQc7+5r1kLSUottco3HjSyOvdmXn27LwRuaABRt2h4zg3hmFMYGO89tV2VBQFbTWfz9/lFIIgCK7iOH7Acgrb5Hkelsm22+3QNE0az/fdbnc1m80+tAmYPEmSF3zhG4KXVcHKz8byutPpjOpIfsHzvLXruo+iCfiHjKk6N3++oOZ9PCa9Xs8WTfAv8ZjyvhoJUFcb9V5p/y5AX8Rs2AyNBHAawDmS9ghVp9UDtSzkRFTFmnJmHBMc1EW3gu/7QzyiRgL0/l6+xdUKWZYNqW4tAnTSPUUkmqAvVc3R0UiAcfCKbthBoWvRBEcKkj9XzSXreAOytzkqqM66OaNGxRrJp7CRVMCoCbYROKbwqI3FYvFVYzYBSnKH5RLnO1XWIE3T29KnkaCESmZjyS4ZqO0Dk9JYUm5wwlqW9fQXSS1BG1SR/JvQmJTJcYeBXNAGn7G/3wDUfE4/AAAAAElFTkSuQmCC);
-        background-repeat: no-repeat;
-        background-position: 3px;
-        width: 93.5%;
+      .city-input-with-city-search{
+
+        .select-city-input {
+          z-index: 0;
+          display: flex;
+          align-items: center;
+          padding: 10px;
+          padding-left:25px;
+          margin-top: 8px;
+          height: 20px;
+          background: #ffffff;
+          outline: none;
+          border: 1px solid #dcdcdc;
+          border-radius: 4px;
+          background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAF+SURBVHgB7VTLbcJAEB1bBq4pgQ6gg4QKIBUEjohD6CCmAsIB+XOxqSCkgqQEp4PQQc7+5r1kLSUottco3HjSyOvdmXn27LwRuaABRt2h4zg3hmFMYGO89tV2VBQFbTWfz9/lFIIgCK7iOH7Acgrb5Hkelsm22+3QNE0az/fdbnc1m80+tAmYPEmSF3zhG4KXVcHKz8byutPpjOpIfsHzvLXruo+iCfiHjKk6N3++oOZ9PCa9Xs8WTfAv8ZjyvhoJUFcb9V5p/y5AX8Rs2AyNBHAawDmS9ghVp9UDtSzkRFTFmnJmHBMc1EW3gu/7QzyiRgL0/l6+xdUKWZYNqW4tAnTSPUUkmqAvVc3R0UiAcfCKbthBoWvRBEcKkj9XzSXreAOytzkqqM66OaNGxRrJp7CRVMCoCbYROKbwqI3FYvFVYzYBSnKH5RLnO1XWIE3T29KnkaCESmZjyS4ZqO0Dk9JYUm5wwlqW9fQXSS1BG1SR/JvQmJTJcYeBXNAGn7G/3wDUfE4/AAAAAElFTkSuQmCC);
+          background-repeat: no-repeat;
+          background-position: 3px;
+          width: 96.2%;
+        }
       }
 
-      .city-tag {
-        background-color: rgba(255, 255, 255, 1);
-        min-width: 20px;
-        position: absolute;
-        top: 40px;
-        left: 31px;
-      }
+
+     
 
       .drop-down-icon {
         padding: 13px;
@@ -391,7 +385,7 @@ $border-input-color-invalid: #ed5d5d;
         top: 39%;
         cursor: pointer;
       }
-      .self-introduction {
+      .self-description {
         text-decoration: none;
         resize: none;
         outline: none;
@@ -403,6 +397,7 @@ $border-input-color-invalid: #ed5d5d;
         background: $white-color;
         border: 1px solid $border-input-color;
         border-radius: 4px;
+        width: 97.5%;
       }
     }
     .text-per-type {
@@ -478,6 +473,26 @@ $border-input-color-invalid: #ed5d5d;
         height: 200px;
         width: 100%;
         cursor: pointer;
+      }
+      .avatar-container {
+        left: 100%;
+        position: relative;
+        .avatar-preview {
+          position: absolute;
+          width: 300px;
+          height: 200px;
+        }
+        .close-icon {
+          position: absolute;
+          height: 15px;
+          width: 20px;
+          left: 280px;
+          cursor: pointer;
+          &:hover {
+            opacity: 0.3;
+          }
+          // background-color: #627d98;
+        }
       }
     }
 

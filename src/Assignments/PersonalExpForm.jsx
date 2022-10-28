@@ -142,162 +142,170 @@ const PersonalExpForm = (props) => {
 
     newForm.forEach((itemForm) => {
       newFormValidate.forEach((itemValidate) => {
-        // if (itemForm.companyName !== "") {
-        //   itemValidate.companyName.state = false;
-        //   itemValidate.companyName.messageError = "";
-        // }
+        if (itemForm.companyName !== "") {
+          itemValidate.companyName.state = false;
+          itemValidate.companyName.messageError = "";
+        }
 
-        // if (
-        //   itemForm.info.jobPosition === "" &&
-        //   itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
-        // ) {
-        //   itemValidate.info.jobPosition.state = true;
-        //   itemValidate.info.jobPosition.messageError = "Trường này là bắt buộc";
-        // }
+        if (
+          itemForm.info.jobPosition === "" &&
+          itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
+        ) {
+          itemValidate.info.jobPosition.state = true;
+          itemValidate.info.jobPosition.messageError = "Trường này là bắt buộc";
+        }
 
-        // if (
-        //   itemForm.info.jobPosition !== "" &&
-        //   itemForm.info.jobPosition.length > 10 &&
-        //   itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
-        // ) {
-        //   itemValidate.info.jobPosition.state = true;
-        //   itemValidate.info.jobPosition.messageError =
-        //     "Không vượt quá 10 ký tự";
-        // }
-        // if (
-        //   itemForm.info.jobDescription !== "" &&
-        //   itemForm.info.jobDescription.length > 10 &&
-        //   itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
-        // ) {
-        //   itemValidate.info.jobDescription.state = true;
-        //   itemValidate.info.jobDescription.messageError =
-        //     "Không vượt quá 10 ký tự";
-        // }
+        if (
+          itemForm.info.jobPosition !== "" &&
+          itemForm.info.jobPosition.length > 10 &&
+          itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
+        ) {
+          itemValidate.info.jobPosition.state = true;
+          itemValidate.info.jobPosition.messageError =
+            "Không vượt quá 10 ký tự";
+        }
+        if (
+          itemForm.info.jobDescription !== "" &&
+          itemForm.info.jobDescription.length > 10 &&
+          itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
+        ) {
+          itemValidate.info.jobDescription.state = true;
+          itemValidate.info.jobDescription.messageError =
+            "Không vượt quá 10 ký tự";
+        }
 
-        // if (
-        //   itemForm.info.jobDescription !== "" &&
-        //   itemForm.info.jobDescription.length <= 10
-        // ) {
-        //   if (itemForm.keyCompanyForm === itemValidate.keyCompanyValidate) {
-        //     itemValidate.info.jobDescription.state = false;
-        //     itemValidate.info.jobDescription.messageError = "";
-        //   }
-        // }
+        if (
+          itemForm.info.jobDescription !== "" &&
+          itemForm.info.jobDescription.length <= 10
+        ) {
+          if (itemForm.keyCompanyForm === itemValidate.keyCompanyValidate) {
+            itemValidate.info.jobDescription.state = false;
+            itemValidate.info.jobDescription.messageError = "";
+          }
+        }
 
-        // if (
-        //   itemForm.info.jobDescription === "" &&
-        //   itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
-        // ) {
-        //   itemValidate.info.jobDescription.state = false;
-        // }
+        if (
+          itemForm.info.jobDescription === "" &&
+          itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
+        ) {
+          itemValidate.info.jobDescription.state = false;
+        }
 
-        // if (
-        //   (itemForm.info.timeStart === "" ||
-        //     itemForm.info.timeEnd === "" ||
-        //     itemForm.info.timeStart === "null" ||
-        //     itemForm.info.timeEnd === "null") &&
-        //   itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
-        // ) {
-        //   itemValidate.info.timeValidate.messageError =
-        //     "Khoảng thời gian làm việc là bắt buộc";
-        //   itemValidate.info.timeValidate.state = true;
-        // }
+        if (
+          (itemForm.info.timeStart === "" ||
+            itemForm.info.timeEnd === "" ||
+            itemForm.info.timeStart === "null" ||
+            itemForm.info.timeEnd === "null") &&
+          itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
+        ) {
+          itemValidate.info.timeValidate.messageError =
+            "Khoảng thời gian làm việc là bắt buộc";
+          itemValidate.info.timeValidate.state = true;
+        }
 
-        // if (
-        //   itemForm.info.timeStart &&
-        //   itemForm.info.timeEnd &&
-        //   itemForm.info.timeStart > itemForm.info.timeEnd
-        // ) {
-        //   if (itemForm.keyCompanyForm === itemValidate.keyCompanyValidate) {
-        //     itemValidate.info.timeValidate.state = true;
-        //     itemValidate.info.timeValidate.messageError =
-        //       "Thời gian băt đầu không vượt quá thời gian kết thúc";
-        //   }
-        // }
+        if (
+          itemForm.info.timeStart &&
+          itemForm.info.timeEnd &&
+          itemForm.info.timeStart > itemForm.info.timeEnd
+        ) {
+          if (itemForm.keyCompanyForm === itemValidate.keyCompanyValidate) {
+            itemValidate.info.timeValidate.state = true;
+            itemValidate.info.timeValidate.messageError =
+              "Thời gian băt đầu không vượt quá thời gian kết thúc";
+          }
+        }
 
-        // if (
-        //   itemForm.info.timeStart &&
-        //   itemForm.info.timeEnd &&
-        //   itemForm.info.timeStart < itemForm.info.timeEnd
-        // ) {
-        //   if (itemForm.keyCompanyForm === itemValidate.keyCompanyValidate) {
-        //     itemValidate.info.timeValidate.state = false;
-        //     itemValidate.info.timeValidate.messageError = "";
-        //   }
-        // }
+        if (
+          itemForm.info.timeStart &&
+          itemForm.info.timeEnd &&
+          itemForm.info.timeStart < itemForm.info.timeEnd
+        ) {
+          if (itemForm.keyCompanyForm === itemValidate.keyCompanyValidate) {
+            itemValidate.info.timeValidate.state = false;
+            itemValidate.info.timeValidate.messageError = "";
+          }
+        }
 
-        // for (var i = 0; i < form.length; i++) {
-        //   for (var j = 0; j < form.length; j++) {
-        //     if (
-        //       (i !== j &&
-        //         ((form[i].info.timeEnd > form[j].info.timeStart &&
-        //           form[i].info.timeStart < form[j].info.timeStart &&
-        //           form[i].info.timeStart < form[i].info.timeEnd) ||
-        //           (form[i].info.timeStart > form[j].info.timeStart &&
-        //             form[i].info.timeEnd < form[j].info.timeEnd &&
-        //             form[i].info.timeStart < form[i].info.timeEnd) ||
-        //           (form[i].info.timeStart > form[j].info.timeStart &&
-        //             form[i].info.timeStart < form[j].info.timeEnd &&
-        //             form[i].info.timeEnd > form[j].info.timeEnd &&
-        //             form[i].info.timeStart < form[i].info.timeEnd))) ||
-        //       (i !== j &&
-        //         form[i].info.timeStart !== "" &&
-        //         form[i].info.timeEnd !== "" &&
-        //         (JSON.stringify(form[i].info.timeStart) ===
-        //           JSON.stringify(form[j].info.timeStart) ||
-        //           JSON.stringify(form[i].info.timeStart) ===
-        //             JSON.stringify(form[j].info.timeEnd) ||
-        //           JSON.stringify(form[i].info.timeEnd) ===
-        //             JSON.stringify(form[j].info.timeStart) ||
-        //           JSON.stringify(form[i].info.End) ===
-        //             JSON.stringify(form[j].info.timeEnd)))
-        //     ) {
-        //       formValidate[i].info.timeValidate.state = true;
-        //       formValidate[i].info.timeValidate.messageError =
-        //         "Trùng thời gian làm ở công ty khác";
-        //     }
-        //     if (
-        //       i !== j &&
-        //       form[i].companyName === form[j].companyName &&
-        //       form[i].companyName !== ""
-        //     ) {
-        //       formValidate[i].companyName.state = true;
-        //       formValidate[i].companyName.messageError =
-        //         "Mỗi công ty chỉ điền 1 lần";
-        //     }
-        //     if (i === j && form[i].companyName === "") {
-        //       formValidate[i].companyName.state = true;
-        //       formValidate[i].companyName.messageError =
-        //         "Trường này là bắt buộc";
-        //     }
+        for (var i = 0; i < form.length; i++) {
+          for (var j = 0; j < form.length; j++) {
+            if (
+              (i !== j &&
+                ((form[i].info.timeEnd > form[j].info.timeStart &&
+                  form[i].info.timeStart < form[j].info.timeStart &&
+                  form[i].info.timeStart < form[i].info.timeEnd) ||
+                  (form[i].info.timeStart > form[j].info.timeStart &&
+                    form[i].info.timeEnd < form[j].info.timeEnd &&
+                    form[i].info.timeStart < form[i].info.timeEnd) ||
+                  (form[i].info.timeStart > form[j].info.timeStart &&
+                    form[i].info.timeStart < form[j].info.timeEnd &&
+                    form[i].info.timeEnd > form[j].info.timeEnd &&
+                    form[i].info.timeStart < form[i].info.timeEnd))) ||
+              (i !== j &&
+                form[i].info.timeStart !== "" &&
+                form[i].info.timeEnd !== "" &&
+                (JSON.stringify(form[i].info.timeStart) ===
+                  JSON.stringify(form[j].info.timeStart) ||
+                  JSON.stringify(form[i].info.timeStart) ===
+                    JSON.stringify(form[j].info.timeEnd) ||
+                  JSON.stringify(form[i].info.timeEnd) ===
+                    JSON.stringify(form[j].info.timeStart) ||
+                  JSON.stringify(form[i].info.timeEnd) ===
+                    JSON.stringify(form[j].info.timeEnd)))
+            ) {
+              formValidate[i].info.timeValidate.state = true;
+              formValidate[i].info.timeValidate.messageError =
+                "Trùng thời gian làm ở công ty khác";
+            }
+            if (
+              i !== j &&
+              form[i].companyName === form[j].companyName &&
+              form[i].companyName !== ""
+            ) {
+              formValidate[i].companyName.state = true;
+              formValidate[i].companyName.messageError =
+                "Mỗi công ty chỉ điền 1 lần";
+            }
+            if (i === j && form[i].companyName === "") {
+              formValidate[i].companyName.state = true;
+              formValidate[i].companyName.messageError =
+                "Trường này là bắt buộc";
+            }
+            if (i === j && form[i].info.timeStart !== "" && form[i].info.timeEnd !== ""
+            &&  JSON.stringify(form[i].info.timeStart)=== JSON.stringify(form[i].info.timeEnd ) )
+            {
+              formValidate[i].info.timeValidate.state = false;
+              formValidate[i].info.timeValidate.messageError =
+                "";
+            }
 
-        //     if (
-        //       i !== j &&
-        //       formValidate[i].companyName.state === false &&
-        //       formValidate[i].info.jobPosition.state === false &&
-        //       formValidate[i].info.jobDescription.state === false &&
-        //       formValidate[i].info.timeValidate.state === false &&
-        //       formValidate[i].info.timeStart.state === false &&
-        //       formValidate[i].info.timeEnd.state === false &&
-        //       form[i].companyName !== "" &&
-        //       form[i].info.jobPosition !== "" &&
-        //       form[i].info.timeStart !== "" &&
-        //       form[i].info.timeEnd !== "" &&
-        //       formValidate[j].companyName.state === false &&
-        //       formValidate[j].info.jobPosition.state === false &&
-        //       formValidate[j].info.jobDescription.state === false &&
-        //       formValidate[j].info.timeValidate.state === false &&
-        //       formValidate[j].info.timeStart.state === false &&
-        //       formValidate[j].info.timeEnd.state === false &&
-        //       form[j].companyName !== "" &&
-        //       form[j].info.jobPosition !== "" &&
-        //       form[j].info.timeStart !== "" &&
-        //       form[j].info.timeEnd !== ""
-        //     ) {
+            if (
+              ((i !== j || i===j) &&
+              formValidate[i].companyName.state === false &&
+              formValidate[i].info.jobPosition.state === false &&
+              formValidate[i].info.jobDescription.state === false &&
+              formValidate[i].info.timeValidate.state === false &&
+              formValidate[i].info.timeStart.state === false &&
+              formValidate[i].info.timeEnd.state === false &&
+              form[i].companyName !== "" &&
+              form[i].info.jobPosition !== "" &&
+              form[i].info.timeStart !== "" &&
+              form[i].info.timeEnd !== "" &&
+              formValidate[j].companyName.state === false &&
+              formValidate[j].info.jobPosition.state === false &&
+              formValidate[j].info.jobDescription.state === false &&
+              formValidate[j].info.timeValidate.state === false &&
+              formValidate[j].info.timeStart.state === false &&
+              formValidate[j].info.timeEnd.state === false &&
+              form[j].companyName !== "" &&
+              form[j].info.jobPosition !== "" &&
+              form[j].info.timeStart !== "" &&
+              form[j].info.timeEnd !== "")
+              
+            ) {
               nextStep();
-        //     }
-        //   }
-        // }
+            }
+          }
+        }
       });
     });
 
