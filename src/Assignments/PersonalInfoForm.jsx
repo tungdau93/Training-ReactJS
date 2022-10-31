@@ -259,16 +259,7 @@ const PersonalInfoForm = (props) => {
   const handleClickJobInput = () => {
     setIsShowJobs(!isShowJobs);
   };
-  // const handleClickJobTags = ()=>{
-  //   // setIsShowJobs(!isShowJobs)
-  //   // if(form.jobPosition.length === 0){
-  //   //   setIsShowJobs(false)
-  //   // }
-  //   // // if(true){
-
-  //   //   console.log(!jobTagContent.current)
-  //   // }
-  // }
+  
 
   const handleAddJobs = (jobCode) => {
     if (form.jobPosition && form.jobPosition.length < 4 ) {
@@ -444,6 +435,7 @@ const PersonalInfoForm = (props) => {
       form.dateOfBirth !== ""
     ) {
       nextStep();
+
     }
   };
 
@@ -679,7 +671,6 @@ const PersonalInfoForm = (props) => {
             onChange={(e) => handleAddAvatar(e)}
             className="drag-and-drop-input"
             type="file"
-            alt="../assets/images/close2.png"
           />
           {isShowAvatar && (
             <div className="avatar-container">

@@ -3,14 +3,11 @@ import { useState, useRef, useEffect, createContext } from "react";
 import useClickOutside from "../hooks/useClickOutside";
 import Company from "./Company";
 import React from "react";
-import RemoveCompany from "./RemoveCompany";
 
 export const formContext = createContext();
 export const companyContext = createContext();
 
 const PersonalExpForm = (props) => {
-  const { keyCompanyForm } = props;
-
   const searchRef = useRef();
 
   const [companies, setCompanies] = useState([
@@ -58,58 +55,76 @@ const PersonalExpForm = (props) => {
   ]);
 
   const [isShowCompaniesSearch, setIsShowCompaniesSearch] = useState(false);
-  const [form, setForm] = useState([
-    {
-      keyCompanyForm: 0,
-      companyName: "",
-      info: {
-        jobPosition: "",
-        jobDescription: "",
-        timeStart: "",
-        timeEnd: "",
-      },
-    },
-  ]);
+  const [form, setForm] = useState(() => {
+    const saved = localStorage.getItem("personal-exp-form");
+    const initialValue = JSON.parse(saved);
+    return (
+      initialValue || [
+        {
+          keyCompanyForm: 0,
+          companyName: "",
+          info: {
+            jobPosition: "",
+            jobDescription: "",
+            timeStart: "",
+            timeEnd: "",
+          },
+        },
+      ]
+    );
+  });
 
-  const [timeRange, setTimeRange] = useState([
-    {
-      keyCompanyTime: 0,
-      timeStart: "",
-      timeEnd: "",
-    },
-  ]);
+  const [timeRange, setTimeRange] = useState(() => {
+    const saved = localStorage.getItem("personal-exp-form-time");
+    const initialValue = JSON.parse(saved);
+    return (
+      initialValue || [
+        {
+          keyCompanyTime: 0,
+          timeStart: "",
+          timeEnd: "",
+        },
+      ]
+    );
+  });
 
-  const [formValidate, setFormValidate] = useState([
-    {
-      keyCompanyValidate: 0,
-      companyName: {
-        state: false,
-        messageError: "",
-      },
-      info: {
-        jobPosition: {
-          messageError: "",
-          state: false,
+  const [formValidate, setFormValidate] = useState(() => {
+    const saved = localStorage.getItem("personal-exp-form-validate");
+    const initialValue = JSON.parse(saved);
+    return (
+      initialValue || [
+        {
+          keyCompanyValidate: 0,
+          companyName: {
+            state: false,
+            messageError: "",
+          },
+          info: {
+            jobPosition: {
+              messageError: "",
+              state: false,
+            },
+            jobDescription: {
+              messageError: "",
+              state: false,
+            },
+            timeValidate: {
+              state: false,
+              messageError: "",
+            },
+            timeStart: {
+              state: false,
+              messageError: "",
+            },
+            timeEnd: {
+              state: false,
+              messageError: "",
+            },
+          },
         },
-        jobDescription: {
-          messageError: "",
-          state: false,
-        },
-        timeValidate: {
-          state: false,
-          messageError: "",
-        },
-        timeStart: {
-          state: false,
-          messageError: "",
-        },
-        timeEnd: {
-          state: false,
-          messageError: "",
-        },
-      },
-    },
-  ]);
+      ]
+    );
+  });
 
   const [isNoForm, setIsNoForm] = useState(false);
 
@@ -232,14 +247,20 @@ const PersonalExpForm = (props) => {
               (i !== j &&
                 ((form[i].info.timeEnd > form[j].info.timeStart &&
                   form[i].info.timeStart < form[j].info.timeStart &&
-                  form[i].info.timeStart < form[i].info.timeEnd) ||
+                  form[i].info.timeStart < form[i].info.timeEnd &&
+                  form[j].info.timeStart < form[j].info.timeEnd) ||
                   (form[i].info.timeStart > form[j].info.timeStart &&
                     form[i].info.timeEnd < form[j].info.timeEnd &&
-                    form[i].info.timeStart < form[i].info.timeEnd) ||
+                    form[i].info.timeStart < form[i].info.timeEnd &&
+                    form[j].info.timeStart < form[j].info.timeEnd) ||
                   (form[i].info.timeStart > form[j].info.timeStart &&
                     form[i].info.timeStart < form[j].info.timeEnd &&
                     form[i].info.timeEnd > form[j].info.timeEnd &&
-                    form[i].info.timeStart < form[i].info.timeEnd))) ||
+                    form[i].info.timeStart < form[i].info.timeEnd) ||
+                  (form[i].info.timeStart > form[j].info.timeStart &&
+                    form[i].info.timeEnd >form[j].info.timeEnd &&
+                    form[i].info.timeStart < form[j].info.timeEnd &&
+                    form[j].info.timeStart > form[j].info.timeEnd))) ||
               (i !== j &&
                 form[i].info.timeStart !== "" &&
                 form[i].info.timeEnd !== "" &&
@@ -250,7 +271,15 @@ const PersonalExpForm = (props) => {
                   JSON.stringify(form[i].info.timeEnd) ===
                     JSON.stringify(form[j].info.timeStart) ||
                   JSON.stringify(form[i].info.timeEnd) ===
-                    JSON.stringify(form[j].info.timeEnd)))
+                    JSON.stringify(form[j].info.timeEnd) ||
+                  (JSON.stringify(form[i].info.timeEnd) ===
+                    JSON.stringify(form[i].info.timeStart) &&
+                    JSON.stringify(form[i].info.timeStart) ===
+                      JSON.stringify(form[j].info.timeEnd)) ||
+                  (JSON.stringify(form[i].info.timeEnd) ===
+                    JSON.stringify(form[i].info.timeStart) &&
+                    JSON.stringify(form[i].info.timeStart) ===
+                      JSON.stringify(form[j].info.timeStart))))
             ) {
               formValidate[i].info.timeValidate.state = true;
               formValidate[i].info.timeValidate.messageError =
@@ -270,16 +299,19 @@ const PersonalExpForm = (props) => {
               formValidate[i].companyName.messageError =
                 "Trường này là bắt buộc";
             }
-            if (i === j && form[i].info.timeStart !== "" && form[i].info.timeEnd !== ""
-            &&  JSON.stringify(form[i].info.timeStart)=== JSON.stringify(form[i].info.timeEnd ) )
-            {
+            if (
+              i === j &&
+              form[i].info.timeStart !== "" &&
+              form[i].info.timeEnd !== "" &&
+              JSON.stringify(form[i].info.timeStart) ===
+                JSON.stringify(form[i].info.timeEnd)
+            ) {
               formValidate[i].info.timeValidate.state = false;
-              formValidate[i].info.timeValidate.messageError =
-                "";
+              formValidate[i].info.timeValidate.messageError = "";
             }
 
             if (
-              ((i !== j || i===j) &&
+              i !== j &&
               formValidate[i].companyName.state === false &&
               formValidate[i].info.jobPosition.state === false &&
               formValidate[i].info.jobDescription.state === false &&
@@ -299,10 +331,10 @@ const PersonalExpForm = (props) => {
               form[j].companyName !== "" &&
               form[j].info.jobPosition !== "" &&
               form[j].info.timeStart !== "" &&
-              form[j].info.timeEnd !== "")
-              
+              form[j].info.timeEnd !== ""
             ) {
               nextStep();
+              // console.log("comeh rer")
             }
           }
         }
@@ -384,12 +416,6 @@ const PersonalExpForm = (props) => {
   const { nextStep, prevStep } = props;
 
   useClickOutside(searchRef, () => setIsShowCompaniesSearch(false));
-
-  useEffect(() => {
-    localStorage.setItem("form", JSON.stringify(form));
-  }, [form]);
-
-  
 
   return (
     <div className="form-personal-exp">

@@ -1,30 +1,62 @@
 import "../style/_bai-tap-4-about-company.scss";
 import { useState } from "react";
-import { info } from "sass";
+import { useEffect } from "react";
 
 const AboutCompany = (props) => {
   const { prevStep } = props;
-  const [form, setForm] = useState({
-    reason: "",
-    expectedSalary: "",
+  const [form, setForm] = useState(() => {
+    const saved = localStorage.getItem("about-company-form");
+    const initialValue = JSON.parse(saved);
+    return (
+      initialValue || {
+        reason: "",
+        expectedSalary: "",
+      }
+    );
   });
-  const [formValidate, setFormValidate] = useState({
-    reason: {
-      messageError: "",
-      state: false,
-    },
-    expectedSalary: {
-      messageError: "",
-      state: false,
-    },
+
+  const [formValidate, setFormValidate] = useState(() => {
+    const saved = localStorage.getItem("about-company-form");
+    const initialValue = JSON.parse(saved);
+    return (
+      initialValue || {
+        reason: {
+          messageError: "",
+          state: false,
+        },
+        expectedSalary: {
+          messageError: "",
+          state: false,
+        },
+      }
+    );
   });
+
+
+  // const [jobPosition, setJobPosition] = useState(() => {
+  //   var newJobPositionSaved;
+  //   const saved = localStorage.getItem("personal-exp-form");
+  //   const initialValue = JSON.parse(saved);
+  //   if (initialValue === "null") {
+  //     return "";
+  //   }
+  //   if (initialValue && initialValue !== "null") {
+
+  //   initialValue.map((itemForm) => {
+  //     if (itemForm.keyCompanyForm === keyCompanyForm) {
+  //       newJobPositionSaved = itemForm.info.jobPosition;
+  //     }
+  //   });
+  // }
+  //   return newJobPositionSaved;
+  // });
 
   const handleAddReason = (e) => {
     setForm({
       ...form,
       reason: e.target.value.replace(/\n/g, "").replace(/\s/g, ""),
     });
-    if(!e.target.value || e.target.value ){
+    if (!e.target.value || e.target.value) {
       setFormValidate({
         ...formValidate,
         reason: {
@@ -37,13 +69,16 @@ const AboutCompany = (props) => {
 
   const handleAddExpectedSalary = (e) => {
     const value = e.target.value;
-    console.log(value.replace(/\./g,' '))
-   
+    console.log(value.replace(/\./g, " "));
+
     setForm({
       ...form,
-      expectedSalary: e.target.value.replace(/\./g,'').replace(/\s/g, "").replace(/,/g, ''),
+      expectedSalary: e.target.value
+        .replace(/\./g, "")
+        .replace(/\s/g, "")
+        .replace(/,/g, ""),
     });
-    if(!e.target.value || e.target.value ){
+    if (!e.target.value || e.target.value) {
       setFormValidate({
         ...formValidate,
         expectedSalary: {
@@ -54,77 +89,71 @@ const AboutCompany = (props) => {
     }
   };
 
-
   const validateForm = () => {
-
     if (form.reason === "") {
-      setFormValidate(prevState=>{
-        return{
-          ...prevState, 
-          reason:{
-            messageError:"Trường này là bắt buộc",
-            state:true
-          }
-        }
-      }
-      );
-     
+      setFormValidate((prevState) => {
+        return {
+          ...prevState,
+          reason: {
+            messageError: "Trường này là bắt buộc",
+            state: true,
+          },
+        };
+      });
     }
     if (form.expectedSalary === "") {
-      setFormValidate(prevState=>{
-        return{
-          ...prevState, 
-          expectedSalary:{
-            messageError:"Trường này là bắt buộc",
-            state:true
-          }
-        }
-      }
-      );
+      setFormValidate((prevState) => {
+        return {
+          ...prevState,
+          expectedSalary: {
+            messageError: "Trường này là bắt buộc",
+            state: true,
+          },
+        };
+      });
     }
 
-    if(form.reason && form.reason.length >10){
-      setFormValidate(prevState=>{
-        return{
-          ...prevState, 
-          reason:{
-            messageError:"Không vượt quá 10 ký tự",
-            state:true
-          }
-        }
-      }
-      );
+    if (form.reason && form.reason.length > 10) {
+      setFormValidate((prevState) => {
+        return {
+          ...prevState,
+          reason: {
+            messageError: "Không vượt quá 10 ký tự",
+            state: true,
+          },
+        };
+      });
     }
 
-    if( isNaN(Number(form.expectedSalary)))  {
-      setFormValidate(prevState=>{
-        return{
-          ...prevState, 
-          expectedSalary:{
-            messageError:"Phải là số",
-            state:true
-          }
-        }
-      }
-      );
-
+    if (isNaN(Number(form.expectedSalary))) {
+      setFormValidate((prevState) => {
+        return {
+          ...prevState,
+          expectedSalary: {
+            messageError: "Phải là số",
+            state: true,
+          },
+        };
+      });
     }
 
-    if( Number(form.expectedSalary) && form.expectedSalary.length >10 )  {
-      setFormValidate(prevState=>{
-        return{
-          ...prevState, 
-          expectedSalary:{
-            messageError:"Tối đa 10 chữ số",
-            state:true
-          }
-        }
-      }
-      );
+    if (Number(form.expectedSalary) && form.expectedSalary.length > 10) {
+      setFormValidate((prevState) => {
+        return {
+          ...prevState,
+          expectedSalary: {
+            messageError: "Tối đa 10 chữ số",
+            state: true,
+          },
+        };
+      });
       // console.log(Number(form.expectedSalary) && Number(form.expectedSalary) >10)
     }
   };
 
+  useEffect(() => {
+    localStorage.setItem("about-company-form", JSON.stringify(form));
+  }, [form]);
 
   return (
     <div className="form-about-company">
@@ -182,6 +211,7 @@ const AboutCompany = (props) => {
             onChange={(e) => handleAddReason(e)}
             className="reason-join-input"
             type="text"
+            value={form.reason}
           />
         </div>
         {formValidate.reason.state && (
@@ -189,7 +219,7 @@ const AboutCompany = (props) => {
             {formValidate.reason["messageError"]}
           </span>
         )}
-        <div className="text-per-type">{form.reason?.length || 0 }/10</div>
+        <div className="text-per-type">{form.reason?.length || 0}/10</div>
         <div className="form-input form-expected-salary">
           <div className="label-input">
             <span className="label-require">Must</span>
@@ -199,6 +229,7 @@ const AboutCompany = (props) => {
             onChange={(e) => handleAddExpectedSalary(e)}
             className="expected-salary-input"
             type="text"
+            value={form.expectedSalary}
           />
         </div>
         {formValidate.expectedSalary.state && (
@@ -206,7 +237,6 @@ const AboutCompany = (props) => {
             {formValidate.expectedSalary["messageError"]}
           </span>
         )}
-        
       </div>
       <button onClick={validateForm} className="finish">
         Hoàn thành

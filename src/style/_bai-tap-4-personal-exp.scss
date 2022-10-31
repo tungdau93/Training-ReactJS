@@ -115,7 +115,7 @@ $border-input-color-invalid: #ed5d5d;
       font-size: 20px;
       margin-left: 12px;
       /* display: flex; */
-      width: 100%;
+      width: 99%;
       align-items: center;
       justify-content: space-around;
       .company-input {
@@ -241,7 +241,7 @@ $border-input-color-invalid: #ed5d5d;
 
   .companies-container {
     border-radius: 3px;
-    width: 100%;
+    width: 99%;
     z-index: 2;
     margin-top: -13px;
     position: absolute;
@@ -266,7 +266,7 @@ $border-input-color-invalid: #ed5d5d;
 
   .jobs-container {
     border-radius: 3px;
-    width: 100%;
+    width: 99%;
     z-index: 2;
     margin-top: 93px;
     position: absolute;

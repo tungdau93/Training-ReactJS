@@ -3,10 +3,13 @@ import React from "react";
 import { formContext } from "./PersonalExpForm";
 import useClickOutside from "../hooks/useClickOutside";
 import { forwardRef } from "react";
-import { useCallback } from "react";
 
 const Company = (props, ref) => {
   const searchRef = useRef();
+  const jobPositionRef = useRef();
+  const timeStartRef = useRef();
+  const timeEndRef=useRef();
+  const jobDescriptionRef = useRef();
 
   const {
     nextStep,
@@ -25,11 +28,11 @@ const Company = (props, ref) => {
   const [isShowCompanies, setIsShowCompanies] = useState(false);
   const formWitFormValidate = useContext(formContext);
   const [isShowCompanyName, setIsShowCompanyName] = useState(false);
-  const [companyName, setCompanyName] = useState("");
-  const [jobPosition, setJobPosition] = useState("");
-  const [timeStart, setTimeStart] = useState("");
-  const [timeEnd, setTimeEnd] = useState("");
-  const [jobDescription, setJobDescription] = useState("");
+  // const [companyName, setCompanyName] = useState("");
+  // const [jobPosition, setJobPosition] = useState("");
+  // const [timeStart, setTimeStart] = useState("");
+  // const [timeEnd, setTimeEnd] = useState("");
+  // const [jobDescription, setJobDescription] = useState("");
 
   const handleCLickCompanyInput = (e) => {
     setIsShowCompanies(!isShowCompanies);
@@ -49,11 +52,130 @@ const Company = (props, ref) => {
     setFormValidate([...newFormValidate]);
   };
 
-
   const [form, setForm] = useState(formWitFormValidate.form);
   const [formValidate, setFormValidate] = useState(
     formWitFormValidate.formValidate
   );
+
+  //   const saved = localStorage.getItem("personal-exp-form");
+  //   const initialValue = JSON.parse(saved);
+  //   if(initialValue !=="null"){
+  // console.log(initialValue.length === 0)
+  //   }
+
+  const [companyName, setCompanyName] = useState(() => {
+    var newCompanyNameSaved;
+    const saved = localStorage.getItem("personal-exp-form");
+    const initialValue = JSON.parse(saved);
+    if (initialValue === "null") {
+      return "";
+    }
+    if (initialValue && initialValue !== "null") {
+      initialValue.map((itemForm) => {
+        if (itemForm.keyCompanyForm === keyCompanyForm) {
+          newCompanyNameSaved = itemForm.companyName;
+        }
+      });
+    }
+    return newCompanyNameSaved;
+  });
+  const [jobPosition, setJobPosition] = useState(() => {
+    var newJobPositionSaved;
+    const saved = localStorage.getItem("personal-exp-form");
+    const initialValue = JSON.parse(saved);
+    if (initialValue === "null") {
+      return "";
+    }
+    if (initialValue && initialValue !== "null") {
+    
+    initialValue.map((itemForm) => {
+      if (itemForm.keyCompanyForm === keyCompanyForm) {
+        newJobPositionSaved = itemForm.info.jobPosition;
+      }
+    });
+  }
+    return newJobPositionSaved;
+  });
+
+  const [jobDescription, setJobDescription] = useState(() => {
+    var newJobDescriptionSaved
+    const saved = localStorage.getItem("personal-exp-form");
+    const initialValue = JSON.parse(saved);
+    if (initialValue === "null") {
+      return "";
+    }
+    if(initialValue && initialValue !=="null"){
+
+      initialValue.map((itemForm) => {
+        if (itemForm.keyCompanyForm === keyCompanyForm) {
+          newJobDescriptionSaved = itemForm.info.jobDescription;
+        }
+      });
+    }
+    return newJobDescriptionSaved
+  });
+
+  const [timeStart, setTimeStart] = useState(() => {
+    var newTimeStartSaved
+    const saved = localStorage.getItem("personal-exp-form");
+    const initialValue = JSON.parse(saved);
+    if (initialValue === "null") {
+      return "";
+    }
+    if(initialValue && initialValue !=="null"){
+
+      initialValue.map((itemForm) => {
+        if (itemForm.keyCompanyForm === keyCompanyForm) {
+          newTimeStartSaved = itemForm.info.timeStart;
+        }
+      });
+    }
+    return newTimeStartSaved
+  });
+
+  const [timeEnd, setTimeEnd] = useState(() => {
+    var newTimeEndSaved
+    const saved = localStorage.getItem("personal-exp-form");
+    const initialValue = JSON.parse(saved);
+    if (initialValue === "null") {
+      return "";
+    }
+    if(initialValue && initialValue !=="null"){
+
+      initialValue.map((itemForm) => {
+        if (itemForm.keyCompanyForm === keyCompanyForm) {
+          newTimeEndSaved = itemForm.info.timeEnd;
+        }
+      });
+    }
+    return newTimeEndSaved
+  });
+
+    // const [jobDescription, setJobDescription] = useState(() => {
+    //   var newJobDescriptionSaved
+    //   const saved = localStorage.getItem("personal-exp-form");
+    //   const initialValue = JSON.parse(saved);
+    //   if(initialValue && initialValue !=="null"){
+
+    //     initialValue.map((itemForm) => {
+    //       if (itemForm.keyCompanyForm === keyCompanyForm) {
+    //         newJobDescriptionSaved = itemForm.info.jobDescription;
+    //       }
+    //     });
+    //   }
+    //   return newJobDescriptionSaved
+    // });
+
+  // console.log(companyName)
+  // return initialValue?.companyName || ""
+
+  // const saved = localStorage.getItem("personal-exp-form");
+  //  const initialValueName = JSON.parse(saved);
+  //  console.log( initialValueName.length )
+  // //  initialValueName.map((value) =>{
+  //  })
+
+  //  console.log(form)
 
   const handleAddTimeStart = (value) => {
     const newFormValidate = [...formValidate];
@@ -94,10 +216,8 @@ const Company = (props, ref) => {
     setFormValidate([...newFormValidate]);
     setForm([...newForm]);
     setTimeRange([...newTimeRange]);
+    setTimeStart(value.slice(0, 10));
   };
-
-  console.log(form)
-
 
   const handleAddTimeEnd = (value) => {
     const newFormValidate = [...formValidate];
@@ -138,6 +258,8 @@ const Company = (props, ref) => {
     setFormValidate([...newFormValidate]);
     setForm([...newForm]);
     setTimeRange([...newTimeRange]);
+    setTimeEnd(value.slice(0, 10));
+
   };
 
   const handleAddJobPosition = (text) => {
@@ -147,10 +269,10 @@ const Company = (props, ref) => {
       newFormValidate.forEach((itemValidate) => {
         if (item && item.keyCompanyForm === keyCompanyForm) {
           item.info.jobPosition = text;
-          setJobPosition(text);
         }
       });
     });
+
     setForm([...newPosition]);
     setFormValidate([...newFormValidate]);
 
@@ -171,31 +293,27 @@ const Company = (props, ref) => {
 
     setFormValidate([...newFormValidate]);
     setForm([...newPosition]);
+    setJobPosition(text);
   };
 
   const handleClickCompanyName = () => {
     setIsShowCompanies(!isShowCompanies);
-    const newForm =[...form]
+    const newForm = [...form];
     const newFormValidate = [...formValidate];
 
-    newFormValidate.forEach((itemValidate)=>{
-      newForm.forEach((itemForm)=>{
-        if(itemValidate.keyCompanyValidate === itemForm.keyCompanyForm){
-          itemValidate.companyName.messageError= ""
-
-
+    newFormValidate.forEach((itemValidate) => {
+      newForm.forEach((itemForm) => {
+        if (itemValidate.keyCompanyValidate === itemForm.keyCompanyForm) {
+          itemValidate.companyName.messageError = "";
         }
-      })
-    })
+      });
+    });
     setFormValidate([...newFormValidate]);
-    
-      
-    }
-
-  
+  };
 
   const handleAddCompanyName = (event, companyName, companyCode) => {
     setClassId(companyCode);
+
 
     const newForm = [...form];
     const newFormValidate = [...formValidate];
@@ -214,14 +332,26 @@ const Company = (props, ref) => {
           itemValidate.info.timeEnd.messageError = "";
           itemValidate.info.timeValidate.messageError = "";
 
-          setCompanyName(companyName);
+         setJobPosition("")
+         setTimeStart("")
+         setTimeEnd("")
+         setJobDescription("")
+
+        
+
+
           setIsShowCompanyName(true);
           setForm([...newForm]);
           setFormValidate([...newFormValidate]);
         }
       });
     });
+    setCompanyName(companyName);
+   
+
+    
   };
+  
 
   const handleAddJobDescription = (jobDescription) => {
     const newFormValidate = [...formValidate];
@@ -263,32 +393,64 @@ const Company = (props, ref) => {
 
     setFormValidate([...newFormValidate]);
     setForm([...newJobDescription]);
+    setJobDescription(jobDescription);
   };
 
   useEffect(() => {
     setForm(Array.from(formWitFormValidate.form));
   }, [formWitFormValidate.form]);
 
+
   useEffect(() => {
     setFormValidate(Array.from(formWitFormValidate.formValidate));
   }, [formWitFormValidate.formValidate]);
 
+  // useEffect(() => {
+  //   const newForm = [...form];
+  //   newForm.forEach((itemForm) => {
+  //     if (itemForm && itemForm.keyCompanyForm === keyCompanyForm) {
+  //       localStorage.setItem("personal-info-form-companyName", JSON.stringify(form));
+  //     }
+  //   });
+  // }, []);
+
+  // useEffect(() => {
+  //   // const newForm = [...form];
+  //   form.forEach((itemForm) => {
+  //     if (itemForm && itemForm.keyCompanyForm === keyCompanyForm) {
+  //       itemForm.info.jobPosition = "";
+  //       itemForm.info.jobDescription = "";
+  //       itemForm.info.timeStart = "";
+  //       itemForm.info.timeEnd = "";
+  //       setJobPosition("");
+  //       setTimeStart("");
+  //       setTimeEnd("");
+  //       setJobDescription("");
+  //     }
+  //   });
+  // }, [companyName]);
+
+
   useEffect(() => {
-    const newForm = [...form];
-    newForm.forEach((itemForm) => {
-      if (itemForm && itemForm.keyCompanyForm === keyCompanyForm) {
-        itemForm.info.jobPosition = "";
-        itemForm.info.jobDescription = "";
-        itemForm.info.timeStart = "";
-        itemForm.info.timeEnd = "";
-        setJobPosition("");
-        setTimeStart("");
-        setTimeEnd("");
-        setJobDescription("");
-      }
-      setForm([...newForm]);
-    });
-  }, [companyName]);
+    setIsShowCompanyName(true);
+  }, []);
+
+  useEffect(() => {
+    
+      localStorage.setItem("personal-exp-form", JSON.stringify(form));
+    
+  }, [form]);
+
+  useEffect(() => {
+    localStorage.setItem( 
+      "personal-exp-form-validate",
+      JSON.stringify(formValidate)
+    );
+  }, [formValidate]);
+
+  useEffect(() => {
+    localStorage.setItem("personal-exp-form-time", JSON.stringify(timeRange));
+  }, [timeRange]);
 
   return (
     <>
@@ -383,14 +545,14 @@ const Company = (props, ref) => {
               onChange={(e) => handleAddTimeStart(e.target.value)}
               type="date"
               className="work-period-input"
-              value={timeStart}
+              value={timeStart?.slice(0,10)}
             />
             <span className="dash">-</span>
             <input
               onChange={(e) => handleAddTimeEnd(e.target.value)}
               type="date"
               className="work-period-input"
-              value={timeEnd}
+              value={timeEnd?.slice(0,10)}
             />
           </div>
           {formValidate.map((itemValidate) => {
@@ -422,21 +584,26 @@ const Company = (props, ref) => {
           {formValidate.map((itemValidate) => {
             if (itemValidate.keyCompanyValidate === keyCompanyForm) {
               return (
-                <div key={itemValidate.keyCompanyValidate} className="invalid-warning">
+                <div
+                  key={itemValidate.keyCompanyValidate}
+                  className="invalid-warning"
+                >
                   {itemValidate.info.jobDescription.messageError}
                 </div>
               );
             }
           })}
 
-          
-            {form.map((item) => {
-              if (item && item.keyCompanyForm === keyCompanyForm) {
-                return <span key={item.keyCompanyForm} className="text-per-type"> {item.info.jobDescription?.length || 0}/10 </span>
-              }
-            })}
-           
-          
+          {form.map((item) => {
+            if (item && item.keyCompanyForm === keyCompanyForm) {
+              return (
+                <span key={item.keyCompanyForm} className="text-per-type">
+                  {" "}
+                  {item.info.jobDescription?.length || 0}/10{" "}
+                </span>
+              );
+            }
+          })}
         </div>
       </div>
     </>
