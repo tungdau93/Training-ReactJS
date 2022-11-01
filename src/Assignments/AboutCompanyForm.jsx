@@ -52,6 +52,7 @@ const AboutCompany = (props) => {
   // });
 
   const handleAddReason = (e) => {
+    
     setForm({
       ...form,
       reason: e.target.value.replace(/\n/g, "").replace(/\s/g, ""),
@@ -90,6 +91,7 @@ const AboutCompany = (props) => {
   };
 
   const validateForm = () => {
+    let isSuccess = true
     if (form.reason === "") {
       setFormValidate((prevState) => {
         return {
@@ -100,6 +102,7 @@ const AboutCompany = (props) => {
           },
         };
       });
+      isSuccess=false
     }
     if (form.expectedSalary === "") {
       setFormValidate((prevState) => {
@@ -111,6 +114,7 @@ const AboutCompany = (props) => {
           },
         };
       });
+      isSuccess=false
     }
 
     if (form.reason && form.reason.length > 10) {
@@ -123,6 +127,7 @@ const AboutCompany = (props) => {
           },
         };
       });
+      isSuccess=false
     }
 
     if (isNaN(Number(form.expectedSalary))) {
@@ -135,6 +140,7 @@ const AboutCompany = (props) => {
           },
         };
       });
+      isSuccess=false
     }
 
     if (Number(form.expectedSalary) && form.expectedSalary.length > 10) {
@@ -147,9 +153,15 @@ const AboutCompany = (props) => {
           },
         };
       });
-      // console.log(Number(form.expectedSalary) && Number(form.expectedSalary) >10)
+      isSuccess=false
     }
+    return isSuccess  
   };
+
+  const handleSubmitForm=()=>{
+    const isValid = validateForm()
+    console.log(isValid)
+  }
 
   useEffect(() => {
     localStorage.setItem("about-company-form", JSON.stringify(form));
@@ -238,7 +250,7 @@ const AboutCompany = (props) => {
           </span>
         )}
       </div>
-      <button onClick={validateForm} className="finish">
+      <button onClick={handleSubmitForm} className="finish">
         Hoàn thành
       </button>
       <button onClick={prevStep} className="prev-button">

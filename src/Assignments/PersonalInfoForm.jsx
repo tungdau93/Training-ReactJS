@@ -259,10 +259,9 @@ const PersonalInfoForm = (props) => {
   const handleClickJobInput = () => {
     setIsShowJobs(!isShowJobs);
   };
-  
 
   const handleAddJobs = (jobCode) => {
-    if (form.jobPosition && form.jobPosition.length < 4 ) {
+    if (form.jobPosition && form.jobPosition.length < 4) {
       setIsShowJobTag(true);
       setIsShowJobs(true);
       const newJobTag = [...jobTag];
@@ -329,7 +328,7 @@ const PersonalInfoForm = (props) => {
         };
       });
     }
-    setSelfDescription(text)
+    setSelfDescription(text);
   };
 
   const handleAddAvatar = (e) => {
@@ -364,6 +363,7 @@ const PersonalInfoForm = (props) => {
   // console.log(dateStringGetFromLocalStorage)
 
   const validateForm = () => {
+    let isSuccess = true
     if (!form.fullName) {
       setFormValidate((prevState) => {
         return {
@@ -374,6 +374,7 @@ const PersonalInfoForm = (props) => {
           },
         };
       });
+      isSuccess = false
     }
 
     if (form.fullName && form.fullName.length > 10) {
@@ -386,6 +387,8 @@ const PersonalInfoForm = (props) => {
           },
         };
       });
+      isSuccess = false
+
     }
 
     if (form.dateOfBirth === "null" || form.dateOfBirth === "") {
@@ -398,6 +401,8 @@ const PersonalInfoForm = (props) => {
           },
         };
       });
+      isSuccess = false
+
     }
 
     if (form.dateOfBirth && form.dateOfBirth > new Date()) {
@@ -410,6 +415,8 @@ const PersonalInfoForm = (props) => {
           },
         };
       });
+      isSuccess = false
+
     }
 
     if (form.selfDescription && form.selfDescription.length > 10) {
@@ -422,22 +429,20 @@ const PersonalInfoForm = (props) => {
           },
         };
       });
-    }
-
-    if (
-      formValidate.fullName.state === false &&
-      formValidate.dateOfBirth.state === false &&
-      formValidate.city.state === false &&
-      formValidate.jobPosition.state === false &&
-      formValidate.selfDescription.state === false &&
-      formValidate.avatar.state === false &&
-      form.fullName !== "" &&
-      form.dateOfBirth !== ""
-    ) {
-      nextStep();
+      isSuccess = false
 
     }
+    return isSuccess
+    
+  
   };
+
+  const handleNextButton = ()=>{
+    const isValid = validateForm()
+    if(isValid){
+      nextStep()
+    }
+  }
 
   useEffect(() => {
     const url = "https://provinces.open-api.vn/api/";
@@ -453,17 +458,14 @@ const PersonalInfoForm = (props) => {
   }, [form]);
 
   useEffect(() => {
-   setIsShowJobTag(true)
-   setIsShowCityName(true)
-   setIsShowAvatar(true)
+    setIsShowJobTag(true);
+    setIsShowCityName(true);
+    if (form.avatar!=="") {
+      setIsShowAvatar(true);
+    }
   }, []);
 
-  // const setDate =()=>{
-  //   // console.log("dateRef.current",dateRef.current.value)
-  //   // dateRef.current.value = dateObjectGetFromLocalStorage
-  //   console.log(typeof (JSON.parse(localStorage.getItem(("personal-info-form"))).dateOfBirth).slice(0,10)  )
-
-  // }
+  
 
   return (
     <div className="form-personal-info">
@@ -686,7 +688,7 @@ const PersonalInfoForm = (props) => {
         </div>
       </div>
 
-      <button onClick={validateForm} className="next-button">
+      <button onClick={handleNextButton} className="next-button">
         Tiếp
       </button>
     </div>
