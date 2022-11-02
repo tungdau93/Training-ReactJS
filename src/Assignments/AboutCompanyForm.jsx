@@ -1,6 +1,7 @@
 import "../style/_bai-tap-4-about-company.scss";
 import { useState } from "react";
 import { useEffect } from "react";
+import { info } from "sass";
 
 const AboutCompany = (props) => {
   const { prevStep } = props;
@@ -32,25 +33,24 @@ const AboutCompany = (props) => {
     );
   });
 
+  const [reason, setReason] = useState(() => {
+    const saved = localStorage.getItem("about-company-form");
 
-  // const [jobPosition, setJobPosition] = useState(() => {
-  //   var newJobPositionSaved;
-  //   const saved = localStorage.getItem("personal-exp-form");
-  //   const initialValue = JSON.parse(saved);
-  //   if (initialValue === "null") {
-  //     return "";
-  //   }
-  //   if (initialValue && initialValue !== "null") {
+    const initialValueDate = JSON.parse(saved);
 
-  //   initialValue.map((itemForm) => {
-  //     if (itemForm.keyCompanyForm === keyCompanyForm) {
-  //       newJobPositionSaved = itemForm.info.jobPosition;
-  //     }
-  //   });
-  // }
-  //   return newJobPositionSaved;
-  // });
+    return initialValueDate?.reason || "";
+  });
 
+  const [expectedSalary, setExpectedSalary] = useState(() => {
+    const saved = localStorage.getItem("about-company-form");
+
+    const initialValueDate = JSON.parse(saved);
+
+    return initialValueDate?.expectedSalary || "";
+  });
+
+
+  
   const handleAddReason = (e) => {
     
     setForm({
@@ -66,6 +66,7 @@ const AboutCompany = (props) => {
         },
       });
     }
+    setReason(e.target.value)
   };
 
   const handleAddExpectedSalary = (e) => {
@@ -73,7 +74,7 @@ const AboutCompany = (props) => {
     console.log(value.replace(/\./g, " "));
 
     setForm({
-      ...form,
+      ...form, 
       expectedSalary: e.target.value
         .replace(/\./g, "")
         .replace(/\s/g, "")
@@ -88,6 +89,8 @@ const AboutCompany = (props) => {
         },
       });
     }
+
+    setExpectedSalary(e.target.value)
   };
 
   const validateForm = () => {
@@ -160,7 +163,19 @@ const AboutCompany = (props) => {
 
   const handleSubmitForm=()=>{
     const isValid = validateForm()
-    console.log(isValid)
+    if(isValid){
+      const savedPersonalInfoForm = localStorage.getItem("personal-info-form");
+      const personalInfoForm = JSON.parse(savedPersonalInfoForm);
+      console.log("personalInfoForm",personalInfoForm)
+
+      const savedPersonalExpForm = localStorage.getItem("personal-exp-form");
+      const personalExpForm = JSON.parse(savedPersonalExpForm);
+      console.log("personalExpForm",personalExpForm)
+
+      const savedAboutCompanyForm = localStorage.getItem("about-company-form");
+      const aboutCompanyForm = JSON.parse(savedAboutCompanyForm);
+      console.log("aboutCompanyForm",aboutCompanyForm)
+    }
   }
 
   useEffect(() => {
@@ -223,7 +238,7 @@ const AboutCompany = (props) => {
             onChange={(e) => handleAddReason(e)}
             className="reason-join-input"
             type="text"
-            value={form.reason}
+            value={reason}
           />
         </div>
         {formValidate.reason.state && (
@@ -240,8 +255,8 @@ const AboutCompany = (props) => {
           <input
             onChange={(e) => handleAddExpectedSalary(e)}
             className="expected-salary-input"
-            type="text"
-            value={form.expectedSalary}
+            type="text" 
+            value={expectedSalary}
           />
         </div>
         {formValidate.expectedSalary.state && (

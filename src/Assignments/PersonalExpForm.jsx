@@ -3,7 +3,6 @@ import { useState, useRef, useEffect, createContext } from "react";
 import useClickOutside from "../hooks/useClickOutside";
 import Company from "./Company";
 import React from "react";
-import { info } from "sass";
 
 export const formContext = createContext();
 export const companyContext = createContext();
@@ -55,6 +54,7 @@ const PersonalExpForm = (props) => {
     },
   ]);
 
+
   const [isShowCompaniesSearch, setIsShowCompaniesSearch] = useState(false);
   const [form, setForm] = useState(() => {
     const saved = localStorage.getItem("personal-exp-form");
@@ -70,20 +70,6 @@ const PersonalExpForm = (props) => {
             timeStart: "",
             timeEnd: "",
           },
-        },
-      ]
-    );
-  });
-
-  const [timeRange, setTimeRange] = useState(() => {
-    const saved = localStorage.getItem("personal-exp-form-time");
-    const initialValue = JSON.parse(saved);
-    return (
-      initialValue || [
-        {
-          keyCompanyTime: 0,
-          timeStart: "",
-          timeEnd: "",
         },
       ]
     );
@@ -139,13 +125,8 @@ const PersonalExpForm = (props) => {
       (item) => item && item.keyCompanyValidate !== value
     );
 
-    const newTimeRange = timeRange.filter(
-      (item) => item && item.keyCompanyTime !== value
-    );
-
     setForm(newForm);
     setFormValidate(newFormValidate);
-    setTimeRange(newTimeRange);
 
     if (form.length === 1) {
       setIsNoForm(true);
@@ -178,16 +159,6 @@ const PersonalExpForm = (props) => {
           newFormValidate[i].info.jobDescription.messageError =
             "Không vượt quá 10 ký tự";
           isSuccess = false;
-        }
-
-        if (
-          new Date(form[i].info.timeStart) < new Date(form[i].info.timeEnd) ||
-          JSON.stringify(new Date(form[i].info.timeStart)) ===
-            JSON.stringify(new Date(form[i].info.timeEnd))
-        ) {
-          newFormValidate[i].info.timeValidate.state = false;
-          newFormValidate[i].info.timeValidate.messageError = "";
-          isSuccess = true;
         }
 
         if (form[i].info.jobPosition === "") {
@@ -257,8 +228,6 @@ const PersonalExpForm = (props) => {
         ) {
           newFormValidate[i].companyName.messageError =
             "Mỗi công ty chỉ điền 1 lần";
-          newFormValidate[j].companyName.messageError =
-            "Mỗi công ty chỉ điền 1 lần";
 
           newFormValidate[j].companyName.state = true;
           newFormValidate[i].companyName.state = true;
@@ -315,11 +284,11 @@ const PersonalExpForm = (props) => {
   };
 
   const handleNextButton = () => {
+    const newFormValidate = [...formValidate]
     const isValid = validateForm();
-    console.log(isValid);
-    // if(isValid){
-    //   nextStep()
-    // }
+    if (isValid) {
+      nextStep();
+    }
   };
 
   const formWitFormValidate = {
@@ -376,15 +345,6 @@ const PersonalExpForm = (props) => {
       },
     ]);
 
-    setTimeRange([
-      ...timeRange,
-      {
-        keyCompanyTime: timeRange.length,
-        timeStart: "",
-        timeEnd: "",
-      },
-    ]);
-
     if (form.length === 0) {
       setIsNoForm(false);
     }
@@ -394,7 +354,6 @@ const PersonalExpForm = (props) => {
   const { nextStep, prevStep } = props;
 
   useClickOutside(searchRef, () => setIsShowCompaniesSearch(false));
-
 
   return (
     <div className="form-personal-exp">
@@ -449,8 +408,6 @@ const PersonalExpForm = (props) => {
                 <Company
                   handleRemoveCompany={handleRemoveCompany}
                   keyCompanyForm={item.keyCompanyForm}
-                  timeRange={timeRange}
-                  setTimeRange={setTimeRange}
                   companies={companies}
                   setCompanies={setCompanies}
                 />

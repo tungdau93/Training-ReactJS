@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import "../style/_bai-tap-4-personal-info.scss";
 import useClickOutside from "../hooks/useClickOutside";
 import React from "react";
+import { info } from "sass";
 
 const PersonalInfoForm = (props) => {
   const { nextStep } = props;
@@ -10,8 +11,7 @@ const PersonalInfoForm = (props) => {
   const jobTagContent = useRef();
   const inputAvatar = useRef();
   const dateRef = useRef();
-  // const [cityName, setCityName] = useState("");
-  // const [avatar, setAvatar] = useState("");
+ 
   const [isShowAvatar, setIsShowAvatar] = useState(false);
 
   useClickOutside(searchCityRef, () => {
@@ -62,6 +62,13 @@ const PersonalInfoForm = (props) => {
     const initialValueDate = JSON.parse(saved);
 
     return initialValueDate?.dateOfBirth || "";
+  });
+  const [fullName, setFulName] = useState(() => {
+    const saved = localStorage.getItem("personal-info-form");
+
+    const initialValueDate = JSON.parse(saved);
+
+    return initialValueDate?.fullName || "";
   });
 
   const [selfDescription, setSelfDescription] = useState(() => {
@@ -167,6 +174,7 @@ const PersonalInfoForm = (props) => {
         };
       });
     }
+    setFulName(e.target.value)
   };
 
   const handleAddDateOfBirth = (e) => {
@@ -458,9 +466,12 @@ const PersonalInfoForm = (props) => {
   }, [form]);
 
   useEffect(() => {
-    setIsShowJobTag(true);
+    if(jobTag.length>0){
+
+      setIsShowJobTag(true);
+    }
     setIsShowCityName(true);
-    if (form.avatar!=="") {
+    if (form.avatar) {
       setIsShowAvatar(true);
     }
   }, []);
@@ -523,7 +534,7 @@ const PersonalInfoForm = (props) => {
             onChange={(e) => handleAddFullName(e)}
             className="full-name-input"
             type="text"
-            value={form.fullName}
+            value={fullName}
           />
         </div>
         {formValidate.fullName.state && (

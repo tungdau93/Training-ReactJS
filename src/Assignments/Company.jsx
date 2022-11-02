@@ -3,6 +3,8 @@ import React from "react";
 import { formContext } from "./PersonalExpForm";
 import useClickOutside from "../hooks/useClickOutside";
 import { forwardRef } from "react";
+import { info } from "sass";
+import { validateArgCount } from "@firebase/util";
 
 const Company = (props, ref) => {
   const searchRef = useRef();
@@ -11,14 +13,7 @@ const Company = (props, ref) => {
   const timeEndRef = useRef();
   const jobDescriptionRef = useRef();
 
-  const {
-    nextStep,
-    keyCompanyForm,
-    timeRange,
-    setTimeRange,
-    companies,
-    setCompanies,
-  } = props;
+  const { nextStep, keyCompanyForm, companies, setCompanies } = props;
 
   useClickOutside(searchRef, () => {
     setIsShowCompanies(false);
@@ -28,11 +23,6 @@ const Company = (props, ref) => {
   const [isShowCompanies, setIsShowCompanies] = useState(false);
   const formWitFormValidate = useContext(formContext);
   const [isShowCompanyName, setIsShowCompanyName] = useState(false);
-  // const [companyName, setCompanyName] = useState("");
-  // const [jobPosition, setJobPosition] = useState("");
-  // const [timeStart, setTimeStart] = useState("");
-  // const [timeEnd, setTimeEnd] = useState("");
-  // const [jobDescription, setJobDescription] = useState("");
 
   const handleCLickCompanyInput = (e) => {
     setIsShowCompanies(!isShowCompanies);
@@ -57,19 +47,13 @@ const Company = (props, ref) => {
     formWitFormValidate.formValidate
   );
 
-  //   const saved = localStorage.getItem("personal-exp-form");
-  //   const initialValue = JSON.parse(saved);
-  //   if(initialValue !=="null"){
-  // console.log(initialValue.length === 0)
-  //   }
-
   const [companyName, setCompanyName] = useState(() => {
-    var newCompanyNameSaved;
+    let newCompanyNameSaved;
     const saved = localStorage.getItem("personal-exp-form");
     const initialValue = JSON.parse(saved);
-    if (initialValue === "null") {
-      return "";
-    }
+    // if (initialValue === "null") {
+    //   return "";
+    // }
     if (initialValue && initialValue !== "null") {
       initialValue.forEach((itemForm) => {
         if (itemForm.keyCompanyForm === keyCompanyForm) {
@@ -80,7 +64,7 @@ const Company = (props, ref) => {
     return newCompanyNameSaved;
   });
   const [jobPosition, setJobPosition] = useState(() => {
-    var newJobPositionSaved;
+    let newJobPositionSaved;
     const saved = localStorage.getItem("personal-exp-form");
     const initialValue = JSON.parse(saved);
     if (initialValue === "null") {
@@ -97,7 +81,7 @@ const Company = (props, ref) => {
   });
 
   const [jobDescription, setJobDescription] = useState(() => {
-    var newJobDescriptionSaved;
+    let newJobDescriptionSaved;
     const saved = localStorage.getItem("personal-exp-form");
     const initialValue = JSON.parse(saved);
     if (initialValue === "null") {
@@ -147,89 +131,89 @@ const Company = (props, ref) => {
     return newTimeEndSaved;
   });
 
-
   const handleAddTimeStart = (value) => {
     const newFormValidate = [...formValidate];
     const newForm = [...form];
-    const newTimeRange = [...timeRange];
+
     newForm.forEach((itemForm) => {
       newFormValidate.forEach((itemValidate) => {
-        newTimeRange.forEach((itemTimeRange) => {
-          if (value) {
-            if (
-              itemForm.keyCompanyForm === keyCompanyForm &&
-              itemForm.keyCompanyForm === itemTimeRange.keyCompanyTime &&
-              itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
-            ) {
-              itemValidate.info.timeValidate.state = false;
-              itemValidate.info.timeStart.state = false;
-              itemValidate.info.timeStart.messageError = "";
-              itemValidate.info.timeValidate.messageError = "";
-              itemForm.info.timeStart = new Date(value);
+        if (value) {
+          itemValidate.info.timeValidate.messageError = "";
+          itemValidate.info.timeValidate.state = false;
+        }
+        setFormValidate([...newFormValidate])
+      });
+    });
 
-              setTimeStart(value);
-              itemTimeRange.timeStart = new Date(value);
-            }
+
+    newForm.forEach((itemForm) => {
+      newFormValidate.forEach((itemValidate) => {
+        if (value) {
+          if (
+            itemForm.keyCompanyForm === keyCompanyForm &&
+            itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
+          ) {
+            itemValidate.info.timeValidate.state = false;
+            itemValidate.info.timeStart.state = false;
+            itemValidate.info.timeStart.messageError = "";
+            itemValidate.info.timeValidate.messageError = "";
+            itemForm.info.timeStart = new Date(value);
+
+            setTimeStart(value);
           }
-          if (JSON.stringify(new Date(value)) === "null") {
-            if (itemForm.keyCompanyForm === keyCompanyForm) {
-              itemValidate.info.timeValidate.state = false;
-              itemValidate.info.timeStart.state = false;
-              itemValidate.info.timeStart.messageError = "";
-              itemValidate.info.timeValidate.messageError = "";
-              itemForm.info.timeStart = "";
-              setTimeStart("");
-            }
+        }
+
+        if (JSON.stringify(new Date(value)) === "null") {
+          if (itemForm.keyCompanyForm === keyCompanyForm) {
+            itemValidate.info.timeValidate.state = false;
+            itemValidate.info.timeStart.state = false;
+            itemValidate.info.timeStart.messageError = "";
+            itemValidate.info.timeValidate.messageError = "";
+            itemForm.info.timeStart = "";
+            setTimeStart("");
           }
-        });
+        }
       });
     });
 
     setFormValidate([...newFormValidate]);
     setForm([...newForm]);
-    setTimeRange([...newTimeRange]);
     setTimeStart(value.slice(0, 10));
   };
 
   const handleAddTimeEnd = (value) => {
     const newFormValidate = [...formValidate];
     const newForm = [...form];
-    const newTimeRange = [...timeRange];
     newForm.forEach((itemForm) => {
       newFormValidate.forEach((itemValidate) => {
-        newTimeRange.forEach((itemTimeRange) => {
-          if (value) {
-            if (
-              itemForm.keyCompanyForm === keyCompanyForm &&
-              itemForm.keyCompanyForm === itemTimeRange.keyCompanyTime &&
-              itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
-            ) {
-              itemValidate.info.timeValidate.state = false;
-              itemValidate.info.timeEnd.state = false;
-              itemValidate.info.timeEnd.messageError = "";
-              itemValidate.info.timeValidate.messageError = "";
-              itemForm.info.timeEnd = new Date(value);
-              setTimeEnd(value);
-              itemTimeRange.timeEnd = new Date(value);
-            }
+        if (value) {
+          if (
+            itemForm.keyCompanyForm === keyCompanyForm &&
+            itemForm.keyCompanyForm === itemValidate.keyCompanyValidate
+          ) {
+            itemValidate.info.timeValidate.state = false;
+            itemValidate.info.timeEnd.state = false;
+            itemValidate.info.timeEnd.messageError = "";
+            itemValidate.info.timeValidate.messageError = "";
+            itemForm.info.timeEnd = new Date(value);
+            setTimeEnd(value);
           }
-          if (JSON.stringify(new Date(value)) === "null") {
-            if (itemForm.keyCompanyForm === keyCompanyForm) {
-              itemValidate.info.timeValidate.state = false;
-              itemValidate.info.timeEnd.state = false;
-              itemValidate.info.timeEnd.messageError = "";
-              itemValidate.info.timeValidate.messageError = "";
-              itemForm.info.timeEnd = "";
-              setTimeEnd("");
-            }
+        }
+        if (JSON.stringify(new Date(value)) === "null") {
+          if (itemForm.keyCompanyForm === keyCompanyForm) {
+            itemValidate.info.timeValidate.state = false;
+            itemValidate.info.timeEnd.state = false;
+            itemValidate.info.timeEnd.messageError = "";
+            itemValidate.info.timeValidate.messageError = "";
+            itemForm.info.timeEnd = "";
+            setTimeEnd("");
           }
-        });
+        }
       });
     });
 
     setFormValidate([...newFormValidate]);
     setForm([...newForm]);
-    setTimeRange([...newTimeRange]);
     setTimeEnd(value.slice(0, 10));
   };
 
@@ -301,6 +285,10 @@ const Company = (props, ref) => {
           itemValidate.info.timeStart.messageError = "";
           itemValidate.info.timeEnd.messageError = "";
           itemValidate.info.timeValidate.messageError = "";
+          item.info.jobPosition = "";
+          item.info.jobDescription = "";
+          item.info.timeStart = "";
+          item.info.timeEnd = "";
 
           setJobPosition("");
           setTimeStart("");
@@ -314,6 +302,10 @@ const Company = (props, ref) => {
       });
     });
     setCompanyName(companyName);
+  };
+
+  const handleClickTimeInput = () => {
+    console.log("click time start");
   };
 
   const handleAddJobDescription = (jobDescription) => {
@@ -367,7 +359,6 @@ const Company = (props, ref) => {
     setFormValidate(Array.from(formWitFormValidate.formValidate));
   }, [formWitFormValidate.formValidate]);
 
-
   useEffect(() => {
     setIsShowCompanyName(true);
   }, []);
@@ -377,14 +368,11 @@ const Company = (props, ref) => {
   }, [form]);
 
   useEffect(() => {
-    localStorage.setItem("personal-exp-form-validate", JSON.stringify(formValidate));
+    localStorage.setItem(
+      "personal-exp-form-validate",
+      JSON.stringify(formValidate)
+    );
   }, [formValidate]);
-
-
-  
-
- 
- 
 
   return (
     <>
