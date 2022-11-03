@@ -1,7 +1,6 @@
 import "../style/_bai-tap-4-about-company.scss";
 import { useState } from "react";
 import { useEffect } from "react";
-import { info } from "sass";
 
 const AboutCompany = (props) => {
   const { prevStep } = props;

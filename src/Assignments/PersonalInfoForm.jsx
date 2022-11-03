@@ -1,8 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef,useContext } from "react";
 import "../style/_bai-tap-4-personal-info.scss";
 import useClickOutside from "../hooks/useClickOutside";
 import React from "react";
-import { info } from "sass";
+import { ParentContext } from "./BaiTap4";
+
+//  export const PersonalInfoFormContext = createContext()
+
 
 const PersonalInfoForm = (props) => {
   const { nextStep } = props;
@@ -11,7 +14,10 @@ const PersonalInfoForm = (props) => {
   const jobTagContent = useRef();
   const inputAvatar = useRef();
   const dateRef = useRef();
- 
+
+
+
+
   const [isShowAvatar, setIsShowAvatar] = useState(false);
 
   useClickOutside(searchCityRef, () => {
@@ -21,73 +27,29 @@ const PersonalInfoForm = (props) => {
     setIsShowJobs(false);
   });
 
-  const [jobTag, setJobTag] = useState(() => {
-    const saved = localStorage.getItem("personal-info-form");
-
-    const initialValueJobs = JSON.parse(saved);
-
-    return initialValueJobs?.jobPosition || [];
-  });
-  const [cityName, setCityName] = useState(() => {
-    const saved = localStorage.getItem("personal-info-form");
-
-    const initialValueJobs = JSON.parse(saved);
-
-    return initialValueJobs?.city || "";
-  });
+  const [jobTag, setJobTag] = useState( []
+  )
+  const [cityName, setCityName] = useState();
 
   const clearCityInput = useRef();
   // const [jobTag, setJobTag] = useState([]);
+  const [cities, setCities] = useState([]);
+
   const [isShowJobs, setIsShowJobs] = useState(false);
   const [citySearch, setCitySearch] = useState([]);
   const [isShowCityName, setIsShowCityName] = useState(false);
-  const [form, setForm] = useState(() => {
-    const saved = localStorage.getItem("personal-info-form");
-    const initialValue = JSON.parse(saved);
-    return (
-      initialValue || {
-        fullName: "",
-        dateOfBirth: "",
-        city: "",
-        jobPosition: [],
-        selfDescription: "",
-        avatar: "",
-      }
-    );
-  });
+  // const [personalInfoForm, setPersonalInfoForm] = useState({
+  //   fullName: "",
+  //   dateOfBirth: "",
+  //   city: "",
+  //   jobPosition: [],
+  //   selfDescription: "",
+  //   avatar: "",
+  // });
 
-  const [date, setDate] = useState(() => {
-    const saved = localStorage.getItem("personal-info-form");
+  const { personalInfoForm, setPersonalInfoForm} = useContext(ParentContext)
 
-    const initialValueDate = JSON.parse(saved);
-
-    return initialValueDate?.dateOfBirth || "";
-  });
-  const [fullName, setFulName] = useState(() => {
-    const saved = localStorage.getItem("personal-info-form");
-
-    const initialValueDate = JSON.parse(saved);
-
-    return initialValueDate?.fullName || "";
-  });
-
-  const [selfDescription, setSelfDescription] = useState(() => {
-    const saved = localStorage.getItem("personal-info-form");
-
-    const initialValueDate = JSON.parse(saved);
-
-    return initialValueDate?.selfDescription || "";
-  });
-  const [avatar, setAvatar] = useState(() => {
-    const saved = localStorage.getItem("personal-info-form");
-
-    const initialValueDate = JSON.parse(saved);
-
-    return initialValueDate?.avatar || "";
-  });
-
-  const [cities, setCities] = useState([]);
-  const [isShowJobTag, setIsShowJobTag] = useState(false);
+  
 
   const [formValidate, setFormValidate] = useState({
     fullName: {
@@ -95,26 +57,74 @@ const PersonalInfoForm = (props) => {
       state: false,
     },
     dateOfBirth: {
-      messageError: "",
       state: false,
+      messageError: "",
     },
     city: {
-      messageError: "",
       state: false,
+      messageError: "",
     },
     jobPosition: {
-      messageError: "",
       state: false,
+      messageError: "",
     },
     selfDescription: {
-      messageError: "",
       state: false,
+      messageError: "",
     },
     avatar: {
-      messageError: "",
       state: false,
+      messageError: "",
     },
   });
+
+  // const [date, setDate] = useState(() => {
+  //   const saved = localStorage.getItem("personal-info-form");
+
+  //   const initialValueDate = JSON.parse(saved);
+
+  //   return initialValueDate?.dateOfBirth || "";
+  // });
+  const [fullName, setFulName] = useState("");
+
+  // const [selfDescription, setSelfDescription] = useState(() => {
+  //   const saved = localStorage.getItem("personal-info-form");
+
+  //   const initialValueDate = JSON.parse(saved);
+
+  //   return initialValueDate?.selfDescription || "";
+  // });
+  const [avatar, setAvatar] = useState("");
+
+  // const [cities, setCities] = useState([]);
+  const [isShowJobTag, setIsShowJobTag] = useState(false);
+
+  // const [formValidate, setFormValidate] = useState({
+  //   fullName: {
+  //     messageError: "",
+  //     state: false,
+  //   },
+  //   dateOfBirth: {
+  //     messageError: "",
+  //     state: false,
+  //   },
+  //   city: {
+  //     messageError: "",
+  //     state: false,
+  //   },
+  //   jobPosition: {
+  //     messageError: "",
+  //     state: false,
+  //   },
+  //   selfDescription: {
+  //     messageError: "",
+  //     state: false,
+  //   },
+  //   avatar: {
+  //     messageError: "",
+  //     state: false,
+  //   },
+  // });
 
   const [isShowCities, setIsShowCities] = useState(false);
 
@@ -157,13 +167,30 @@ const PersonalInfoForm = (props) => {
   ]);
 
   const handleAddFullName = (e) => {
-    setForm((prevState) => {
-      return {
-        ...prevState,
-        fullName: e.target.value.replace(/\s/g, ""),
-      };
-    });
-    if (e.target.value || !e.target.value) {
+    if (e.target.value && e.target.value.length > 10) {
+      setFormValidate((prevState) => {
+        return {
+          ...prevState,
+          fullName: {
+            messageError: "Không vượt quá 10 ký tự",
+            state: true,
+          },
+        };
+      });
+      setPersonalInfoForm((prevState) => {
+        return {
+          ...prevState,
+          fullName: e.target.value,
+        };
+      });
+    }
+    // setForm((prevState) => {
+    //   return {
+    //     ...prevState,
+    //     fullName: e.target.value.replace(/\s/g, ""),
+    //   };
+    // });
+    if ((e.target.value && e.target.value.length <= 10) || !e.target.value) {
       setFormValidate((prevState) => {
         return {
           ...prevState,
@@ -173,12 +200,25 @@ const PersonalInfoForm = (props) => {
           },
         };
       });
+
+      setPersonalInfoForm((prevState) => {
+        return {
+          ...prevState,
+          fullName: e.target.value,
+        };
+      });
     }
-    setFulName(e.target.value)
+    // setFulName(e.target.value);
   };
 
   const handleAddDateOfBirth = (e) => {
-    if (e.target.value) {
+  
+
+    if (
+      e.target.value &&
+      (new Date(e.target.value) < new Date() ||
+        JSON.stringify(new Date(e.target.value)) === JSON.stringify(new Date()))
+    ) {
       setFormValidate((prevState) => {
         return {
           ...prevState,
@@ -188,20 +228,17 @@ const PersonalInfoForm = (props) => {
           },
         };
       });
-      setForm((prevState) => {
+      setPersonalInfoForm((prevState) => {
         return {
           ...prevState,
           dateOfBirth: new Date(e.target.value),
         };
       });
     }
-    if (JSON.stringify(new Date(e.target.value)) === "null") {
-      setForm((prevState) => {
-        return {
-          ...prevState,
-          dateOfBirth: "null",
-        };
-      });
+
+    if (
+      JSON.stringify(new Date(e.target.value)) === "null"
+    ) {
       setFormValidate((prevState) => {
         return {
           ...prevState,
@@ -211,15 +248,38 @@ const PersonalInfoForm = (props) => {
           },
         };
       });
+      setPersonalInfoForm((prevState) => {
+        return {
+          ...prevState,
+          dateOfBirth: "",
+        };
+      });
     }
-    setDate(e.target.value.slice(0, 10));
+
+    if (e.target.value && new Date(e.target.value) > new Date()) {
+      setFormValidate((prevState) => {
+        return {
+          ...prevState,
+          dateOfBirth: {
+            messageError: "Không vượt quá ngày hiện tại",
+            state: true,
+          },
+        };
+      });
+      setPersonalInfoForm((prevState) => {
+        return {
+          ...prevState,
+          dateOfBirth: new Date(e.target.value),
+        };
+      });
+    }
   };
 
   const handleClickCityInput = (e) => {
     setIsShowCities(!isShowCities);
     setCitySearch([...cities]);
     setIsShowCityName(false);
-    setForm((prevState) => {
+    setPersonalInfoForm((prevState) => {
       return {
         ...prevState,
         city: "",
@@ -229,7 +289,7 @@ const PersonalInfoForm = (props) => {
   const handleClickCityName = () => {
     setIsShowCities(!isShowCities);
     setIsShowCityName(false);
-    setForm((prevState) => {
+    setPersonalInfoForm((prevState) => {
       return {
         ...prevState,
         city: "",
@@ -255,7 +315,7 @@ const PersonalInfoForm = (props) => {
     clearCityInput.current.value = "";
     setIsShowCities(false);
     setIsShowCityName(true);
-    setForm((prevState) => {
+    setPersonalInfoForm((prevState) => {
       return {
         ...prevState,
         city: cityName,
@@ -269,18 +329,16 @@ const PersonalInfoForm = (props) => {
   };
 
   const handleAddJobs = (jobCode) => {
-    if (form.jobPosition && form.jobPosition.length < 4) {
+    if (personalInfoForm.jobPosition && personalInfoForm.jobPosition.length < 4) {
       setIsShowJobTag(true);
       setIsShowJobs(true);
       const newJobTag = [...jobTag];
-      // const newJobsSaved = [...jobs];
       const selectedJob = jobPosition.find((job) => job.code === jobCode);
       const newJobPosition = jobPosition.filter((job) => job.code !== jobCode);
       newJobTag.push(selectedJob);
-      // newJobsSaved.push(selectedJob);
       setJobTag([...newJobTag]);
       setJobPosition([...newJobPosition]);
-      setForm((prevState) => {
+      setPersonalInfoForm((prevState) => {
         return {
           ...prevState,
           jobPosition: [...newJobTag],
@@ -288,15 +346,17 @@ const PersonalInfoForm = (props) => {
       });
       // setJobs([...newJobsSaved]);
     }
-    if (form.jobPosition && form.jobPosition.length >= 4) {
+    if (personalInfoForm.jobPosition && personalInfoForm.jobPosition.length >= 4) {
       alert("Không quá 4 vị trí");
       setIsShowJobs(false);
     }
   };
 
-  const handleRemoveJobs = (jobCode) => {
+  const handleRemoveJobs = (e,jobCode) => {
+    setIsShowJobs(false);
+    e.stopPropagation();
+    console.log("click herer")
     const newJobPosition = [...jobPosition];
-    // const newJobSaved = [...jobs];
     const newJobTag = [...jobTag];
     const jobSelected = newJobTag.find((job) => job.code === jobCode);
     const jobAfterSelected = newJobTag.filter((job) => job.code !== jobCode);
@@ -304,46 +364,82 @@ const PersonalInfoForm = (props) => {
     newJobPosition.push(jobSelected);
     setJobPosition(newJobPosition);
     setJobTag(jobAfterSelected);
-    setForm((prevState) => {
+    setPersonalInfoForm((prevState) => {
       return {
         ...prevState,
         jobPosition: [...jobAfterSelected],
       };
     });
-    // setJobs(jobSaved)
 
-    if (jobAfterSelected.length === 0) {
+    if (personalInfoForm.jobPosition.length === 1) {
       setIsShowJobTag(false);
-      setIsShowJobs(false);
+      setIsShowJobs(false)
     }
   };
 
   const handleAddSelfDescription = (text) => {
-    setForm((prevState) => {
+    // setForm((prevState) => {
+    //   return {
+    //     ...prevState,
+    //     // selfDescription: text.replace(/\n/g, "").replace(/\s/g, ""),
+    //     selfDescription: text
+    //   };
+    // });
+    // if (text || !text) {
+    //   setFormValidate((prevState) => {
+    //     return {
+    //       ...prevState,
+    //       selfDescription: {
+    //         messageError: "",
+    //         state: false,
+    //       },
+    //     };
+    //   });
+    // }
+    // setSelfDescription(text);
+
+    if(text && text.length >10){
+      setPersonalInfoForm((prevState) => {
       return {
         ...prevState,
-        selfDescription: text.replace(/\n/g, "").replace(/\s/g, ""),
+        selfDescription: text
       };
     });
-    if (text || !text) {
-      setFormValidate((prevState) => {
-        return {
-          ...prevState,
-          selfDescription: {
-            messageError: "",
-            state: false,
-          },
-        };
-      });
+    setFormValidate((prevState) => {
+          return {
+            ...prevState,
+            selfDescription: {
+              messageError: "Không vượt quá 10 ký tự",
+              state: true,
+            },
+          };
+        });
     }
-    setSelfDescription(text);
+
+    if(!text || (text && text.length <=10)){
+      setPersonalInfoForm((prevState) => {
+      return {
+        ...prevState,
+        selfDescription: text
+      };
+    });
+    setFormValidate((prevState) => {
+          return {
+            ...prevState,
+            selfDescription: {
+              messageError: "",
+              state: false,
+            },
+          };
+        });
+    }
   };
 
   const handleAddAvatar = (e) => {
     const avatar = URL.createObjectURL(e.target.files[0]);
     setIsShowAvatar(true);
     setAvatar(avatar);
-    setForm((prevState) => {
+    setPersonalInfoForm((prevState) => {
       return {
         ...prevState,
         avatar,
@@ -354,7 +450,7 @@ const PersonalInfoForm = (props) => {
   const handleRemoveAvatar = () => {
     setAvatar("");
     setIsShowAvatar(false);
-    setForm((prevState) => {
+    setPersonalInfoForm((prevState) => {
       return {
         ...prevState,
         avatar: "",
@@ -362,17 +458,10 @@ const PersonalInfoForm = (props) => {
     });
     inputAvatar.current.value = "";
   };
-  // var dateObjectGetFromLocalStorage = new Date(JSON.parse(localStorage.getItem(("personal-info-form"))).dateOfBirth)
-  // console.log(dateGetFormLocalStorage)
-  // useEffect(()=>{
-  //   var dateStringGetFromLocalStorage = (JSON.parse(localStorage.getItem(("personal-info-form"))).dateOfBirth).slice(0,10)
-  // },[])
-
-  // console.log(dateStringGetFromLocalStorage)
 
   const validateForm = () => {
-    let isSuccess = true
-    if (!form.fullName) {
+    let isSuccess = true;
+    if (!personalInfoForm.fullName) {
       setFormValidate((prevState) => {
         return {
           ...prevState,
@@ -382,10 +471,10 @@ const PersonalInfoForm = (props) => {
           },
         };
       });
-      isSuccess = false
+      isSuccess = false;
     }
 
-    if (form.fullName && form.fullName.length > 10) {
+    if (personalInfoForm.fullName && personalInfoForm.fullName.length > 10) {
       setFormValidate((prevState) => {
         return {
           ...prevState,
@@ -395,11 +484,10 @@ const PersonalInfoForm = (props) => {
           },
         };
       });
-      isSuccess = false
-
+      isSuccess = false;
     }
 
-    if (form.dateOfBirth === "null" || form.dateOfBirth === "") {
+    if (personalInfoForm.dateOfBirth === "null" || personalInfoForm.dateOfBirth === "") {
       setFormValidate((prevState) => {
         return {
           ...prevState,
@@ -409,11 +497,10 @@ const PersonalInfoForm = (props) => {
           },
         };
       });
-      isSuccess = false
-
+      isSuccess = false;
     }
 
-    if (form.dateOfBirth && form.dateOfBirth > new Date()) {
+    if (personalInfoForm.dateOfBirth && personalInfoForm.dateOfBirth > new Date()) {
       setFormValidate((prevState) => {
         return {
           ...prevState,
@@ -423,11 +510,10 @@ const PersonalInfoForm = (props) => {
           },
         };
       });
-      isSuccess = false
-
+      isSuccess = false;
     }
 
-    if (form.selfDescription && form.selfDescription.length > 10) {
+    if (personalInfoForm.selfDescription && personalInfoForm.selfDescription.length > 10) {
       setFormValidate((prevState) => {
         return {
           ...prevState,
@@ -437,20 +523,21 @@ const PersonalInfoForm = (props) => {
           },
         };
       });
-      isSuccess = false
-
+      isSuccess = false;
     }
-    return isSuccess
-    
-  
+    return isSuccess;
   };
 
-  const handleNextButton = ()=>{
-    const isValid = validateForm()
-    if(isValid){
-      nextStep()
+  const handleClickJobTag = (e) => {
+    setIsShowJobs(!isShowJobs); 
+  };
+
+  const handleNextButton = () => {
+    const isValid = validateForm();
+    if (true) {
+      nextStep();
     }
-  }
+  };
 
   useEffect(() => {
     const url = "https://provinces.open-api.vn/api/";
@@ -461,25 +548,11 @@ const PersonalInfoForm = (props) => {
       });
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("personal-info-form", JSON.stringify(form));
-  }, [form]);
-
-  useEffect(() => {
-    if(jobTag.length>0){
-
-      setIsShowJobTag(true);
-    }
-    setIsShowCityName(true);
-    if (form.avatar) {
-      setIsShowAvatar(true);
-    }
-  }, []);
-
   
 
   return (
-    <div className="form-personal-info">
+
+    <div value ={personalInfoForm} className="form-personal-info">
       {/* <button className="set-date" onClick={setDate}>sadfasdfsdaf</button> */}
       <div className="heading">
         <img
@@ -534,14 +607,17 @@ const PersonalInfoForm = (props) => {
             onChange={(e) => handleAddFullName(e)}
             className="full-name-input"
             type="text"
-            value={fullName}
+            // value={fullName}
           />
         </div>
+
         {formValidate.fullName.state && (
-          <span className="invalid-warning">
+          <div className="invalid-warning">
             {formValidate.fullName["messageError"]}
-          </span>
+          </div>
         )}
+
+        {<span className="text-per-type">{personalInfoForm.fullName?.length || 0}/10</span>}
 
         <div className="form-input form-date-of-birth">
           <div className="label-input">
@@ -549,11 +625,10 @@ const PersonalInfoForm = (props) => {
             <span>Ngày sinh</span>
           </div>
           <input
-            ref={dateRef}
             onChange={handleAddDateOfBirth}
             type="date"
             className="date-of-birth-input"
-            value={date.slice(0, 10)}
+            // value={date.slice(0, 10)}
           />
         </div>
         {formValidate.dateOfBirth.state && (
@@ -627,13 +702,13 @@ const PersonalInfoForm = (props) => {
             </div>
           </div>
           {isShowJobTag && (
-            <div className="jobs-tag">
+            <div onClick={(e) => handleClickJobTag(e)} className="jobs-tag">
               {jobTag.map((job) => {
                 return (
                   <div ref={jobTagContent} className="job-tag-content">
                     <div className="job-tag-name">{job.name}</div>
                     <img
-                      onClick={() => handleRemoveJobs(job.code)}
+                      onClick={(e) => handleRemoveJobs(e,job.code)}
                       className="close-img"
                       alt=""
                       src={require("../assets/images/close-button.png")}
@@ -653,15 +728,19 @@ const PersonalInfoForm = (props) => {
             className="self-description"
             type="text"
             spellCheck="false"
-            value={selfDescription}
+            // value={selfDescription}
           />
-          <span className="text-per-type"></span>
+
         </div>
         {formValidate.selfDescription.state && (
           <span className="invalid-warning">
             {formValidate.selfDescription["messageError"]}
           </span>
-        )}
+        )}  
+
+        {<div className="text-per-type">{personalInfoForm.selfDescription?.length || 0}/10</div>}
+
+       
         <div className="form-personal-image-label">Ảnh cá nhân</div>
 
         <div className="form-personal-image">

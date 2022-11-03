@@ -244,7 +244,7 @@ $border-input-color-invalid: #ed5d5d;
         }
       }
 
-      .full-name-input {
+      .full-name-input {  
         padding: 10px;
         margin-top: 8px;
         height: 20px;
@@ -255,6 +255,12 @@ $border-input-color-invalid: #ed5d5d;
         outline: none;
         width: 97.5%
       }
+
+      .text-per-type {
+        opacity: 0.5;
+        // margin-bottom: 10px;
+      }
+
       .full-name-input-invalid {
         padding: 10px;
         margin-top: 8px;

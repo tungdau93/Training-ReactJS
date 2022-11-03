@@ -1,14 +1,22 @@
 import "../style/_bai-tap-4-personal-exp.scss";
-import { useState, useRef, useEffect, createContext } from "react";
+import { useState, useRef, useEffect, createContext, useContext } from "react";
 import useClickOutside from "../hooks/useClickOutside";
 import Company from "./Company";
 import React from "react";
+import { FormContext, ParentContext } from "./BaiTap4";
+
 
 export const formContext = createContext();
 export const companyContext = createContext();
 
 const PersonalExpForm = (props) => {
   const searchRef = useRef();
+
+  const {personalInfoForm} = useContext(ParentContext)
+
+  // console.log(personalInfoForm)
+
+  const [classId, setClassId] = useState(0);
 
   const [companies, setCompanies] = useState([
     {
@@ -54,13 +62,11 @@ const PersonalExpForm = (props) => {
     },
   ]);
 
+  const [newCompaniesAfterSelected, setNewCompaniesAfterSelected]= useState([])
+
 
   const [isShowCompaniesSearch, setIsShowCompaniesSearch] = useState(false);
-  const [form, setForm] = useState(() => {
-    const saved = localStorage.getItem("personal-exp-form");
-    const initialValue = JSON.parse(saved);
-    return (
-      initialValue || [
+  const [form, setForm] = useState( [
         {
           keyCompanyForm: 0,
           companyName: "",
@@ -72,14 +78,12 @@ const PersonalExpForm = (props) => {
           },
         },
       ]
-    );
-  });
+    
+  );
 
-  const [formValidate, setFormValidate] = useState(() => {
-    const saved = localStorage.getItem("personal-exp-form-validate");
-    const initialValue = JSON.parse(saved);
-    return (
-      initialValue || [
+  const [formValidate, setFormValidate] = useState(
+    
+      [
         {
           keyCompanyValidate: 0,
           companyName: {
@@ -110,8 +114,8 @@ const PersonalExpForm = (props) => {
           },
         },
       ]
-    );
-  });
+    
+  );
 
   const [isNoForm, setIsNoForm] = useState(false);
 
@@ -357,6 +361,7 @@ const PersonalExpForm = (props) => {
 
   return (
     <div className="form-personal-exp">
+      {/* {console.log(personalInfoForm)} */}
       <div className="heading">
         <img
           className="line-progress"
@@ -410,6 +415,11 @@ const PersonalExpForm = (props) => {
                   keyCompanyForm={item.keyCompanyForm}
                   companies={companies}
                   setCompanies={setCompanies}
+                  newCompaniesAfterSelected = {newCompaniesAfterSelected}
+                  setNewCompaniesAfterSelected = {setNewCompaniesAfterSelected}
+                  classId={classId}
+                  setClassId={setClassId}
+
                 />
               );
             })}
